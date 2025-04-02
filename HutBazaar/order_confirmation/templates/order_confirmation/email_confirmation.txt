@@ -1,0 +1,6 @@
+Your Order Confirmation
+
+Order #{{ order.id }}
+Total: ${{ order.total }}
+
+Thank you for your purchase!

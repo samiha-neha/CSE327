@@ -1,0 +1,36 @@
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h2>Order Confirmed!</h2>
+        </div>
+        <div class="card-body">
+            <h4>Thank you for your order!</h4>
+            <p>Your order #{{ order.id }} has been received.</p>
+            
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h5>Order Details</h5>
+                    <p><strong>Order Number:</strong> {{ order.id }}</p>
+                    <p><strong>Date:</strong> {{ order.created_at|date:"F j, Y" }}</p>
+                    <p><strong>Total:</strong> ${{ order.total }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Shipping Information</h5>
+                    <address>
+                        {{ order.shipping_address }}<br>
+                        {{ order.shipping_city }}, {{ order.shipping_state }} {{ order.shipping_zip }}
+                    </address>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{% url 'order_confirmation:download_receipt' order.id %}" 
+                   class="btn btn-primary">
+                    Download Receipt
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
