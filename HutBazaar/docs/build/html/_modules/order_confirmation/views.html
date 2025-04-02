@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>order_confirmation.views &mdash; HutBazaar 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            HutBazaar
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">HutBazaar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">order_confirmation.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for order_confirmation.views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.core.mail</span><span class="w"> </span><span class="kn">import</span> <span class="n">send_mail</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.template.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">render_to_string</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">checkout.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Order</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderConfirmation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.http</span><span class="w"> </span><span class="kn">import</span> <span class="n">HttpResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">reportlab.pdfgen</span><span class="w"> </span><span class="kn">import</span> <span class="n">canvas</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">reportlab.lib.pagesizes</span><span class="w"> </span><span class="kn">import</span> <span class="n">letter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">reportlab.lib.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">inch</span>
+
+
+<div class="viewcode-block" id="order_confirmation">
+<a class="viewcode-back" href="../../modules.html#order_confirmation.views.order_confirmation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">order_confirmation</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">order_id</span><span class="p">)</span>
+
+    <span class="c1"># Create or get confirmation record</span>
+    <span class="n">confirmation</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">OrderConfirmation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">created</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">confirmation</span><span class="o">.</span><span class="n">email_sent</span><span class="p">:</span>
+        <span class="n">send_confirmation_email</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+        <span class="n">confirmation</span><span class="o">.</span><span class="n">email_sent</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">confirmation</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">,</span> <span class="s2">&quot;confirmation&quot;</span><span class="p">:</span> <span class="n">confirmation</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;order_confirmation/confirmation.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="send_confirmation_email">
+<a class="viewcode-back" href="../../modules.html#order_confirmation.views.send_confirmation_email">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">send_confirmation_email</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+    <span class="n">subject</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Order Confirmation #</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+    <span class="c1"># message = render_to_string(</span>
+    <span class="c1">#     &quot;order_confirmation/email_confirmation.txt&quot;, {&quot;order&quot;: order}</span>
+    <span class="c1"># )</span>
+    <span class="c1"># html_message = render_to_string(</span>
+    <span class="c1">#     &quot;order_confirmation/email_confirmation.html&quot;, {&quot;order&quot;: order}</span>
+    <span class="c1"># )</span>
+
+    <span class="c1"># recipient = order.user.email if order.user else None</span>
+    <span class="c1"># if recipient:</span>
+    <span class="c1">#     send_mail(</span>
+    <span class="c1">#         subject,</span>
+    <span class="c1">#         message,</span>
+    <span class="c1">#         settings.DEFAULT_FROM_EMAIL,</span>
+    <span class="c1">#         [recipient],</span>
+    <span class="c1">#         html_message=html_message,</span>
+    <span class="c1">#     )</span>
+
+
+<div class="viewcode-block" id="download_receipt">
+<a class="viewcode-back" href="../../modules.html#order_confirmation.views.download_receipt">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">download_receipt</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate and return a PDF receipt for an order.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request: The HTTP request object.</span>
+<span class="sd">        order_id (int): The ID of the order to generate a receipt for.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponse: A PDF file response or an error message if generation fails.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Get the order</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">order_id</span><span class="p">)</span>
+
+        <span class="c1"># Get cart items from session</span>
+        <span class="n">cart_items</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;order_</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_items&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cart_items</span><span class="p">:</span>
+            <span class="n">cart_items</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Unknown Item&quot;</span><span class="p">,</span> <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">total</span><span class="p">,</span> <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+            <span class="p">]</span>  <span class="c1"># Fallback</span>
+
+        <span class="c1"># Create the PDF response</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">content_type</span><span class="o">=</span><span class="s2">&quot;application/pdf&quot;</span><span class="p">)</span>
+        <span class="n">response</span><span class="p">[</span><span class="s2">&quot;Content-Disposition&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;attachment; filename=&quot;receipt_</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">.pdf&quot;&#39;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create the PDF object</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">pagesize</span><span class="o">=</span><span class="n">letter</span><span class="p">)</span>
+        <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">letter</span>
+
+        <span class="c1"># Header</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Receipt #</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Order details</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span>
+            <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span>
+            <span class="n">height</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Date: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mf">1.75</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Email: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span>
+            <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Payment Method: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">payment_method</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Shipping address</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mf">2.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="s2">&quot;Shipping Address:&quot;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mf">2.75</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">shipping_address</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span>
+            <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span>
+            <span class="n">height</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">shipping_city</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">shipping_state</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">shipping_zip</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Items header</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mf">3.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="s2">&quot;Items Purchased:&quot;</span><span class="p">)</span>
+
+        <span class="c1"># List items with price and quantity</span>
+        <span class="n">y_position</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="mf">3.75</span> <span class="o">*</span> <span class="n">inch</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">x </span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> - $</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> each&quot;</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">y_position</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+            <span class="n">y_position</span> <span class="o">-=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">inch</span>  <span class="c1"># Move down for next item</span>
+            <span class="k">if</span> <span class="n">y_position</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">:</span>  <span class="c1"># Basic page overflow check</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">showPage</span><span class="p">()</span>
+                <span class="n">y_position</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+
+        <span class="c1"># Total</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">y_position</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Total: $</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">total</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Finalize the PDF</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">showPage</span><span class="p">()</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="c1"># Clean up session (optional)</span>
+        <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;order_</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_items&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;order_</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_items&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">response</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error generating PDF: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jim.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
