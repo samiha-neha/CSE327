@@ -7,6 +7,19 @@ from .forms import CheckoutForm  # Assuming you have this
 
 
 def checkout_view(request):
+    """Handle the checkout process and create an order.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        HttpResponse: Renders the checkout page or redirects after order creation.
+
+    Notes:
+        Uses a temporary mock cart until the real cart is integrated.
+        Stores cart items in the session for receipt generation.
+    """
+
     # Temporary cart mock - replace with real cart when available
     class Cart:
         def __init__(self):
@@ -45,19 +58,19 @@ def checkout_view(request):
             # Store cart items in session for receipt
             request.session[f"order_{order.id}_items"] = cart.items
 
-            if (
-                settings.DEBUG
-            ):  # Only send email if in debug mode (as per your original logic)
-                try:
-                    send_mail(
-                        f"Order #{order.id} Confirmation",
-                        f"Thank you for your order #{order.id}. Total: ${order.total}",
-                        settings.DEFAULT_FROM_EMAIL,
-                        [form.cleaned_data["email"]],
-                        fail_silently=False,
-                    )
-                except Exception as e:
-                    print(f"Email not sent: {e}")  # Print error to console but continue
+            # if (
+            #     settings.DEBUG
+            # ):  # Only send email if in debug mode (as per your original logic)
+            #     try:
+            #         send_mail(
+            #             f"Order #{order.id} Confirmation",
+            #             f"Thank you for your order #{order.id}. Total: ${order.total}",
+            #             settings.DEFAULT_FROM_EMAIL,
+            #             [form.cleaned_data["email"]],
+            #             fail_silently=False,
+            #         )
+            #     except Exception as e:
+            #         print(f"Email not sent: {e}")  # Print error to console but continue
 
             return redirect("order_confirmation:confirmation", order_id=order.id)
     else:

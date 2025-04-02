@@ -4,7 +4,10 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from checkout.models import Order
 from .models import OrderConfirmation
-import pdfkit
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
 
 
 def order_confirmation(request, order_id):
@@ -24,39 +27,34 @@ def order_confirmation(request, order_id):
 
 def send_confirmation_email(order):
     subject = f"Order Confirmation #{order.id}"
-    message = render_to_string(
-        "order_confirmation/email_confirmation.txt", {"order": order}
-    )
-    html_message = render_to_string(
-        "order_confirmation/email_confirmation.html", {"order": order}
-    )
+    # message = render_to_string(
+    #     "order_confirmation/email_confirmation.txt", {"order": order}
+    # )
+    # html_message = render_to_string(
+    #     "order_confirmation/email_confirmation.html", {"order": order}
+    # )
 
-    recipient = order.user.email if order.user else None
-    if recipient:
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [recipient],
-            html_message=html_message,
-        )
-
-
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.units import inch
-
-
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.units import inch
+    # recipient = order.user.email if order.user else None
+    # if recipient:
+    #     send_mail(
+    #         subject,
+    #         message,
+    #         settings.DEFAULT_FROM_EMAIL,
+    #         [recipient],
+    #         html_message=html_message,
+    #     )
 
 
 def download_receipt(request, order_id):
+    """Generate and return a PDF receipt for an order.
+
+    Args:
+        request: The HTTP request object.
+        order_id (int): The ID of the order to generate a receipt for.
+
+    Returns:
+        HttpResponse: A PDF file response or an error message if generation fails.
+    """
     try:
         # Get the order
         order = get_object_or_404(Order, id=order_id)
