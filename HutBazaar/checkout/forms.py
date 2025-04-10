@@ -22,8 +22,9 @@ class CheckoutForm(forms.Form):
     payment_method = forms.ChoiceField(
         choices=[
             ("credit_card", "Credit Card"),
-            ("paypal", "PayPal"),
+            ("bkash", "Bkash"),
             ("bank_transfer", "Bank Transfer"),
+            ("nogod", "Nogod"),
         ],
         widget=forms.RadioSelect,
     )

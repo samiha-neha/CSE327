@@ -18,12 +18,36 @@ class Order(models.Model):
     shipping_city = models.CharField(max_length=100)
     shipping_state = models.CharField(max_length=100)
     shipping_zip = models.CharField(max_length=20)
+    discount_coupon_used = models.ForeignKey(
+        "Discount",  # Reference to Discount model
+        on_delete=models.SET_NULL,  # Keep order if discount is deleted
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         ordering = ["-created_at"]
 
     def __str__(self):
         return f"Order #{self.id}"
+
+    @property
+    def discount_amount(self):
+        if self.discount_coupon_used:
+            if self.discount_coupon_used.discount_type == "percentage":
+                return min(
+                    (self.total * self.discount_coupon_used.amount / 100),
+                    self.discount_coupon_used.max_amount,
+                )
+            # if exact discount amount is set
+            return min(
+                self.discount_coupon_used.amount, self.discount_coupon_used.max_amount
+            )
+        return 0
+
+    @property
+    def final_total(self):
+        return self.total - self.discount_amount
 
 
 class Discount(models.Model):
@@ -32,6 +56,7 @@ class Discount(models.Model):
         max_length=10, choices=[("percentage", "Percentage"), ("fixed", "Fixed Amount")]
     )
     amount = models.DecimalField(max_digits=5, decimal_places=2)
+    max_amount = models.DecimalField(max_digits=5, decimal_places=2)
     valid_from = models.DateTimeField()
     valid_to = models.DateTimeField()
     active = models.BooleanField(default=True)

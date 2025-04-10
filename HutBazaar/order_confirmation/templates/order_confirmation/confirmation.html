@@ -13,7 +13,21 @@
                     <h5>Order Details</h5>
                     <p><strong>Order Number:</strong> {{ order.id }}</p>
                     <p><strong>Date:</strong> {{ order.created_at|date:"F j, Y" }}</p>
-                    <p><strong>Total:</strong> ${{ order.total }}</p>
+                    <p><strong>Subtotal:</strong> ${{ order.total }}</p>
+                    
+                    {% if order.discount_coupon_used %}
+                        <p><strong>Discount Applied:</strong> 
+                            {{ order.discount_coupon_used.code }} 
+                            ({% if order.discount_coupon_used.discount_type == 'percentage' %}
+                            {{ order.discount_coupon_used.amount }}% up to ${{ order.discount_coupon_used.max_amount }}
+                            {% else %}
+                                ${{ order.discount_coupon_used.amount }}
+                            {% endif %})
+                        </p>
+                        <p><strong>Discount Amount:</strong> -${{ order.discount_amount }}</p>
+                    {% endif %}
+                    
+                    <p class="font-weight-bold"><strong>Final Total:</strong> ${{ order.final_total }}</p>
                 </div>
                 <div class="col-md-6">
                     <h5>Shipping Information</h5>
@@ -21,6 +35,14 @@
                         {{ order.shipping_address }}<br>
                         {{ order.shipping_city }}, {{ order.shipping_state }} {{ order.shipping_zip }}
                     </address>
+                    
+                    {% if order.discount_coupon_used %}
+                        <div class="mt-3">
+                            <h5>Discount Details</h5>
+                            <p>Coupon: {{ order.discount_coupon_used.code }}</p>
+                            <p>Savings: ${{ order.discount_amount }}</p>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             

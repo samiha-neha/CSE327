@@ -4,6 +4,8 @@ from django.conf import settings
 from django.core.mail import send_mail
 from .models import Order  # Assuming you have an Order model
 from .forms import CheckoutForm  # Assuming you have this
+from . import utils
+from .models import Discount
 
 
 def checkout_view(request):
@@ -37,10 +39,13 @@ def checkout_view(request):
     if cart.is_empty():
         messages.warning(request, "Your cart is empty")
         return redirect("checkout:checkout")
-
     if request.method == "POST":
         form = CheckoutForm(request.POST)
         if form.is_valid():
+            try:
+                discount = Discount.objects.get(code=form.cleaned_data["coupon_code"])
+            except Discount.DoesNotExist:
+                discount = None
             # Process the order
             order = Order.objects.create(
                 user=request.user if request.user.is_authenticated else None,
@@ -53,6 +58,7 @@ def checkout_view(request):
                 shipping_zip=form.cleaned_data["shipping_zip"],
                 is_paid=False,
                 payment_status="pending",
+                discount_coupon_used=discount,
             )
 
             # Store cart items in session for receipt

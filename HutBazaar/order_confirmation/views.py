@@ -46,7 +46,8 @@ def send_confirmation_email(order):
 
 
 def download_receipt(request, order_id):
-    """Generate and return a PDF receipt for an order.
+    """
+    Generate and return a PDF receipt for an order.
 
     Args:
         request: The HTTP request object.
@@ -65,6 +66,9 @@ def download_receipt(request, order_id):
             cart_items = [
                 {"name": "Unknown Item", "price": order.total, "quantity": 1}
             ]  # Fallback
+
+        # Calculate final total (original total - discount)
+        final_total = order.total - getattr(order, "discount_amount", 0)
 
         # Create the PDF response
         response = HttpResponse(content_type="application/pdf")
@@ -85,7 +89,7 @@ def download_receipt(request, order_id):
         p.drawString(
             1 * inch,
             height - 1.5 * inch,
-            f"Date: {order.created_at.strftime('%Y-%m-%d')}",
+            f"Date: {order.created_at.strftime('%Y-%m-%d %H:%M')}",
         )
         p.drawString(1 * inch, height - 1.75 * inch, f"Email: {order.email}")
         p.drawString(
@@ -109,23 +113,54 @@ def download_receipt(request, order_id):
         y_position = height - 3.75 * inch
         p.setFont("Helvetica", 12)
         for item in cart_items:
-            line = f"{item['quantity']}x {item['name']} - ${item['price']} each"
+            line = f"{item['quantity']}x {item['name']} - ${item['price']:.2f} each"
             p.drawString(1 * inch, y_position, line)
-            y_position -= 0.25 * inch  # Move down for next item
-            if y_position < 1 * inch:  # Basic page overflow check
+            y_position -= 0.25 * inch
+            if y_position < 1.5 * inch:  # More space for totals
                 p.showPage()
                 y_position = height - 1 * inch
                 p.setFont("Helvetica", 12)
 
-        # Total
+        # Pricing breakdown
+        p.setFont("Helvetica", 12)
+        p.drawString(1 * inch, y_position - 0.5 * inch, f"Subtotal: ${order.total:.2f}")
+
+        # Discount information if applicable
+        if hasattr(order, "discount_coupon_used") and order.discount_coupon_used:
+            y_position -= 0.25 * inch
+            p.drawString(1 * inch, y_position - 0.5 * inch, "Discount Applied:")
+
+            y_position -= 0.25 * inch
+            discount_text = (
+                f"{order.discount_coupon_used.code}: "
+                f"{order.discount_coupon_used.amount}% off"
+                if order.discount_coupon_used.discount_type == "percentage"
+                else f"${order.discount_coupon_used.amount} off"
+            )
+            p.drawString(1.5 * inch, y_position - 0.5 * inch, discount_text)
+
+            y_position -= 0.25 * inch
+            p.drawString(
+                1.5 * inch,
+                y_position - 0.5 * inch,
+                f"Discount Amount: -${order.discount_amount:.2f}",
+            )
+
+        # Final total
         p.setFont("Helvetica-Bold", 14)
-        p.drawString(1 * inch, y_position - 0.5 * inch, f"Total: ${order.total}")
+        p.drawString(
+            1 * inch, y_position - 1 * inch, f"Final Total: ${final_total:.2f}"
+        )
+
+        # Thank you message
+        p.setFont("Helvetica", 10)
+        p.drawString(1 * inch, 0.5 * inch, "Thank you for your purchase!")
 
         # Finalize the PDF
         p.showPage()
         p.save()
 
-        # Clean up session (optional)
+        # Clean up session
         if f"order_{order.id}_items" in request.session:
             del request.session[f"order_{order.id}_items"]
 
