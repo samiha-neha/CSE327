@@ -28,6 +28,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
+    "sphinx_design",
     "sphinx_autodoc_typehints",  # Optional
 ]
 

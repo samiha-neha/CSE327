@@ -1,0 +1,7 @@
+Order Module/models/order
+=========================
+
+.. automodule:: checkout.models
+   :members: Order
+   :undoc-members:
+   :show-inheritance:

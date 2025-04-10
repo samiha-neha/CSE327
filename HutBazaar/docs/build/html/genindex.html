@@ -8,6 +8,7 @@
   <title>Index &mdash; HutBazaar 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -15,6 +16,7 @@
       <script src="_static/documentation_options.js?v=8d563738"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -41,7 +43,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="checkout.html">Order Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="order_confirmation.html">Order Confirmation Module</a></li>
 </ul>
 
         </div>
@@ -71,13 +74,34 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#C"><strong>C</strong></a>
+ <a href="#A"><strong>A</strong></a>
+ | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  
 </div>
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Discount.active">active (checkout.models.Discount attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Discount.amount">amount (checkout.models.Discount attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -85,12 +109,18 @@
     checkout.views
 
       <ul>
-        <li><a href="modules.html#module-checkout.views">module</a>
+        <li><a href="checkout.html#module-checkout.views">module</a>
 </li>
       </ul></li>
+      <li><a href="checkout.html#checkout.views.checkout_view">checkout_view() (in module checkout.views)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules.html#checkout.views.checkout_view">checkout_view() (in module checkout.views)</a>
+      <li><a href="checkout.html#checkout.models.Discount.code">code (checkout.models.Discount attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.confirmation">confirmation (checkout.models.Order attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.created_at">created_at (checkout.models.Order attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -98,7 +128,97 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules.html#order_confirmation.views.download_receipt">download_receipt() (in module order_confirmation.views)</a>
+      <li><a href="checkout.html#checkout.models.Discount">Discount (class in checkout.models)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Discount.DoesNotExist">Discount.DoesNotExist</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Discount.MultipleObjectsReturned">Discount.MultipleObjectsReturned</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.discount_amount">discount_amount (checkout.models.Order property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Order.discount_coupon_used">discount_coupon_used (checkout.models.Order attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.discount_coupon_used_id">discount_coupon_used_id (checkout.models.Order attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Discount.discount_type">discount_type (checkout.models.Discount attribute)</a>
+</li>
+      <li><a href="order_confirmation.html#order_confirmation.views.download_receipt">download_receipt() (in module order_confirmation.views)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Order.email">email (checkout.models.Order attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.email_content">email_content (order_confirmation.models.OrderConfirmation attribute)</a>
+</li>
+      <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.email_sent">email_sent (order_confirmation.models.OrderConfirmation attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Order.final_total">final_total (checkout.models.Order property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Discount.get_discount_type_display">get_discount_type_display() (checkout.models.Discount method)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.get_next_by_created_at">get_next_by_created_at() (checkout.models.Order method)</a>
+</li>
+      <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.get_next_by_sent_at">get_next_by_sent_at() (order_confirmation.models.OrderConfirmation method)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.get_next_by_updated_at">get_next_by_updated_at() (checkout.models.Order method)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Discount.get_next_by_valid_from">get_next_by_valid_from() (checkout.models.Discount method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Discount.get_next_by_valid_to">get_next_by_valid_to() (checkout.models.Discount method)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.get_previous_by_created_at">get_previous_by_created_at() (checkout.models.Order method)</a>
+</li>
+      <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.get_previous_by_sent_at">get_previous_by_sent_at() (order_confirmation.models.OrderConfirmation method)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.get_previous_by_updated_at">get_previous_by_updated_at() (checkout.models.Order method)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Discount.get_previous_by_valid_from">get_previous_by_valid_from() (checkout.models.Discount method)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Discount.get_previous_by_valid_to">get_previous_by_valid_to() (checkout.models.Discount method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Discount.id">id (checkout.models.Discount attribute)</a>
+
+      <ul>
+        <li><a href="checkout.html#checkout.models.Order.id">(checkout.models.Order attribute)</a>
+</li>
+        <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.id">(order_confirmation.models.OrderConfirmation attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Order.is_paid">is_paid (checkout.models.Order attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Discount.is_used_by_user">is_used_by_user() (checkout.models.Discount method)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Discount.is_valid_for_user">is_valid_for_user() (checkout.models.Discount method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -106,13 +226,17 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Discount.max_amount">max_amount (checkout.models.Discount attribute)</a>
+</li>
       <li>
     module
 
       <ul>
-        <li><a href="modules.html#module-checkout.views">checkout.views</a>
+        <li><a href="checkout.html#module-checkout.views">checkout.views</a>
 </li>
-        <li><a href="modules.html#module-order_confirmation.views">order_confirmation.views</a>
+        <li><a href="order_confirmation.html#module-order_confirmation.models">order_confirmation.models</a>
+</li>
+        <li><a href="order_confirmation.html#module-order_confirmation.views">order_confirmation.views</a>
 </li>
       </ul></li>
   </ul></td>
@@ -121,24 +245,115 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules.html#order_confirmation.views.order_confirmation">order_confirmation() (in module order_confirmation.views)</a>
+      <li><a href="checkout.html#checkout.models.Discount.objects">objects (checkout.models.Discount attribute)</a>
+
+      <ul>
+        <li><a href="checkout.html#checkout.models.Order.objects">(checkout.models.Order attribute)</a>
+</li>
+        <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.objects">(order_confirmation.models.OrderConfirmation attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="checkout.html#checkout.models.Order">Order (class in checkout.models)</a>
+</li>
+      <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.order">order (order_confirmation.models.OrderConfirmation attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.DoesNotExist">Order.DoesNotExist</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.MultipleObjectsReturned">Order.MultipleObjectsReturned</a>
+</li>
+      <li><a href="order_confirmation.html#order_confirmation.views.order_confirmation">order_confirmation() (in module order_confirmation.views)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
+    order_confirmation.models
+
+      <ul>
+        <li><a href="order_confirmation.html#module-order_confirmation.models">module</a>
+</li>
+      </ul></li>
+      <li>
     order_confirmation.views
 
       <ul>
-        <li><a href="modules.html#module-order_confirmation.views">module</a>
+        <li><a href="order_confirmation.html#module-order_confirmation.views">module</a>
 </li>
       </ul></li>
+      <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.order_id">order_id (order_confirmation.models.OrderConfirmation attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Discount.order_set">order_set (checkout.models.Discount attribute)</a>
+</li>
+      <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation">OrderConfirmation (class in order_confirmation.models)</a>
+</li>
+      <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.DoesNotExist">OrderConfirmation.DoesNotExist</a>
+</li>
+      <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.MultipleObjectsReturned">OrderConfirmation.MultipleObjectsReturned</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Order.payment_method">payment_method (checkout.models.Order attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Order.payment_status">payment_status (checkout.models.Order attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules.html#order_confirmation.views.send_confirmation_email">send_confirmation_email() (in module order_confirmation.views)</a>
+      <li><a href="order_confirmation.html#order_confirmation.views.send_confirmation_email">send_confirmation_email() (in module order_confirmation.views)</a>
+</li>
+      <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.sent_at">sent_at (order_confirmation.models.OrderConfirmation attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.shipping_address">shipping_address (checkout.models.Order attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Order.shipping_city">shipping_city (checkout.models.Order attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.shipping_state">shipping_state (checkout.models.Order attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.shipping_zip">shipping_zip (checkout.models.Order attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Order.total">total (checkout.models.Order attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Order.updated_at">updated_at (checkout.models.Order attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Order.user">user (checkout.models.Order attribute)</a>
+</li>
+      <li><a href="checkout.html#checkout.models.Order.user_id">user_id (checkout.models.Order attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Discount.valid_from">valid_from (checkout.models.Discount attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="checkout.html#checkout.models.Discount.valid_to">valid_to (checkout.models.Discount attribute)</a>
 </li>
   </ul></td>
 </tr></table>

@@ -41,7 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Documentation</a></li>
 </ul>
 
         </div>
@@ -125,7 +125,8 @@
 <div class="viewcode-block" id="download_receipt">
 <a class="viewcode-back" href="../../modules.html#order_confirmation.views.download_receipt">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">download_receipt</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate and return a PDF receipt for an order.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate and return a PDF receipt for an order.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        request: The HTTP request object.</span>
@@ -144,6 +145,9 @@
             <span class="n">cart_items</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Unknown Item&quot;</span><span class="p">,</span> <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="n">order</span><span class="o">.</span><span class="n">total</span><span class="p">,</span> <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
             <span class="p">]</span>  <span class="c1"># Fallback</span>
+
+        <span class="c1"># Calculate final total (original total - discount)</span>
+        <span class="n">final_total</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">total</span> <span class="o">-</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="s2">&quot;discount_amount&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
         <span class="c1"># Create the PDF response</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">content_type</span><span class="o">=</span><span class="s2">&quot;application/pdf&quot;</span><span class="p">)</span>
@@ -164,7 +168,7 @@
         <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span>
             <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span>
             <span class="n">height</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;Date: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Date: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mf">1.75</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Email: </span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span>
@@ -188,23 +192,54 @@
         <span class="n">y_position</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="mf">3.75</span> <span class="o">*</span> <span class="n">inch</span>
         <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart_items</span><span class="p">:</span>
-            <span class="n">line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">x </span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> - $</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> each&quot;</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">x </span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> - $</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> each&quot;</span>
             <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">y_position</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
-            <span class="n">y_position</span> <span class="o">-=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">inch</span>  <span class="c1"># Move down for next item</span>
-            <span class="k">if</span> <span class="n">y_position</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">:</span>  <span class="c1"># Basic page overflow check</span>
+            <span class="n">y_position</span> <span class="o">-=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">inch</span>
+            <span class="k">if</span> <span class="n">y_position</span> <span class="o">&lt;</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">:</span>  <span class="c1"># More space for totals</span>
                 <span class="n">p</span><span class="o">.</span><span class="n">showPage</span><span class="p">()</span>
                 <span class="n">y_position</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span>
                 <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
 
-        <span class="c1"># Total</span>
+        <span class="c1"># Pricing breakdown</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">y_position</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Subtotal: $</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">total</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Discount information if applicable</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="s2">&quot;discount_coupon_used&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">order</span><span class="o">.</span><span class="n">discount_coupon_used</span><span class="p">:</span>
+            <span class="n">y_position</span> <span class="o">-=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">inch</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">y_position</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="s2">&quot;Discount Applied:&quot;</span><span class="p">)</span>
+
+            <span class="n">y_position</span> <span class="o">-=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">inch</span>
+            <span class="n">discount_text</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">discount_coupon_used</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">discount_coupon_used</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s2">% off&quot;</span>
+                <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">discount_coupon_used</span><span class="o">.</span><span class="n">discount_type</span> <span class="o">==</span> <span class="s2">&quot;percentage&quot;</span>
+                <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">discount_coupon_used</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s2"> off&quot;</span>
+            <span class="p">)</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mf">1.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">y_position</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">discount_text</span><span class="p">)</span>
+
+            <span class="n">y_position</span> <span class="o">-=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">inch</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span>
+                <span class="mf">1.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span>
+                <span class="n">y_position</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;Discount Amount: -$</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">discount_amount</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Final total</span>
         <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica-Bold&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
-        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">y_position</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Total: $</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">total</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span>
+            <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">y_position</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Final Total: $</span><span class="si">{</span><span class="n">final_total</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Thank you message</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s2">&quot;Helvetica&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="s2">&quot;Thank you for your purchase!&quot;</span><span class="p">)</span>
 
         <span class="c1"># Finalize the PDF</span>
         <span class="n">p</span><span class="o">.</span><span class="n">showPage</span><span class="p">()</span>
         <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
-        <span class="c1"># Clean up session (optional)</span>
+        <span class="c1"># Clean up session</span>
         <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;order_</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_items&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">:</span>
             <span class="k">del</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;order_</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_items&quot;</span><span class="p">]</span>
 

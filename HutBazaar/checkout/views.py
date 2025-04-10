@@ -4,7 +4,6 @@ from django.conf import settings
 from django.core.mail import send_mail
 from .models import Order  # Assuming you have an Order model
 from .forms import CheckoutForm  # Assuming you have this
-from . import utils
 from .models import Discount
 
 
@@ -42,10 +41,21 @@ def checkout_view(request):
     if request.method == "POST":
         form = CheckoutForm(request.POST)
         if form.is_valid():
-            try:
-                discount = Discount.objects.get(code=form.cleaned_data["coupon_code"])
-            except Discount.DoesNotExist:
-                discount = None
+            coupon_code = form.cleaned_data.get("coupon_code")
+            discount = None
+
+            if coupon_code:
+                try:
+                    discount = Discount.objects.get(code=coupon_code)
+                    if discount.is_used_by_user(request.user):
+                        messages.error(request, "This voucher has already been used")
+                        return redirect("checkout:checkout")
+                    if not discount.is_valid_for_user(request.user):
+                        messages.error(request, "This voucher is no longer valid")
+                        return redirect("checkout:checkout")
+                except Discount.DoesNotExist:
+                    messages.error(request, "Invalid voucher code")
+                    return redirect("checkout:checkout")
             # Process the order
             order = Order.objects.create(
                 user=request.user if request.user.is_authenticated else None,

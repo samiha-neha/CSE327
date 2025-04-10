@@ -1,15 +1,21 @@
-Modules
-=======
+API Documentation
+=================
 
-Checkout Views
---------------
+.. automodule:: checkout.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 .. automodule:: checkout.views
    :members:
    :undoc-members:
    :show-inheritance:
 
-Order Confirmation Views
-------------------------
+.. automodule:: order_confirmation.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 .. automodule:: order_confirmation.views
    :members:
    :undoc-members:

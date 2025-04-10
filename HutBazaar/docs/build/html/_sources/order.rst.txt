@@ -1,0 +1,20 @@
+Order Module
+============
+
+.. tab-set::
+
+   .. tab-item:: Models
+      :sync: order-models
+
+      .. automodule:: checkout.models
+         :members: Order, Discount
+         :undoc-members:
+         :show-inheritance:
+
+   .. tab-item:: Views
+      :sync: order-views
+
+      .. automodule:: checkout.views
+         :members:
+         :undoc-members:
+         :show-inheritance:

@@ -1,0 +1,7 @@
+Checkout Module/views/checkout
+==============================
+
+.. automodule:: checkout.views
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+Order Module/models/discount
+============================
+
+.. automodule:: checkout.models
+   :members: Discount
+   :undoc-members:
+   :show-inheritance:
