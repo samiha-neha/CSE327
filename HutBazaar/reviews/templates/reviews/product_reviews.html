@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Reviews</title>
+    <style>
+        .star {
+            color: gold;
+            font-size: 20px;
+        }
+        .review-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reviews for {{ product.name }}</h1>
+
+    {% if reviews %}
+        {% for review in reviews %}
+            <div class="review-box">
+                <strong>{{ review.user.username }}</strong> rated:
+                {% for i in "12345" %}
+                    <span class="star">
+                        {% if forloop.counter <= review.rating %}
+                            ★
+                        {% else %}
+                            ☆
+                        {% endif %}
+                    </span>
+                {% endfor %}
+                <p>{{ review.comment }}</p>
+                <small>Reviewed on {{ review.created_at|date:"F j, Y" }}</small><br>
+
+                {% if request.user == review.user %}
+                    <a href="{% url 'reviews:edit_review' review.pk %}">Edit</a> |
+                    <a href="{% url 'reviews:delete_review' review.pk %}">Delete</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No reviews yet. Be the first to review this product!</p>
+    {% endif %}
+
+    {% if request.user.is_authenticated and verified_buyer %}
+        <a href="{% url 'reviews:add_review' product.id %}">Write a Review</a>
+    {% elif request.user.is_authenticated %}
+        <p><em>Only verified buyers can write a review.</em></p>
+    {% else %}
+        <p><a href="{% url 'login' %}">Log in</a> to write a review.</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'product_detail' product.id %}">Back to Product</a>
+</body>
+</html>

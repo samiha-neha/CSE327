@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Your Shopping Cart</h1>
+
+        {% if items %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>{{ item.product_name }}</td>
+                            <td>
+                                <!-- Update Quantity Form -->
+                                <form method="POST" action="{% url 'cart:update_quantity' item.id %}">
+                                    {% csrf_token %}
+                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+                                    <button type="submit">Update</button>
+                                </form>
+                            </td>
+                            <td>${{ item.product_price }}</td>
+                            <td>${{ item.total_price }}</td>
+                            <td>
+                                <!-- Button to remove an item -->
+                                <form method="POST" action="{% url 'cart:remove_from_cart' item.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit">Remove</button>
+                                </form>
+
+                                <!-- Button to save for later -->
+                                <form method="POST" action="{% url 'cart:save_for_later' item.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit">Save for Later</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Total Price -->
+            <div class="cart-total">
+                <h3>Total: ${{ total_cart_price }}</h3>
+            </div>
+
+            <!-- Apply Discount Code -->
+            <div class="discount">
+                <form method="POST" action="{% url 'cart:apply_coupon' %}">
+                    {% csrf_token %}
+                    <input type="text" name="coupon_code" placeholder="Enter coupon code">
+                    <button type="submit">Apply</button>
+                </form>
+
+                {% if discounted_price %}
+                    <h3>Discounted Total: ${{ discounted_price }}</h3>
+                {% endif %}
+            </div>
+
+            <!-- Estimate Shipping -->
+            <div class="shipping">
+                <form method="POST" action="{% url 'cart:estimate_shipping' %}">
+                    {% csrf_token %}
+                    <input type="text" name="location" placeholder="Enter your location">
+                    <button type="submit">Estimate Shipping</button>
+                </form>
+
+                {% if shipping_cost %}
+                    <h3>Estimated Shipping: ${{ shipping_cost }}</h3>
+                {% endif %}
+            </div>
+
+            <!-- Checkout Button -->
+            <div class="checkout">
+                <a href="{% url 'checkout' %}"><button>Proceed to Checkout</button></a>
+            </div>
+        {% else %}
+            <p>Your cart is empty. Start shopping now!</p>
+        {% endif %}
+    </div>
+</body>
+</html>
