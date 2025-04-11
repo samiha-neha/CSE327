@@ -74,20 +74,6 @@ def checkout_view(request):
             # Store cart items in session for receipt
             request.session[f"order_{order.id}_items"] = cart.items
 
-            # if (
-            #     settings.DEBUG
-            # ):  # Only send email if in debug mode (as per your original logic)
-            #     try:
-            #         send_mail(
-            #             f"Order #{order.id} Confirmation",
-            #             f"Thank you for your order #{order.id}. Total: ${order.total}",
-            #             settings.DEFAULT_FROM_EMAIL,
-            #             [form.cleaned_data["email"]],
-            #             fail_silently=False,
-            #         )
-            #     except Exception as e:
-            #         print(f"Email not sent: {e}")  # Print error to console but continue
-
             return redirect("order_confirmation:confirmation", order_id=order.id)
     else:
         initial = {}

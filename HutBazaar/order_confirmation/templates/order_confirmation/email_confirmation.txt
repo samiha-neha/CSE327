@@ -1,6 +1,24 @@
-Your Order Confirmation
-
-Order #{{ order.id }}
-Total: ${{ order.total }}
+Order Confirmation #{{ order.id }}
 
 Thank you for your purchase!
+
+Order Summary:
+-------------
+Order Date: {{ order.created_at|date:"F j, Y" }}
+
+{% if order.discount_coupon_used %}
+Discount Applied: {{ order.discount_coupon_used.code }}
+Discount Amount: -${{ order.discount_amount|floatformat:2 }}
+{% endif %}
+
+Subtotal: ${{ order.total|floatformat:2 }}
+Final Total: ${{ order.final_total|floatformat:2 }}
+
+Shipping Information:
+--------------------
+{{ order.shipping_address }}
+{{ order.shipping_city }}, {{ order.shipping_state }} {{ order.shipping_zip }}
+
+If you have any questions about your order, please contact our support team.
+
+© {% now "Y" %} Hut Bazaar. All rights reserved.

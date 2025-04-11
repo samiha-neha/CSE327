@@ -1,9 +1,47 @@
-_<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .header { background-color: #f8f9fa; padding: 20px; text-align: center; }
+        .order-details { margin: 20px 0; }
+        .total { font-weight: bold; font-size: 1.2em; }
+        .discount { color: #28a745; }
+        .footer { margin-top: 30px; font-size: 0.9em; color: #6c757d; }
+    </style>
+</head>
 <body>
-    <h2>Your Order Confirmation</h2>
-    <p>Order #{{ order.id }}</p>
-    <p>Total: ${{ order.total }}</p>
-    <p>Thank you for your purchase!</p>
+    <div class="header">
+        <h1>Order Confirmation #{{ order.id }}</h1>
+        <p>Thank you for your purchase!</p>
+    </div>
+
+    <div class="order-details">
+        <h2>Order Summary</h2>
+        <p><strong>Order Date:</strong> {{ order.created_at|date:"F j, Y" }}</p>
+        
+        {% if order.discount_coupon_used %}
+        <div class="discount-info">
+            <p><strong>Discount Applied:</strong> {{ order.discount_coupon_used.code }}</p>
+            <p class="discount">- ${{ order.discount_amount|floatformat:2 }}</p>
+        </div>
+        {% endif %}
+
+        <div class="totals">
+            <p><strong>Subtotal:</strong> ${{ order.total|floatformat:2 }}</p>
+            <p class="total">Final Total: ${{ order.final_total|floatformat:2 }}</p>
+        </div>
+    </div>
+
+    <div class="shipping-info">
+        <h2>Shipping Information</h2>
+        <p>{{ order.shipping_address }}</p>
+        <p>{{ order.shipping_city }}, {{ order.shipping_state }} {{ order.shipping_zip }}</p>
+    </div>
+
+    <div class="footer">
+        <p>If you have any questions about your order, please contact our support team.</p>
+        <p>© {% now "Y" %} Hut Bazaar. All rights reserved.</p>
+    </div>
 </body>
 </html>

@@ -11,7 +11,9 @@ from reportlab.lib.units import inch
 
 
 def order_confirmation(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(
+        Order, id=order_id
+    )  # get_object_or_404 gives auto try catch
 
     # Create or get confirmation record
     confirmation, created = OrderConfirmation.objects.get_or_create(order=order)
@@ -26,23 +28,31 @@ def order_confirmation(request, order_id):
 
 
 def send_confirmation_email(order):
-    subject = f"Order Confirmation #{order.id}"
-    # message = render_to_string(
-    #     "order_confirmation/email_confirmation.txt", {"order": order}
-    # )
-    # html_message = render_to_string(
-    #     "order_confirmation/email_confirmation.html", {"order": order}
-    # )
+    try:
+        subject = f"Order Confirmation #{order.id}"
+        message = render_to_string(
+            "order_confirmation/email_confirmation.txt", {"order": order}
+        )
+        html_message = render_to_string(
+            "order_confirmation/email_confirmation.html", {"order": order}
+        )
 
-    # recipient = order.user.email if order.user else None
-    # if recipient:
-    #     send_mail(
-    #         subject,
-    #         message,
-    #         settings.DEFAULT_FROM_EMAIL,
-    #         [recipient],
-    #         html_message=html_message,
-    #     )
+        if order.user and order.user.email:
+            recipient = order.user.email
+        else:
+            recipient = None
+        if recipient:
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [recipient],
+                html_message=html_message,
+            )
+            print("email success")
+        print(recipient)
+    except:
+        print("Email Sending Failed!")
 
 
 def download_receipt(request, order_id):
