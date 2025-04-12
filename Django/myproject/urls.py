@@ -4,6 +4,10 @@ from django.urls import path, include # Make sure include is imported
 from django.conf import settings           # Import settings
 from django.conf.urls.static import static # Import static helper
 
+admin.site.site_header = "Hut Bazaar Admin"
+admin.site.site_title = "Hut Bazaar Portal" # Text in the browser <title> tag
+admin.site.index_title = "Welcome to the Admin Area" # Text on the admin index page
+
 urlpatterns = [
     path('admin/', admin.site.urls), # URL for the admin panel
     # Any URL starting with 'orders/' will be handled by the orders app's urls.py

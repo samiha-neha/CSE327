@@ -6,6 +6,21 @@ from .forms import OrderTrackingForm
 import uuid
 
 def order_tracking_view(request):
+    """Handles the order tracking page.
+
+    Allows users to submit a tracking ID via a form (POST) or view the
+    empty form (GET). If a valid tracking ID is submitted, it attempts
+    to retrieve the corresponding Order object and displays its details.
+    Handles invalid ID formats and non-existent orders by displaying
+    error messages.
+
+    :param request: The HttpRequest object containing form data if POST.
+    :type request: django.http.HttpRequest
+    :returns: Renders the 'orders/order_tracking.html' template with
+              context containing the form, the found order (if any),
+              and any error messages.
+    :rtype: django.http.HttpResponse
+    """
     order = None
     error_message = None
     form = OrderTrackingForm()
