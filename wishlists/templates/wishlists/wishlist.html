@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block title %}Your Wishlist{% endblock %} {% block
+content %}
+<h1>Your Wishlist</h1>
+
+{% if products %}
+<table class="wishlist-table">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in products %}
+    <tr>
+      <td>
+        {# Optional: Link to product detail page #} {#
+        <a href="{% url 'products:product_detail' product.id %}">
+          #} {{ product.name }} {#
+        </a>
+        #}
+      </td>
+      <td>${{ product.price }}</td>
+      <td>
+        <form
+          action="{% url 'wishlists:move_wishlist_item_to_cart' product.id %}"
+          method="post"
+          style="display: inline"
+        >
+          {% csrf_token %}
+          <button type="submit">Add to Cart</button>
+        </form>
+        <form
+          action="{% url 'wishlists:remove_from_wishlist' product.id %}"
+          method="post"
+          style="display: inline"
+        >
+          {% csrf_token %}
+          <button type="submit" style="background-color: #dc3545">
+            Remove
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Your wishlist is empty.</p>
+<p><a href="{% url 'products:product_list' %}">Browse products</a></p>
+{% endif %} {% endblock %}

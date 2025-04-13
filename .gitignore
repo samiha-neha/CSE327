@@ -1,1 +1,27 @@
-djangoenv
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE / Editor specific files
+.vscode/
+.idea/
+
+# Database file (consider if you *really* want to commit it - usually not for SQLite in dev)
+*.sqlite3
+db.sqlite3
+
+# Static files collected by Django
+staticfiles/
+media/ # If you have user-uploaded media
+
+# Secrets (NEVER commit secrets)
+*.env
+secrets.py

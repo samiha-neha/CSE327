@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block title %}Edit Profile{% endblock %} {% block
+content %}
+<h1>Edit Profile</h1>
+
+<div style="margin-bottom: 30px">
+  <h2>Update Personal Details</h2>
+  <form method="post">
+    {% csrf_token %} {{ user_form.as_p }} {{ profile_form.as_p }}
+    <button type="submit" name="update_profile">Update Details</button>
+  </form>
+</div>
+
+<hr />
+
+<div style="margin-bottom: 30px">
+  <h2>Change Password</h2>
+  <form method="post">
+    {% csrf_token %} {{ password_form.as_p }}
+    <button type="submit" name="change_password">Change Password</button>
+  </form>
+</div>
+
+<p><a href="{% url 'userprofiles:profile' %}">Back to Profile</a></p>
+
+{% endblock %}
