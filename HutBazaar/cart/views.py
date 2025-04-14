@@ -1,158 +1,138 @@
-from django.shortcuts import render
-
 """
-Cart views for adding, removing, and updating items.
+Cart views for e-commerce application.
+
+Includes all cart-related operations such as adding items, removing items,
+updating quantities, and rendering cart summaries. Each view is secured 
+with user authentication and includes validation and user feedback.
+
+References:
+    Django messages framework: https://docs.djangoproject.com/en/stable/ref/contrib/messages/
+    Django authentication decorators: https://docs.djangoproject.com/en/stable/topics/auth/default/#the-login-required-decorator
 """
 
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.exceptions import ValidationError
+from django.http import JsonResponse
+
 from .models import Cart, CartItem
-from .mock_data import get_product_by_id
+from store.models import Product
 
 
+@login_required
 def add_to_cart(request, product_id):
     """
-    Add a product to the user's cart.
+    Add a product to the user's cart with inventory validation.
+
+    Args:
+        request (HttpRequest): The request object.
+        product_id (int): ID of the product to add.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the cart view.
     """
-    product = get_product_by_id(product_id)
-    if not product:
-        return render(request, 'cart/error.html', {"message": "Product not found."})
-
+    product = get_object_or_404(Product, pk=product_id)
     cart, _ = Cart.objects.get_or_create(user=request.user)
-    item, created = CartItem.objects.get_or_create(
-        cart=cart,
-        product_id=product["id"],
-        defaults={
-            "product_name": product["name"],
-            "product_price": product["price"],
-            "quantity": 1,
-        },
-    )
 
-    if not created:
-        item.quantity += 1
-        item.save()
+    try:
+        item = CartItem.objects.filter(cart=cart, product=product).first()
+
+        if item:
+            item.quantity += 1
+            item.full_clean()
+            item.save()
+            messages.success(request, "Item quantity updated in cart.")
+        else:
+            CartItem.objects.create(cart=cart, product=product, quantity=1)
+            messages.success(request, "Item added to cart.")
+    except ValidationError as e:
+        messages.error(request, str(e))
 
     return redirect('cart:view_cart')
 
 
+@login_required
 def view_cart(request):
-    # Check if the user is authenticated
-    if not request.user.is_authenticated:
-        return redirect('login')  # You can change 'login' to your actual login view name
+    """
+    Display the contents of the user's shopping cart.
 
-    # Proceed with the cart logic if the user is authenticated
-    cart = Cart.objects.filter(user=request.user).first()
-    
-    # Handle cases where no cart is found for the user
-    if not cart:
-        # Create an empty cart or handle it differently
-        cart = None
+    Args:
+        request (HttpRequest): The request object.
 
-    return render(request, 'cart/view_cart.html', {'cart': cart})
+    Returns:
+        HttpResponse: Rendered cart page.
+    """
+    cart = get_object_or_404(Cart, user=request.user)
+    context = {'cart': cart}
+    return render(request, 'cart/view_cart.html', context)
 
 
+@login_required
 def remove_from_cart(request, item_id):
     """
-    Remove an item from the user's cart.
+    Remove an item from the shopping cart.
 
     Args:
-        request: The request object.
-        item_id: The ID of the cart item to remove.
+        request (HttpRequest): The request object.
+        item_id (int): ID of the cart item to remove.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the cart view.
     """
-    cart = Cart.objects.filter(user=request.user).first()
-    
-    if cart:
-        item = CartItem.objects.filter(cart=cart, id=item_id).first()
-        if item:
-            item.delete()
-    
+    item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    product_name = item.product.name
+    item.delete()
+    messages.success(request, f"Removed {product_name} from cart.")
     return redirect('cart:view_cart')
 
 
+@login_required
 def update_quantity(request, item_id):
     """
-    Update the quantity of an item in the user's cart.
+    Update the quantity of an item in the cart.
 
     Args:
-        request: The request object.
-        item_id: The ID of the cart item to update.
-    """
-    cart = Cart.objects.filter(user=request.user).first()
-    
-    if cart:
-        item = CartItem.objects.filter(cart=cart, id=item_id).first()
-        if item:
-            new_quantity = int(request.POST.get('quantity', 1))
-            if new_quantity > 0:
-                item.quantity = new_quantity
-                item.save()
-    
-    return redirect('cart:view_cart')
+        request (HttpRequest): The request object.
+        item_id (int): ID of the cart item to update.
 
-
-def save_for_later(request, item_id):
+    Returns:
+        HttpResponseRedirect: Redirects to the cart view.
     """
-    Save an item for later purchase in the user's cart.
+    item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
 
-    Args:
-        request: The request object.
-        item_id: The ID of the cart item to save for later.
-    """
-    cart = Cart.objects.filter(user=request.user).first()
-    
-    if cart:
-        item = CartItem.objects.filter(cart=cart, id=item_id).first()
-        if item:
-            item.saved_for_later = True
-            item.save()
+    try:
+        new_quantity = int(request.POST.get('quantity', 1))
+        if new_quantity < 1:
+            raise ValueError("Quantity must be at least 1")
+
+        item.quantity = new_quantity
+        item.full_clean()
+        item.save()
+        messages.success(request, "Quantity updated.")
+    except (ValueError, ValidationError) as e:
+        messages.error(request, str(e))
 
     return redirect('cart:view_cart')
 
 
-def apply_coupon(request):
+@login_required
+def cart_summary(request):
     """
-    Apply a discount coupon to the cart.
+    Return minimal cart data for AJAX requests (e.g., cart icon update).
 
     Args:
-        request: The request object.
+        request (HttpRequest): The request object.
+
+    Returns:
+        JsonResponse: Contains total item count and subtotal.
     """
-    coupon_code = request.POST.get('coupon_code')
-    discount = 0
+    cart = get_object_or_404(Cart, user=request.user)
+    return JsonResponse({
+        'item_count': cart.total_items,
+        'subtotal': cart.subtotal
+    })
 
-    if coupon_code == 'DISCOUNT10':
-        discount = 10  # 10% discount
-
-    cart = Cart.objects.filter(user=request.user).first()
-    if cart:
-        total_price = sum([item.total_price() for item in cart.items.all()])
-        discounted_price = total_price - (total_price * discount / 100)
-
-    return render(request, 'cart/view_cart.html', {'cart': cart, 'discounted_price': discounted_price})
-
-
-def estimate_shipping(request):
-    """
-    Estimate the shipping cost based on the user's location.
-
-    Args:
-        request: The request object.
-    """
-    shipping_cost = 0
-    location = request.POST.get('location')
-
-    if location == 'USA':
-        shipping_cost = 5
-    elif location == 'Europe':
-        shipping_cost = 10
-    else:
-        shipping_cost = 15
-
-    return render(request, 'cart/view_cart.html', {'shipping_cost': shipping_cost})
-
-
-def index(request):
-    return render(request, 'index.html')  # This will render the index.html template  
- 
 
 
 

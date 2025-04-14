@@ -36,8 +36,8 @@
                 <small>Reviewed on {{ review.created_at|date:"F j, Y" }}</small><br>
 
                 {% if request.user == review.user %}
-                    <a href="{% url 'reviews:edit_review' review.pk %}">Edit</a> |
-                    <a href="{% url 'reviews:delete_review' review.pk %}">Delete</a>
+                    <a href="{% url 'review:edit_review' review.pk %}">Edit</a> |
+                    <a href="{% url 'review:delete_review' review.pk %}">Delete</a>
                 {% endif %}
             </div>
         {% endfor %}
@@ -46,7 +46,7 @@
     {% endif %}
 
     {% if request.user.is_authenticated and verified_buyer %}
-        <a href="{% url 'reviews:add_review' product.id %}">Write a Review</a>
+        <a href="{% url 'review:add_review' product.id %}">Write a Review</a>
     {% elif request.user.is_authenticated %}
         <p><em>Only verified buyers can write a review.</em></p>
     {% else %}
@@ -54,6 +54,6 @@
     {% endif %}
 
     <br>
-    <a href="{% url 'product_detail' product.id %}">Back to Product</a>
+    <a href="{% url 'product-detail' pk=product.id %}">Back to Product</a>
 </body>
 </html>

@@ -3,94 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
+    <title>Shopping Cart - HutBazaar</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <h1>Your Shopping Cart</h1>
 
-        {% if items %}
-            <table>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if cart.items.all %}
+            <table class="cart-table">
                 <thead>
                     <tr>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
+                        <th>Product</th>
                         <th>Price</th>
+                        <th>Quantity</th>
                         <th>Total</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in items %}
+                    {% for item in cart.items.all %}
                         <tr>
-                            <td>{{ item.product_name }}</td>
                             <td>
-                                <!-- Update Quantity Form -->
-                                <form method="POST" action="{% url 'cart:update_quantity' item.id %}">
+                                <div class="product-info">
+                                    {% if item.product.image %}
+                                        <img src="{{ item.product.image.url }}" 
+                                             alt="{{ item.product.name }}"
+                                             class="product-thumbnail">
+                                    {% endif %}
+                                    <div>
+                                        <h3>{{ item.product.name }}</h3>
+                                        <p class="product-category">
+                                            {{ item.product.category.name }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>${{ item.product.price }}</td>
+                            <td>
+                                <form method="post" 
+                                      action="{% url 'cart:update_quantity' item.id %}">
                                     {% csrf_token %}
-                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
-                                    <button type="submit">Update</button>
+                                    <div class="quantity-controls">
+                                        <button type="button" 
+                                                class="quantity-btn minus">-</button>
+                                        <input type="number" 
+                                               name="quantity" 
+                                               value="{{ item.quantity }}" 
+                                               min="1"
+                                               class="quantity-input">
+                                        <button type="button" 
+                                                class="quantity-btn plus">+</button>
+                                        <button type="submit" 
+                                                class="update-btn">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
                                 </form>
                             </td>
-                            <td>${{ item.product_price }}</td>
                             <td>${{ item.total_price }}</td>
                             <td>
-                                <!-- Button to remove an item -->
-                                <form method="POST" action="{% url 'cart:remove_from_cart' item.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Remove</button>
-                                </form>
-
-                                <!-- Button to save for later -->
-                                <form method="POST" action="{% url 'cart:save_for_later' item.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Save for Later</button>
-                                </form>
+                                <div class="action-buttons">
+                                    <form method="post" 
+                                          action="{% url 'cart:remove_from_cart' item.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" 
+                                                class="btn-remove"
+                                                title="Remove item">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    <form method="post" 
+                                          action="{% url 'cart:save_for_later' item.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" 
+                                                class="btn-save"
+                                                title="Save for later">
+                                            <i class="fas fa-bookmark"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
 
-            <!-- Total Price -->
-            <div class="cart-total">
-                <h3>Total: ${{ total_cart_price }}</h3>
-            </div>
+            <div class="cart-summary">
+                <div class="summary-card">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>${{ cart.subtotal }}</span>
+                    </div>
+                    
+                    {% if shipping_cost %}
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>${{ shipping_cost }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if discounted_price %}
+                    <div class="summary-row discount-row">
+                        <span>Discount</span>
+                        <span>-${{ cart.subtotal|subtract:discounted_price }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="summary-row total-row">
+                        <span>Total</span>
+                        <span>
+                            ${% if discounted_price %}
+                                {{ discounted_price|add:shipping_cost|default:0 }}
+                            {% else %}
+                                {{ cart.subtotal|add:shipping_cost|default:0 }}
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
 
-            <!-- Apply Discount Code -->
-            <div class="discount">
-                <form method="POST" action="{% url 'cart:apply_coupon' %}">
-                    {% csrf_token %}
-                    <input type="text" name="coupon_code" placeholder="Enter coupon code">
-                    <button type="submit">Apply</button>
-                </form>
+                <div class="cart-actions">
+                    <form method="post" action="{% url 'cart:apply_coupon' %}" 
+                          class="coupon-form">
+                        {% csrf_token %}
+                        <input type="text" 
+                               name="coupon_code" 
+                               placeholder="Enter coupon code">
+                        <button type="submit" class="btn-apply">
+                            Apply Coupon
+                        </button>
+                    </form>
 
-                {% if discounted_price %}
-                    <h3>Discounted Total: ${{ discounted_price }}</h3>
-                {% endif %}
-            </div>
+                    <form method="post" action="{% url 'cart:estimate_shipping' %}" 
+                          class="shipping-form">
+                        {% csrf_token %}
+                        <input type="text" 
+                               name="location" 
+                               placeholder="Enter your location">
+                        <button type="submit" class="btn-shipping">
+                            Estimate Shipping
+                        </button>
+                    </form>
 
-            <!-- Estimate Shipping -->
-            <div class="shipping">
-                <form method="POST" action="{% url 'cart:estimate_shipping' %}">
-                    {% csrf_token %}
-                    <input type="text" name="location" placeholder="Enter your location">
-                    <button type="submit">Estimate Shipping</button>
-                </form>
-
-                {% if shipping_cost %}
-                    <h3>Estimated Shipping: ${{ shipping_cost }}</h3>
-                {% endif %}
-            </div>
-
-            <!-- Checkout Button -->
-            <div class="checkout">
-                <a href="{% url 'checkout' %}"><button>Proceed to Checkout</button></a>
+                    <a href="{% url 'checkout' %}" class="btn-checkout">
+                        Proceed to Checkout
+                    </a>
+                </div>
             </div>
         {% else %}
-            <p>Your cart is empty. Start shopping now!</p>
+            <div class="empty-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Your cart is empty</h3>
+                <p>Start shopping to add items to your cart</p>
+                <a href="{% url 'home' %}" class="btn-continue">
+                    Continue Shopping
+                </a>
+            </div>
         {% endif %}
     </div>
+
+    <script>
+        // Quantity controls
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('.quantity-input');
+                if (this.classList.contains('plus')) {
+                    input.value = parseInt(input.value) + 1;
+                } else if (this.classList.contains('minus') && input.value > 1) {
+                    input.value = parseInt(input.value) - 1;
+                }
+            });
+        });
+
+        // Real-time cart updates
+        function updateCartCount() {
+            fetch("{% url 'cart:cart_summary' %}")
+                .then(response => response.json())
+                .then(data => {
+                    const countElement = document.querySelector('.cart-count');
+                    if (countElement) {
+                        countElement.textContent = data.item_count;
+                    }
+                });
+        }
+
+        // Call after cart modifications
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function() {
+                setTimeout(updateCartCount, 500);
+            });
+        });
+    </script>
 </body>
 </html>

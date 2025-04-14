@@ -24,6 +24,6 @@
         <button type="submit">Update Review</button>
     </form>
 
-    <p><a href="{% url 'product_detail' review.product.id %}">Back to Product</a></p>
+    <p><a href="{% url 'review:product_reviews' review.product.id %}">Back to Reviews</a></p>
 </body>
 </html>
