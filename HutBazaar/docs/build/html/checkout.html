@@ -119,6 +119,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#checkout.tests.DiscountModelTest.test_str_representation"><code class="docutils literal notranslate"><span class="pre">DiscountModelTest.test_str_representation()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#checkout.tests.DiscountModelTest.test_discount_not_used_by_user"><code class="docutils literal notranslate"><span class="pre">DiscountModelTest.test_discount_not_used_by_user()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#checkout.tests.DiscountModelTest.test_discount_used_by_user"><code class="docutils literal notranslate"><span class="pre">DiscountModelTest.test_discount_used_by_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checkout.tests.DiscountModelTest.test_is_valid_for_user"><code class="docutils literal notranslate"><span class="pre">DiscountModelTest.test_is_valid_for_user()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -552,7 +553,8 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 <dd class="field-odd"><p><strong>request</strong> – The HTTP request object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Renders the checkout page or redirects after order creation.</p>
+<dd class="field-even"><p>Renders the checkout page or redirects after order creation.
+Returns form and cart information to show in html template</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>HttpResponse</p>
@@ -635,6 +637,12 @@ not have a method with the specified name.</p>
 <dt class="sig sig-object py" id="checkout.tests.DiscountModelTest.test_discount_used_by_user">
 <span class="sig-name descname"><span class="pre">test_discount_used_by_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#DiscountModelTest.test_discount_used_by_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.DiscountModelTest.test_discount_used_by_user" title="Link to this definition"></a></dt>
 <dd><p>Test that discount shows as used if user had previously ordered with it</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="checkout.tests.DiscountModelTest.test_is_valid_for_user">
+<span class="sig-name descname"><span class="pre">test_is_valid_for_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#DiscountModelTest.test_is_valid_for_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.DiscountModelTest.test_is_valid_for_user" title="Link to this definition"></a></dt>
+<dd><p>Test if discount is is valid for user in terms of previously used and its validity date</p>
 </dd></dl>
 
 </dd></dl>

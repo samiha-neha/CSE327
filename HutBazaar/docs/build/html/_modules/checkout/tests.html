@@ -99,17 +99,17 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Set up reusable objects</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span>
-            <span class="n">username</span><span class="o">=</span><span class="s2">&quot;testuser&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;testpass123&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s2">&quot;test@example.com&quot;</span>
+            <span class="n">username</span><span class="o">=</span><span class="s2">&quot;testuser&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;testpass123&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s2">&quot;test@gmail.com&quot;</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
             <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
-            <span class="n">email</span><span class="o">=</span><span class="s2">&quot;test@example.com&quot;</span><span class="p">,</span>
+            <span class="n">email</span><span class="o">=</span><span class="s2">&quot;test@gmail.com&quot;</span><span class="p">,</span>
             <span class="n">total</span><span class="o">=</span><span class="mf">100.00</span><span class="p">,</span>
-            <span class="n">payment_method</span><span class="o">=</span><span class="s2">&quot;credit_card&quot;</span><span class="p">,</span>
-            <span class="n">shipping_address</span><span class="o">=</span><span class="s2">&quot;123 Test St&quot;</span><span class="p">,</span>
-            <span class="n">shipping_city</span><span class="o">=</span><span class="s2">&quot;Testville&quot;</span><span class="p">,</span>
-            <span class="n">shipping_state</span><span class="o">=</span><span class="s2">&quot;TS&quot;</span><span class="p">,</span>
-            <span class="n">shipping_zip</span><span class="o">=</span><span class="s2">&quot;12345&quot;</span><span class="p">,</span>
+            <span class="n">payment_method</span><span class="o">=</span><span class="s2">&quot;bkash&quot;</span><span class="p">,</span>
+            <span class="n">shipping_address</span><span class="o">=</span><span class="s2">&quot;ramapura&quot;</span><span class="p">,</span>
+            <span class="n">shipping_city</span><span class="o">=</span><span class="s2">&quot;dhaka&quot;</span><span class="p">,</span>
+            <span class="n">shipping_state</span><span class="o">=</span><span class="s2">&quot;dhaka&quot;</span><span class="p">,</span>
+            <span class="n">shipping_zip</span><span class="o">=</span><span class="s2">&quot;1219&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">percentage_discount</span> <span class="o">=</span> <span class="n">Discount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
@@ -144,7 +144,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">test_percentage_discount</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Test percentage discount calculation&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">discount_coupon_used</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">percentage_discount</span>
-        <span class="c1"># 20% of 100 = 20 (but max is 50)</span>
+        <span class="c1"># 20% of 100 = 20</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">discount_amount</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;20.00&quot;</span><span class="p">))</span></div>
 </div>
 
@@ -209,11 +209,20 @@
             <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
             <span class="n">email</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
             <span class="n">total</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-            <span class="n">payment_method</span><span class="o">=</span><span class="s2">&quot;credit_card&quot;</span><span class="p">,</span>
-            <span class="n">shipping_address</span><span class="o">=</span><span class="s2">&quot;123 Test St&quot;</span><span class="p">,</span>
+            <span class="n">shipping_address</span><span class="o">=</span><span class="s2">&quot;ramapura&quot;</span><span class="p">,</span>
+            <span class="n">shipping_city</span><span class="o">=</span><span class="s2">&quot;dhaka&quot;</span><span class="p">,</span>
+            <span class="n">shipping_state</span><span class="o">=</span><span class="s2">&quot;dhaka&quot;</span><span class="p">,</span>
+            <span class="n">shipping_zip</span><span class="o">=</span><span class="s2">&quot;1219&quot;</span><span class="p">,</span>
             <span class="n">discount_coupon_used</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="o">.</span><span class="n">is_used_by_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="DiscountModelTest.test_is_valid_for_user">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.DiscountModelTest.test_is_valid_for_user">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_is_valid_for_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test if discount is is valid for user in terms of previously used and its validity date&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="o">.</span><span class="n">is_valid_for_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">))</span></div>
 </div>
 
 </pre></div>
