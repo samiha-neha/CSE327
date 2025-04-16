@@ -8,6 +8,7 @@
   <title>order_confirmation.views &mdash; HutBazaar 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
@@ -15,6 +16,7 @@
       <script src="../../_static/documentation_options.js?v=8d563738"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -41,7 +43,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../checkout.html">Order Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../order_confirmation.html">Order Confirmation Module</a></li>
 </ul>
 
         </div>
@@ -82,13 +85,36 @@
 
 
 <div class="viewcode-block" id="order_confirmation">
-<a class="viewcode-back" href="../../modules.html#order_confirmation.views.order_confirmation">[docs]</a>
+<a class="viewcode-back" href="../../order_confirmation.html#order_confirmation.views.order_confirmation">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">order_confirmation</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
-    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Order</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">order_id</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Handle order confirmation view and email sending.</span>
+
+<span class="sd">    Retrieves an order by ID, creates/updates its confirmation record,</span>
+<span class="sd">    sends a confirmation email if needed, and renders the confirmation page.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The incoming HTTP request</span>
+<span class="sd">        order_id (int): The ID of the order to confirm</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponse: Renders the order confirmation template</span>
+
+<span class="sd">    Behavior:</span>
+<span class="sd">        - Returns 404 if order doesn&#39;t exist</span>
+<span class="sd">        - Creates OrderConfirmation record if none exists</span>
+<span class="sd">        - Sends email only if:</span>
+<span class="sd">            * First confirmation (created=True)</span>
+<span class="sd">            * Or email wasn&#39;t sent previously (email_sent=False)</span>
+<span class="sd">        - Updates confirmation record after sending email</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+        <span class="n">Order</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">order_id</span>
+    <span class="p">)</span>  <span class="c1"># get_object_or_404 gives auto try catch</span>
 
     <span class="c1"># Create or get confirmation record</span>
     <span class="n">confirmation</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">OrderConfirmation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 
+    <span class="c1"># Send email after confirmation</span>
     <span class="k">if</span> <span class="n">created</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">confirmation</span><span class="o">.</span><span class="n">email_sent</span><span class="p">:</span>
         <span class="n">send_confirmation_email</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
         <span class="n">confirmation</span><span class="o">.</span><span class="n">email_sent</span> <span class="o">=</span> <span class="kc">True</span>
@@ -100,30 +126,52 @@
 
 
 <div class="viewcode-block" id="send_confirmation_email">
-<a class="viewcode-back" href="../../modules.html#order_confirmation.views.send_confirmation_email">[docs]</a>
+<a class="viewcode-back" href="../../order_confirmation.html#order_confirmation.views.send_confirmation_email">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">send_confirmation_email</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
-    <span class="n">subject</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Order Confirmation #</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Send order confirmation email to customer.</span>
 
-    <span class="c1"># message = render_to_string(</span>
-    <span class="c1">#     &quot;order_confirmation/email_confirmation.txt&quot;, {&quot;order&quot;: order}</span>
-    <span class="c1"># )</span>
-    <span class="c1"># html_message = render_to_string(</span>
-    <span class="c1">#     &quot;order_confirmation/email_confirmation.html&quot;, {&quot;order&quot;: order}</span>
-    <span class="c1"># )</span>
+<span class="sd">    Generates both text and HTML email versions using templates,</span>
+<span class="sd">    then sends to the order&#39;s associated user email if available.</span>
 
-    <span class="c1"># recipient = order.user.email if order.user else None</span>
-    <span class="c1"># if recipient:</span>
-    <span class="c1">#     send_mail(</span>
-    <span class="c1">#         subject,</span>
-    <span class="c1">#         message,</span>
-    <span class="c1">#         settings.DEFAULT_FROM_EMAIL,</span>
-    <span class="c1">#         [recipient],</span>
-    <span class="c1">#         html_message=html_message,</span>
-    <span class="c1">#     )</span>
+<span class="sd">    Args:</span>
+<span class="sd">        order (Order): The order instance to confirm</span>
+
+<span class="sd">    Behavior:</span>
+<span class="sd">        - Creates both text and HTML email versions</span>
+<span class="sd">        - Only sends if valid recipient email exists</span>
+<span class="sd">        - Gracefully fails if email sending fails</span>
+<span class="sd">        - Prints status messages for debugging</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">subject</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Order Confirmation #</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span>
+            <span class="s2">&quot;order_confirmation/email_confirmation.txt&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">}</span>
+        <span class="p">)</span>
+        <span class="n">html_message</span> <span class="o">=</span> <span class="n">render_to_string</span><span class="p">(</span>
+            <span class="s2">&quot;order_confirmation/email_confirmation.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="n">order</span><span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">user</span> <span class="ow">and</span> <span class="n">order</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">:</span>
+            <span class="n">recipient</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">recipient</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">recipient</span><span class="p">:</span>
+            <span class="n">send_mail</span><span class="p">(</span>
+                <span class="n">subject</span><span class="p">,</span>
+                <span class="n">message</span><span class="p">,</span>
+                <span class="n">settings</span><span class="o">.</span><span class="n">DEFAULT_FROM_EMAIL</span><span class="p">,</span>
+                <span class="p">[</span><span class="n">recipient</span><span class="p">],</span>
+                <span class="n">html_message</span><span class="o">=</span><span class="n">html_message</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;email success&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">recipient</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Email Sending Failed!&quot;</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="download_receipt">
-<a class="viewcode-back" href="../../modules.html#order_confirmation.views.download_receipt">[docs]</a>
+<a class="viewcode-back" href="../../order_confirmation.html#order_confirmation.views.download_receipt">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">download_receipt</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">order_id</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate and return a PDF receipt for an order.</span>

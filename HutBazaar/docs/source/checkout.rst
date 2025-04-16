@@ -21,3 +21,12 @@ Views
    :members:
    :undoc-members:
    :show-inheritance:
+
+
+Unit Testing
+------------
+
+.. automodule:: checkout.tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -11,6 +11,26 @@ from reportlab.lib.units import inch
 
 
 def order_confirmation(request, order_id):
+    """Handle order confirmation view and email sending.
+
+    Retrieves an order by ID, creates/updates its confirmation record,
+    sends a confirmation email if needed, and renders the confirmation page.
+
+    Args:
+        request (HttpRequest): The incoming HTTP request
+        order_id (int): The ID of the order to confirm
+
+    Returns:
+        HttpResponse: Renders the order confirmation template
+
+    Behavior:
+        - Returns 404 if order doesn't exist
+        - Creates OrderConfirmation record if none exists
+        - Sends email only if:
+            * First confirmation (created=True)
+            * Or email wasn't sent previously (email_sent=False)
+        - Updates confirmation record after sending email
+    """
     order = get_object_or_404(
         Order, id=order_id
     )  # get_object_or_404 gives auto try catch
@@ -18,6 +38,7 @@ def order_confirmation(request, order_id):
     # Create or get confirmation record
     confirmation, created = OrderConfirmation.objects.get_or_create(order=order)
 
+    # Send email after confirmation
     if created or not confirmation.email_sent:
         send_confirmation_email(order)
         confirmation.email_sent = True
@@ -28,6 +49,20 @@ def order_confirmation(request, order_id):
 
 
 def send_confirmation_email(order):
+    """Send order confirmation email to customer.
+
+    Generates both text and HTML email versions using templates,
+    then sends to the order's associated user email if available.
+
+    Args:
+        order (Order): The order instance to confirm
+
+    Behavior:
+        - Creates both text and HTML email versions
+        - Only sends if valid recipient email exists
+        - Gracefully fails if email sending fails
+        - Prints status messages for debugging
+    """
     try:
         subject = f"Order Confirmation #{order.id}"
         message = render_to_string(

@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>checkout.tests &mdash; HutBazaar 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8d563738"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            HutBazaar
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../checkout.html">Order Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../order_confirmation.html">Order Confirmation Module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">HutBazaar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">checkout.tests</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for checkout.tests</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.test</span><span class="w"> </span><span class="kn">import</span> <span class="n">TestCase</span><span class="p">,</span> <span class="n">Client</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Order</span><span class="p">,</span> <span class="n">Discount</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.views</span><span class="w"> </span><span class="kn">import</span> <span class="n">checkout_view</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Method                          | What it does</span>
+<span class="sd">self.assertEqual(a, b)          | Passes if a == b</span>
+<span class="sd">self.assertTrue(x)              | Passes if x is True</span>
+<span class="sd">self.assertFalse(x)             | Passes if x is False</span>
+<span class="sd">self.assertRaises(Exception)    | Tests if code raises a certain error (like ValueError)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c1"># Create your tests here.</span>
+<div class="viewcode-block" id="OrderModelTest">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.OrderModelTest">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OrderModelTest</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="OrderModelTest.setUp">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.OrderModelTest.setUp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Set up reusable objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span>
+            <span class="n">username</span><span class="o">=</span><span class="s2">&quot;testuser&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;testpass123&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s2">&quot;test@example.com&quot;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+            <span class="n">email</span><span class="o">=</span><span class="s2">&quot;test@example.com&quot;</span><span class="p">,</span>
+            <span class="n">total</span><span class="o">=</span><span class="mf">100.00</span><span class="p">,</span>
+            <span class="n">payment_method</span><span class="o">=</span><span class="s2">&quot;credit_card&quot;</span><span class="p">,</span>
+            <span class="n">shipping_address</span><span class="o">=</span><span class="s2">&quot;123 Test St&quot;</span><span class="p">,</span>
+            <span class="n">shipping_city</span><span class="o">=</span><span class="s2">&quot;Testville&quot;</span><span class="p">,</span>
+            <span class="n">shipping_state</span><span class="o">=</span><span class="s2">&quot;TS&quot;</span><span class="p">,</span>
+            <span class="n">shipping_zip</span><span class="o">=</span><span class="s2">&quot;12345&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">percentage_discount</span> <span class="o">=</span> <span class="n">Discount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">code</span><span class="o">=</span><span class="s2">&quot;PERCENT20&quot;</span><span class="p">,</span>
+            <span class="n">discount_type</span><span class="o">=</span><span class="s2">&quot;percentage&quot;</span><span class="p">,</span>
+            <span class="n">amount</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">max_amount</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+            <span class="n">valid_from</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">valid_to</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="c1"># These are individual test cases. Django automatically runs all methods starting with test_.</span>
+<div class="viewcode-block" id="OrderModelTest.test_order_creation">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.OrderModelTest.test_order_creation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_order_creation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Tests if the user and total cost of order are accurate&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="s2">&quot;testuser&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">total</span><span class="p">,</span> <span class="mf">100.00</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="OrderModelTest.test_str_representation">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.OrderModelTest.test_str_representation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_str_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test the string representation of the order&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Order #&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="OrderModelTest.test_percentage_discount">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.OrderModelTest.test_percentage_discount">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_percentage_discount</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test percentage discount calculation&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">discount_coupon_used</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">percentage_discount</span>
+        <span class="c1"># 20% of 100 = 20 (but max is 50)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">discount_amount</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;20.00&quot;</span><span class="p">))</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DiscountModelTest">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.DiscountModelTest">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DiscountModelTest</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="DiscountModelTest.setUp">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.DiscountModelTest.setUp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create test data that will be used across multiple tests&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span>
+            <span class="n">username</span><span class="o">=</span><span class="s2">&quot;testuser&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s2">&quot;test@example.com&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;testpass123&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create test discount</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">discount</span> <span class="o">=</span> <span class="n">Discount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">code</span><span class="o">=</span><span class="s2">&quot;TEST20&quot;</span><span class="p">,</span>
+            <span class="n">discount_type</span><span class="o">=</span><span class="s2">&quot;percentage&quot;</span><span class="p">,</span>
+            <span class="n">amount</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">max_amount</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+            <span class="n">valid_from</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>  <span class="c1"># set days = 2 for expired</span>
+            <span class="n">valid_to</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>  <span class="c1"># set  - timedelta(days=1) for expired</span>
+            <span class="n">active</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+    <span class="c1"># Test basic model functionality</span>
+<div class="viewcode-block" id="DiscountModelTest.test_discount_creation">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.DiscountModelTest.test_discount_creation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_discount_creation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test that discount is created with correct attributes&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="s2">&quot;TEST20&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="o">.</span><span class="n">discount_type</span><span class="p">,</span> <span class="s2">&quot;percentage&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="o">.</span><span class="n">max_amount</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="o">.</span><span class="n">active</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DiscountModelTest.test_str_representation">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.DiscountModelTest.test_str_representation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_str_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test the string representation of the discount&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="p">),</span> <span class="s2">&quot;TEST20&quot;</span><span class="p">)</span></div>
+
+
+    <span class="c1"># Test is_used_by_user method</span>
+<div class="viewcode-block" id="DiscountModelTest.test_discount_not_used_by_user">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.DiscountModelTest.test_discount_not_used_by_user">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_discount_not_used_by_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test that discount shows as unused when user hasn&#39;t used it&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="o">.</span><span class="n">is_used_by_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="DiscountModelTest.test_discount_used_by_user">
+<a class="viewcode-back" href="../../checkout.html#checkout.tests.DiscountModelTest.test_discount_used_by_user">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_discount_used_by_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test that discount shows as used if user had previously ordered with it&quot;&quot;&quot;</span>
+        <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">user</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+            <span class="n">email</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+            <span class="n">total</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">payment_method</span><span class="o">=</span><span class="s2">&quot;credit_card&quot;</span><span class="p">,</span>
+            <span class="n">shipping_address</span><span class="o">=</span><span class="s2">&quot;123 Test St&quot;</span><span class="p">,</span>
+            <span class="n">discount_coupon_used</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">discount</span><span class="o">.</span><span class="n">is_used_by_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">))</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jim.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

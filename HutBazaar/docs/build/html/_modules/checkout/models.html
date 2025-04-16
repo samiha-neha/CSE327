@@ -8,6 +8,7 @@
   <title>checkout.models &mdash; HutBazaar 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
@@ -15,6 +16,7 @@
       <script src="../../_static/documentation_options.js?v=8d563738"></script>
       <script src="../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -41,7 +43,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../checkout.html">Order Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../order_confirmation.html">Order Confirmation Module</a></li>
 </ul>
 
         </div>
@@ -78,7 +81,7 @@
 
 
 <div class="viewcode-block" id="Order">
-<a class="viewcode-back" href="../../modules.html#checkout.models.Order">[docs]</a>
+<a class="viewcode-back" href="../../checkout.html#checkout.models.Order">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Order</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a customer order in the system.&quot;&quot;&quot;</span>
 
@@ -102,11 +105,6 @@
         <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
-
-    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extra options for the Order model to show in admin.&quot;&quot;&quot;</span>
-
-        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;-created_at&quot;</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;String representation of the order.&quot;&quot;&quot;</span>
@@ -163,7 +161,7 @@
 
 
 <div class="viewcode-block" id="Discount">
-<a class="viewcode-back" href="../../modules.html#checkout.models.Discount">[docs]</a>
+<a class="viewcode-back" href="../../checkout.html#checkout.models.Discount">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Discount</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a discount coupon that can be applied to orders.&quot;&quot;&quot;</span>
@@ -183,7 +181,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span>
 
 <div class="viewcode-block" id="Discount.is_used_by_user">
-<a class="viewcode-back" href="../../modules.html#checkout.models.Discount.is_used_by_user">[docs]</a>
+<a class="viewcode-back" href="../../checkout.html#checkout.models.Discount.is_used_by_user">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_used_by_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if this discount has been used by a specific user.</span>
@@ -194,13 +192,15 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            bool: True if user has already used this discount, False otherwise</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">user</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">discount_coupon_used</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="Discount.is_valid_for_user">
-<a class="viewcode-back" href="../../modules.html#checkout.models.Discount.is_valid_for_user">[docs]</a>
+<a class="viewcode-back" href="../../checkout.html#checkout.models.Discount.is_valid_for_user">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_valid_for_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks if this discount is valid for a specific user.</span>
@@ -215,6 +215,7 @@
         <span class="n">now</span> <span class="o">=</span> <span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">active</span>
+            <span class="c1"># current time in between valid from and to</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_from</span> <span class="o">&lt;=</span> <span class="n">now</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_to</span>
             <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_used_by_user</span><span class="p">(</span><span class="n">user</span><span class="p">))</span>
         <span class="p">)</span></div>

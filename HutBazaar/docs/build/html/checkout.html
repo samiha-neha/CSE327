@@ -105,6 +105,24 @@
 <li class="toctree-l3"><a class="reference internal" href="#checkout.views.checkout_view"><code class="docutils literal notranslate"><span class="pre">checkout_view()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-checkout.tests">Unit Testing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#checkout.tests.OrderModelTest"><code class="docutils literal notranslate"><span class="pre">OrderModelTest</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#checkout.tests.OrderModelTest.setUp"><code class="docutils literal notranslate"><span class="pre">OrderModelTest.setUp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checkout.tests.OrderModelTest.test_order_creation"><code class="docutils literal notranslate"><span class="pre">OrderModelTest.test_order_creation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checkout.tests.OrderModelTest.test_str_representation"><code class="docutils literal notranslate"><span class="pre">OrderModelTest.test_str_representation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checkout.tests.OrderModelTest.test_percentage_discount"><code class="docutils literal notranslate"><span class="pre">OrderModelTest.test_percentage_discount()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#checkout.tests.DiscountModelTest"><code class="docutils literal notranslate"><span class="pre">DiscountModelTest</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#checkout.tests.DiscountModelTest.setUp"><code class="docutils literal notranslate"><span class="pre">DiscountModelTest.setUp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checkout.tests.DiscountModelTest.test_discount_creation"><code class="docutils literal notranslate"><span class="pre">DiscountModelTest.test_discount_creation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checkout.tests.DiscountModelTest.test_str_representation"><code class="docutils literal notranslate"><span class="pre">DiscountModelTest.test_str_representation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checkout.tests.DiscountModelTest.test_discount_not_used_by_user"><code class="docutils literal notranslate"><span class="pre">DiscountModelTest.test_discount_not_used_by_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checkout.tests.DiscountModelTest.test_discount_used_by_user"><code class="docutils literal notranslate"><span class="pre">DiscountModelTest.test_discount_used_by_user()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="order_confirmation.html">Order Confirmation Module</a></li>
@@ -541,8 +559,84 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Uses a temporary mock cart until the real cart is integrated.
-Stores cart items in the session for receipt generation.</p>
+<p>Checks for Voucher verification
+Uses a temporary mock cart until the real cart is integrated.
+Stores cart items in the session for receipt in the confirmation app.</p>
+</dd></dl>
+
+</section>
+<section id="module-checkout.tests">
+<span id="unit-testing"></span><h2>Unit Testing<a class="headerlink" href="#module-checkout.tests" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="checkout.tests.OrderModelTest">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">checkout.tests.</span></span><span class="sig-name descname"><span class="pre">OrderModelTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#OrderModelTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.OrderModelTest" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<p>Create an instance of the class that will use the named test
+method when executed. Raises a ValueError if the instance does
+not have a method with the specified name.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="checkout.tests.OrderModelTest.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#OrderModelTest.setUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.OrderModelTest.setUp" title="Link to this definition"></a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="checkout.tests.OrderModelTest.test_order_creation">
+<span class="sig-name descname"><span class="pre">test_order_creation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#OrderModelTest.test_order_creation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.OrderModelTest.test_order_creation" title="Link to this definition"></a></dt>
+<dd><p>Tests if the user and total cost of order are accurate</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="checkout.tests.OrderModelTest.test_str_representation">
+<span class="sig-name descname"><span class="pre">test_str_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#OrderModelTest.test_str_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.OrderModelTest.test_str_representation" title="Link to this definition"></a></dt>
+<dd><p>Test the string representation of the order</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="checkout.tests.OrderModelTest.test_percentage_discount">
+<span class="sig-name descname"><span class="pre">test_percentage_discount</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#OrderModelTest.test_percentage_discount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.OrderModelTest.test_percentage_discount" title="Link to this definition"></a></dt>
+<dd><p>Test percentage discount calculation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="checkout.tests.DiscountModelTest">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">checkout.tests.</span></span><span class="sig-name descname"><span class="pre">DiscountModelTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#DiscountModelTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.DiscountModelTest" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TestCase</span></code></p>
+<p>Create an instance of the class that will use the named test
+method when executed. Raises a ValueError if the instance does
+not have a method with the specified name.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="checkout.tests.DiscountModelTest.setUp">
+<span class="sig-name descname"><span class="pre">setUp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#DiscountModelTest.setUp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.DiscountModelTest.setUp" title="Link to this definition"></a></dt>
+<dd><p>Create test data that will be used across multiple tests</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="checkout.tests.DiscountModelTest.test_discount_creation">
+<span class="sig-name descname"><span class="pre">test_discount_creation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#DiscountModelTest.test_discount_creation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.DiscountModelTest.test_discount_creation" title="Link to this definition"></a></dt>
+<dd><p>Test that discount is created with correct attributes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="checkout.tests.DiscountModelTest.test_str_representation">
+<span class="sig-name descname"><span class="pre">test_str_representation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#DiscountModelTest.test_str_representation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.DiscountModelTest.test_str_representation" title="Link to this definition"></a></dt>
+<dd><p>Test the string representation of the discount</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="checkout.tests.DiscountModelTest.test_discount_not_used_by_user">
+<span class="sig-name descname"><span class="pre">test_discount_not_used_by_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#DiscountModelTest.test_discount_not_used_by_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.DiscountModelTest.test_discount_not_used_by_user" title="Link to this definition"></a></dt>
+<dd><p>Test that discount shows as unused when user hasn’t used it</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="checkout.tests.DiscountModelTest.test_discount_used_by_user">
+<span class="sig-name descname"><span class="pre">test_discount_used_by_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/tests.html#DiscountModelTest.test_discount_used_by_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.tests.DiscountModelTest.test_discount_used_by_user" title="Link to this definition"></a></dt>
+<dd><p>Test that discount shows as used if user had previously ordered with it</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>

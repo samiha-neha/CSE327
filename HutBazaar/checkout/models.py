@@ -30,11 +30,6 @@ class Order(models.Model):
         blank=True,
     )
 
-    class Meta:
-        """Extra options for the Order model to show in admin."""
-
-        ordering = ["-created_at"]
-
     def __str__(self):
         """String representation of the order."""
         return f"Order #{self.id}"
@@ -116,6 +111,8 @@ class Discount(models.Model):
         Returns:
             bool: True if user has already used this discount, False otherwise
         """
+        if user == None:
+            return False
         if not user.is_authenticated:
             return False
         return Order.objects.filter(user=user, discount_coupon_used=self).exists()
@@ -134,6 +131,7 @@ class Discount(models.Model):
         now = timezone.now()
         return (
             self.active
+            # current time in between valid from and to
             and self.valid_from <= now <= self.valid_to
             and (not self.is_used_by_user(user))
         )

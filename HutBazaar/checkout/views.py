@@ -15,10 +15,12 @@ def checkout_view(request):
 
     Returns:
         HttpResponse: Renders the checkout page or redirects after order creation.
+        Returns form and cart information to show in html template
 
     Notes:
+        Checks for Voucher verification
         Uses a temporary mock cart until the real cart is integrated.
-        Stores cart items in the session for receipt generation.
+        Stores cart items in the session for receipt in the confirmation app.
     """
 
     # Temporary cart mock - replace with real cart when available
