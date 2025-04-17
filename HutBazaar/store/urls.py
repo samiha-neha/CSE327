@@ -3,7 +3,7 @@ from django.urls import path
 from store import views
 
 urlpatterns = [
-    path('', views.home),
+    path('', views.home, name='home'),
     path('product-detail/<int:pk>', views.productdetail, name='product-detail'),
 
 ]
