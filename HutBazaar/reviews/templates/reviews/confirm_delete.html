@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Review</title>
+</head>
+<body>
+    <h1>Are you sure you want to delete your review for {{ review.product.name }}?</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+        <a href="{% url 'review:product_reviews' review.product.id %}">Cancel</a>
+    </form>
+</body>
+</html>
