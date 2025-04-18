@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HutBazaar Home</title>
+</head>
+<body>
+    <h1>Welcome to HutBazaar</h1>
+    
+    {% if featured_products %}
+    <h2>Featured Products</h2>
+    <ul>
+        {% for product in featured_products %}
+    <li>
+        {{ product.name }} - ${{ product.price }}
+        <a href="{% url 'add_to_cart' product.id %}">Add to cart</a>
+    </li>
+{% endfor %}
+    </ul>
+    {% endif %}
+    
+    <p>Your cart has {{ cart_count }} items</p>
+    <a href="{% url 'cart:index' %}">Home</a> |
+    <a href="{% url 'cart:view_cart' %}">View Cart</a> |
+    <a href="{% url 'cart:add_to_cart' product.id %}">Add to Cart</a> |
+    <a href="/reviews/">Reviews</a>
+</body>
+</html>
