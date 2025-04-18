@@ -4,15 +4,23 @@ from cart.models import Product
 
 
 class Review(models.Model):
-    """Represents a product review submitted by a user.
+    """
+    Model representing a product review submitted by a user.
 
-    Attributes:
-        user (User): The reviewer.
-        product (Product): Reviewed product.
-        rating (int): Star rating (1-5).
-        comment (str): Review text content.
-        created_at (datetime): When review was created.
-        updated_at (datetime): When review was last updated.
+    Attributes
+    ----------
+    user : User
+        The user who submitted the review.
+    product : Product
+        The product being reviewed.
+    rating : int
+        Star rating given by the user (typically 1 to 5).
+    comment : str
+        Textual content of the review.
+    created_at : datetime
+        Timestamp when the review was created.
+    updated_at : datetime
+        Timestamp when the review was last updated.
     """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

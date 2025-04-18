@@ -5,6 +5,9 @@ Includes all cart-related operations such as adding items, removing items,
 updating quantities, and rendering cart summaries. Each view is secured 
 with user authentication and includes validation and user feedback.
 
+References:
+    Django messages framework: https://docs.djangoproject.com/en/stable/ref/contrib/messages/
+    Django authentication decorators: https://docs.djangoproject.com/en/stable/topics/auth/default/#the-login-required-decorator
 """
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -60,18 +63,10 @@ def view_cart(request):
     Returns:
         HttpResponse: Rendered cart page.
     """
-    try:
-        cart = Cart.objects.get(user=request.user)
-        items = cart.items.all()
-        total = sum(item.product.price * item.quantity for item in items)
-    except Cart.DoesNotExist:
-        items = []
-        total = 0
-    
-    return render(request, 'cart/view_cart.html', {
-        'cart_items': items,
-        'total': total
-    })
+    cart = get_object_or_404(Cart, user=request.user)
+    context = {'cart': cart}
+    return render(request, 'cart/view_cart.html', context)
+
 
 @login_required
 def remove_from_cart(request, item_id):
@@ -139,10 +134,8 @@ def cart_summary(request):
     })
 
 
-def index(request):
-    featured_products = Product.objects.all()  # or apply filters if needed
-    context = {
-        'featured_products': featured_products,
-        # any other context variables
-    }
-    return render(request, 'cart/index.html', context)
+
+
+
+
+    

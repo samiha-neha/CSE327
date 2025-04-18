@@ -1,9 +1,3 @@
-"""
-Review views for e-commerce application.
-
-Handles review submission, editing, deletion, and display.
-All review operations require authentication and purchase validation.
-"""
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
