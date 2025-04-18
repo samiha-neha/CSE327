@@ -31,7 +31,7 @@ class Product(models.Model):
         return Product.objects.all()
 
     @staticmethod
-    def get_all_products_by_category_id(category_id):
+    def get_all_product_by_category_id(category_id):
         """
         Retrieves products filtered by category ID.  If no category_id
         is provided, returns all products.
