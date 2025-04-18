@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>order_confirmation.models &mdash; HutBazaar 1.0.0 documentation</title>
+  <title>store.apps &mdash; HutBazaar 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
@@ -45,6 +45,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../checkout.html">Order Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../order_confirmation.html">Order Confirmation Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cart.html">Shopping Cart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reviews.html">Product Reviews</a></li>
 </ul>
 
         </div>
@@ -62,7 +64,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">order_confirmation.models</li>
+      <li class="breadcrumb-item active">store.apps</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -71,28 +73,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for order_confirmation.models</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.db</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">checkout.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Order</span>  <span class="c1"># Import from checkout app</span>
+  <h1>Source code for store.apps</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.apps</span><span class="w"> </span><span class="kn">import</span> <span class="n">AppConfig</span>
 
 
-<div class="viewcode-block" id="OrderConfirmation">
-<a class="viewcode-back" href="../../order_confirmation.html#order_confirmation.models.OrderConfirmation">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">OrderConfirmation</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">order</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span>
-        <span class="n">Order</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;confirmation&quot;</span>
-    <span class="p">)</span>
-    <span class="n">email_sent</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">sent_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">email_content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Confirmation for Order #</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span>
-
-    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">verbose_name</span> <span class="o">=</span> <span class="s2">&quot;Order Confirmation&quot;</span>
-        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s2">&quot;Order Confirmations&quot;</span></div>
+<div class="viewcode-block" id="StoreConfig">
+<a class="viewcode-back" href="../../store.html#store.apps.StoreConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StoreConfig</span><span class="p">(</span><span class="n">AppConfig</span><span class="p">):</span>
+    <span class="n">default_auto_field</span> <span class="o">=</span> <span class="s1">&#39;django.db.models.BigAutoField&#39;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;store&#39;</span></div>
 
 </pre></div>
 

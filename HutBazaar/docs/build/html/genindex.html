@@ -45,6 +45,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="checkout.html">Order Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="order_confirmation.html">Order Confirmation Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cart.html">Shopping Cart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reviews.html">Product Reviews</a></li>
 </ul>
 
         </div>
@@ -80,14 +82,20 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
+ | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  
 </div>
 <h2 id="A">A</h2>
@@ -95,8 +103,24 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Discount.active">active (checkout.models.Discount attribute)</a>
 </li>
+      <li><a href="cart.html#cart.models.Cart.DoesNotExist.add_note">add_note() (cart.models.Cart.DoesNotExist method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.Cart.MultipleObjectsReturned.add_note">(cart.models.Cart.MultipleObjectsReturned method)</a>
+</li>
+        <li><a href="cart.html#cart.models.CartItem.DoesNotExist.add_note">(cart.models.CartItem.DoesNotExist method)</a>
+</li>
+        <li><a href="cart.html#cart.models.CartItem.MultipleObjectsReturned.add_note">(cart.models.CartItem.MultipleObjectsReturned method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reviews.html#reviews.views.add_review">add_review() (in module reviews.views)</a>
+</li>
+      <li><a href="cart.html#cart.views.add_to_cart">add_to_cart() (in module cart.views)</a>
+</li>
+      <li><a href="store.html#store.admin.AdminProduct">AdminProduct (class in store.admin)</a>
+</li>
       <li><a href="checkout.html#checkout.models.Discount.amount">amount (checkout.models.Discount attribute)</a>
 </li>
   </ul></td>
@@ -105,6 +129,50 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cart.html#cart.models.CartItem.cart">cart (cart.models.CartItem attribute)</a>
+</li>
+      <li><a href="cart.html#cart.models.Cart">Cart (class in cart.models)</a>
+</li>
+      <li><a href="cart.html#cart.models.Cart.DoesNotExist">Cart.DoesNotExist</a>
+</li>
+      <li>
+    cart.models
+
+      <ul>
+        <li><a href="cart.html#module-cart.models">module</a>
+</li>
+      </ul></li>
+      <li><a href="cart.html#cart.models.Cart.MultipleObjectsReturned">Cart.MultipleObjectsReturned</a>
+</li>
+      <li>
+    cart.views
+
+      <ul>
+        <li><a href="cart.html#module-cart.views">module</a>
+</li>
+      </ul></li>
+      <li><a href="store.models.html#store.models.product.Product.cart_items">cart_items (store.models.product.Product attribute)</a>
+</li>
+      <li><a href="cart.html#cart.views.cart_summary">cart_summary() (in module cart.views)</a>
+</li>
+      <li><a href="cart.html#cart.models.CartItem">CartItem (class in cart.models)</a>
+</li>
+      <li><a href="cart.html#cart.models.CartItem.DoesNotExist">CartItem.DoesNotExist</a>
+</li>
+      <li><a href="cart.html#cart.models.CartItem.MultipleObjectsReturned">CartItem.MultipleObjectsReturned</a>
+</li>
+      <li><a href="store.models.html#store.models.category.Category">Category (class in store.models.category)</a>
+</li>
+      <li><a href="store.models.html#store.models.product.Product.category">category (store.models.product.Product attribute)</a>
+</li>
+      <li><a href="store.models.html#store.models.category.Category.DoesNotExist">Category.DoesNotExist</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="store.models.html#store.models.category.Category.MultipleObjectsReturned">Category.MultipleObjectsReturned</a>
+</li>
+      <li><a href="store.models.html#store.models.product.Product.category_id">category_id (store.models.product.Product attribute)</a>
+</li>
       <li>
     checkout.tests
 
@@ -119,32 +187,64 @@
         <li><a href="checkout.html#module-checkout.views">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.views.checkout_view">checkout_view() (in module checkout.views)</a>
 </li>
+      <li><a href="cart.html#cart.models.Cart.clean">clean() (cart.models.Cart method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.CartItem.clean">(cart.models.CartItem method)</a>
+</li>
+      </ul></li>
+      <li><a href="cart.html#cart.models.Cart.clean_fields">clean_fields() (cart.models.Cart method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.CartItem.clean_fields">(cart.models.CartItem method)</a>
+</li>
+      </ul></li>
       <li><a href="checkout.html#checkout.models.Discount.code">code (checkout.models.Discount attribute)</a>
+</li>
+      <li><a href="reviews.html#reviews.models.Review.comment">comment (reviews.models.Review attribute)</a>
 </li>
       <li><a href="checkout.html#checkout.models.Order.confirmation">confirmation (checkout.models.Order attribute)</a>
 </li>
-      <li><a href="checkout.html#checkout.models.Order.created_at">created_at (checkout.models.Order attribute)</a>
+      <li><a href="cart.html#cart.models.Cart.created_at">created_at (cart.models.Cart attribute)</a>
+
+      <ul>
+        <li><a href="checkout.html#checkout.models.Order.created_at">(checkout.models.Order attribute)</a>
 </li>
+        <li><a href="reviews.html#reviews.models.Review.created_at">(reviews.models.Review attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="store.html#store.apps.StoreConfig.default_auto_field">default_auto_field (store.apps.StoreConfig attribute)</a>
+</li>
+      <li><a href="reviews.html#reviews.views.delete_review">delete_review() (in module reviews.views)</a>
+</li>
+      <li><a href="store.migrations.html#store.migrations.0001_initial.Migration.dependencies">dependencies (store.migrations.0001_initial.Migration attribute)</a>
+
+      <ul>
+        <li><a href="store.migrations.html#store.migrations.0002_category.Migration.dependencies">(store.migrations.0002_category.Migration attribute)</a>
+</li>
+        <li><a href="store.migrations.html#store.migrations.0003_product_category.Migration.dependencies">(store.migrations.0003_product_category.Migration attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="store.models.html#store.models.product.Product.description">description (store.models.product.Product attribute)</a>
+</li>
       <li><a href="checkout.html#checkout.models.Discount">Discount (class in checkout.models)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Discount.DoesNotExist">Discount.DoesNotExist</a>
 </li>
       <li><a href="checkout.html#checkout.models.Discount.MultipleObjectsReturned">Discount.MultipleObjectsReturned</a>
 </li>
       <li><a href="checkout.html#checkout.models.Order.discount_amount">discount_amount (checkout.models.Order property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Order.discount_coupon_used">discount_coupon_used (checkout.models.Order attribute)</a>
 </li>
       <li><a href="checkout.html#checkout.models.Order.discount_coupon_used_id">discount_coupon_used_id (checkout.models.Order attribute)</a>
@@ -161,6 +261,8 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reviews.html#reviews.views.edit_review">edit_review() (in module reviews.views)</a>
+</li>
       <li><a href="checkout.html#checkout.models.Order.email">email (checkout.models.Order attribute)</a>
 </li>
   </ul></td>
@@ -178,23 +280,43 @@
       <li><a href="checkout.html#checkout.models.Order.final_total">final_total (checkout.models.Order property)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cart.html#cart.models.Cart.full_clean">full_clean() (cart.models.Cart method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.CartItem.full_clean">(cart.models.CartItem method)</a>
+</li>
+      </ul></li>
+  </ul></td>
 </tr></table>
 
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="store.models.html#store.models.category.Category.get_all_categories">get_all_categories() (store.models.category.Category static method)</a>
+</li>
+      <li><a href="store.models.html#store.models.product.Product.get_all_product_by_category_id">get_all_product_by_category_id() (store.models.product.Product static method)</a>
+</li>
+      <li><a href="store.models.html#store.models.product.Product.get_all_products">get_all_products() (store.models.product.Product static method)</a>
+</li>
+      <li><a href="cart.html#cart.models.Cart.get_deferred_fields">get_deferred_fields() (cart.models.Cart method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.CartItem.get_deferred_fields">(cart.models.CartItem method)</a>
+</li>
+      </ul></li>
       <li><a href="checkout.html#checkout.models.Discount.get_discount_type_display">get_discount_type_display() (checkout.models.Discount method)</a>
 </li>
       <li><a href="checkout.html#checkout.models.Order.get_next_by_created_at">get_next_by_created_at() (checkout.models.Order method)</a>
 </li>
       <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.get_next_by_sent_at">get_next_by_sent_at() (order_confirmation.models.OrderConfirmation method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Order.get_next_by_updated_at">get_next_by_updated_at() (checkout.models.Order method)</a>
 </li>
       <li><a href="checkout.html#checkout.models.Discount.get_next_by_valid_from">get_next_by_valid_from() (checkout.models.Discount method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Discount.get_next_by_valid_to">get_next_by_valid_to() (checkout.models.Discount method)</a>
 </li>
       <li><a href="checkout.html#checkout.models.Order.get_previous_by_created_at">get_previous_by_created_at() (checkout.models.Order method)</a>
@@ -210,6 +332,18 @@
   </ul></td>
 </tr></table>
 
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="store.html#store.views.home">home() (in module store.views)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="store.html#store.tests.HomePageViewTest">HomePageViewTest (class in store.tests)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -220,9 +354,17 @@
 </li>
         <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.id">(order_confirmation.models.OrderConfirmation attribute)</a>
 </li>
+        <li><a href="store.models.html#store.models.category.Category.id">(store.models.category.Category attribute)</a>
+</li>
+        <li><a href="store.models.html#store.models.product.Product.id">(store.models.product.Product attribute)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="store.models.html#store.models.product.Product.image">image (store.models.product.Product attribute)</a>
+</li>
+      <li><a href="store.migrations.html#store.migrations.0001_initial.Migration.initial">initial (store.migrations.0001_initial.Migration attribute)</a>
+</li>
       <li><a href="checkout.html#checkout.models.Order.is_paid">is_paid (checkout.models.Order attribute)</a>
 </li>
       <li><a href="checkout.html#checkout.models.Discount.is_used_by_user">is_used_by_user() (checkout.models.Discount method)</a>
@@ -232,15 +374,37 @@
   </ul></td>
 </tr></table>
 
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="store.html#store.admin.AdminProduct.list_display">list_display (store.admin.AdminProduct attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Discount.max_amount">max_amount (checkout.models.Discount attribute)</a>
 </li>
+      <li><a href="store.html#store.admin.AdminProduct.media">media (store.admin.AdminProduct property)</a>
+</li>
+      <li><a href="store.migrations.html#store.migrations.0001_initial.Migration">Migration (class in store.migrations.0001_initial)</a>
+
+      <ul>
+        <li><a href="store.migrations.html#store.migrations.0002_category.Migration">(class in store.migrations.0002_category)</a>
+</li>
+        <li><a href="store.migrations.html#store.migrations.0003_product_category.Migration">(class in store.migrations.0003_product_category)</a>
+</li>
+      </ul></li>
       <li>
     module
 
       <ul>
+        <li><a href="cart.html#module-cart.models">cart.models</a>
+</li>
+        <li><a href="cart.html#module-cart.views">cart.views</a>
+</li>
         <li><a href="checkout.html#module-checkout.tests">checkout.tests</a>
 </li>
         <li><a href="checkout.html#module-checkout.views">checkout.views</a>
@@ -248,6 +412,50 @@
         <li><a href="order_confirmation.html#module-order_confirmation.models">order_confirmation.models</a>
 </li>
         <li><a href="order_confirmation.html#module-order_confirmation.views">order_confirmation.views</a>
+</li>
+        <li><a href="reviews.html#module-reviews.models">reviews.models</a>
+</li>
+        <li><a href="reviews.html#module-reviews.views">reviews.views</a>
+</li>
+        <li><a href="store.html#module-store">store</a>
+</li>
+        <li><a href="store.html#module-store.admin">store.admin</a>
+</li>
+        <li><a href="store.html#module-store.apps">store.apps</a>
+</li>
+        <li><a href="store.migrations.html#module-store.migrations">store.migrations</a>
+</li>
+        <li><a href="store.migrations.html#module-store.migrations.0001_initial">store.migrations.0001_initial</a>
+</li>
+        <li><a href="store.migrations.html#module-store.migrations.0002_category">store.migrations.0002_category</a>
+</li>
+        <li><a href="store.migrations.html#module-store.migrations.0003_product_category">store.migrations.0003_product_category</a>
+</li>
+        <li><a href="store.models.html#module-store.models">store.models</a>
+</li>
+        <li><a href="store.models.html#module-store.models.category">store.models.category</a>
+</li>
+        <li><a href="store.models.html#module-store.models.product">store.models.product</a>
+</li>
+        <li><a href="store.html#module-store.tests">store.tests</a>
+</li>
+        <li><a href="store.html#module-store.urls">store.urls</a>
+</li>
+        <li><a href="store.html#module-store.views">store.views</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="store.html#store.apps.StoreConfig.name">name (store.apps.StoreConfig attribute)</a>
+
+      <ul>
+        <li><a href="store.models.html#store.models.category.Category.name">(store.models.category.Category attribute)</a>
+</li>
+        <li><a href="store.models.html#store.models.product.Product.name">(store.models.product.Product attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -263,6 +471,18 @@
 </li>
         <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.objects">(order_confirmation.models.OrderConfirmation attribute)</a>
 </li>
+        <li><a href="store.models.html#store.models.category.Category.objects">(store.models.category.Category attribute)</a>
+</li>
+        <li><a href="store.models.html#store.models.product.Product.objects">(store.models.product.Product attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="store.migrations.html#store.migrations.0001_initial.Migration.operations">operations (store.migrations.0001_initial.Migration attribute)</a>
+
+      <ul>
+        <li><a href="store.migrations.html#store.migrations.0002_category.Migration.operations">(store.migrations.0002_category.Migration attribute)</a>
+</li>
+        <li><a href="store.migrations.html#store.migrations.0003_product_category.Migration.operations">(store.migrations.0003_product_category.Migration attribute)</a>
+</li>
       </ul></li>
       <li><a href="checkout.html#checkout.models.Order">Order (class in checkout.models)</a>
 </li>
@@ -270,6 +490,8 @@
 </li>
       <li><a href="checkout.html#checkout.models.Order.DoesNotExist">Order.DoesNotExist</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Order.MultipleObjectsReturned">Order.MultipleObjectsReturned</a>
 </li>
       <li><a href="order_confirmation.html#order_confirmation.views.order_confirmation">order_confirmation() (in module order_confirmation.views)</a>
@@ -281,8 +503,6 @@
         <li><a href="order_confirmation.html#module-order_confirmation.models">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     order_confirmation.views
 
@@ -310,28 +530,118 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Order.payment_method">payment_method (checkout.models.Order attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Order.payment_status">payment_status (checkout.models.Order attribute)</a>
 </li>
+      <li><a href="store.models.html#store.models.product.Product.price">price (store.models.product.Product attribute)</a>
+</li>
+      <li><a href="cart.html#cart.models.CartItem.product">product (cart.models.CartItem attribute)</a>
+</li>
+      <li><a href="store.models.html#store.models.product.Product">Product (class in store.models.product)</a>
+</li>
+      <li><a href="reviews.html#reviews.models.Review.product">product (reviews.models.Review attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="store.models.html#store.models.product.Product.DoesNotExist">Product.DoesNotExist</a>
+</li>
+      <li><a href="store.models.html#store.models.product.Product.MultipleObjectsReturned">Product.MultipleObjectsReturned</a>
+</li>
+      <li><a href="reviews.html#reviews.views.product_reviews">product_reviews() (in module reviews.views)</a>
+</li>
+      <li><a href="store.models.html#store.models.category.Category.product_set">product_set (store.models.category.Category attribute)</a>
+</li>
+      <li><a href="store.html#store.views.productdetail">productdetail() (in module store.views)</a>
+</li>
+      <li><a href="store.html#store.tests.ProductDetailViewTest">ProductDetailViewTest (class in store.tests)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cart.html#cart.models.CartItem.quantity">quantity (cart.models.CartItem attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reviews.html#reviews.models.Review.rating">rating (reviews.models.Review attribute)</a>
+</li>
+      <li><a href="cart.html#cart.models.Cart.refresh_from_db">refresh_from_db() (cart.models.Cart method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.CartItem.refresh_from_db">(cart.models.CartItem method)</a>
+</li>
+      </ul></li>
+      <li><a href="cart.html#cart.views.remove_from_cart">remove_from_cart() (in module cart.views)</a>
+</li>
+      <li><a href="reviews.html#reviews.models.Review">Review (class in reviews.models)</a>
+</li>
+      <li><a href="reviews.html#reviews.models.Review.DoesNotExist">Review.DoesNotExist</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reviews.html#reviews.models.Review.MultipleObjectsReturned">Review.MultipleObjectsReturned</a>
+</li>
+      <li><a href="store.models.html#store.models.product.Product.reviews">reviews (store.models.product.Product attribute)</a>
+</li>
+      <li>
+    reviews.models
+
+      <ul>
+        <li><a href="reviews.html#module-reviews.models">module</a>
+</li>
+      </ul></li>
+      <li>
+    reviews.views
+
+      <ul>
+        <li><a href="reviews.html#module-reviews.views">module</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cart.html#cart.models.Cart.save">save() (cart.models.Cart method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.CartItem.save">(cart.models.CartItem method)</a>
+</li>
+      </ul></li>
+      <li><a href="cart.html#cart.models.Cart.save_base">save_base() (cart.models.Cart method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.CartItem.save_base">(cart.models.CartItem method)</a>
+</li>
+      </ul></li>
+      <li><a href="cart.html#cart.models.CartItem.saved_for_later">saved_for_later (cart.models.CartItem attribute)</a>
+</li>
       <li><a href="order_confirmation.html#order_confirmation.views.send_confirmation_email">send_confirmation_email() (in module order_confirmation.views)</a>
 </li>
       <li><a href="order_confirmation.html#order_confirmation.models.OrderConfirmation.sent_at">sent_at (order_confirmation.models.OrderConfirmation attribute)</a>
 </li>
+      <li><a href="cart.html#cart.models.Cart.serializable_value">serializable_value() (cart.models.Cart method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.CartItem.serializable_value">(cart.models.CartItem method)</a>
+</li>
+      </ul></li>
       <li><a href="checkout.html#checkout.tests.DiscountModelTest.setUp">setUp() (checkout.tests.DiscountModelTest method)</a>
 
       <ul>
         <li><a href="checkout.html#checkout.tests.OrderModelTest.setUp">(checkout.tests.OrderModelTest method)</a>
 </li>
+        <li><a href="store.html#store.tests.HomePageViewTest.setUp">(store.tests.HomePageViewTest method)</a>
+</li>
+        <li><a href="store.html#store.tests.ProductDetailViewTest.setUp">(store.tests.ProductDetailViewTest method)</a>
+</li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Order.shipping_address">shipping_address (checkout.models.Order attribute)</a>
 </li>
       <li><a href="checkout.html#checkout.models.Order.shipping_city">shipping_city (checkout.models.Order attribute)</a>
@@ -339,6 +649,103 @@
       <li><a href="checkout.html#checkout.models.Order.shipping_state">shipping_state (checkout.models.Order attribute)</a>
 </li>
       <li><a href="checkout.html#checkout.models.Order.shipping_zip">shipping_zip (checkout.models.Order attribute)</a>
+</li>
+      <li>
+    store
+
+      <ul>
+        <li><a href="store.html#module-store">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.admin
+
+      <ul>
+        <li><a href="store.html#module-store.admin">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.apps
+
+      <ul>
+        <li><a href="store.html#module-store.apps">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    store.migrations
+
+      <ul>
+        <li><a href="store.migrations.html#module-store.migrations">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.migrations.0001_initial
+
+      <ul>
+        <li><a href="store.migrations.html#module-store.migrations.0001_initial">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.migrations.0002_category
+
+      <ul>
+        <li><a href="store.migrations.html#module-store.migrations.0002_category">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.migrations.0003_product_category
+
+      <ul>
+        <li><a href="store.migrations.html#module-store.migrations.0003_product_category">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.models
+
+      <ul>
+        <li><a href="store.models.html#module-store.models">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.models.category
+
+      <ul>
+        <li><a href="store.models.html#module-store.models.category">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.models.product
+
+      <ul>
+        <li><a href="store.models.html#module-store.models.product">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.tests
+
+      <ul>
+        <li><a href="store.html#module-store.tests">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.urls
+
+      <ul>
+        <li><a href="store.html#module-store.urls">module</a>
+</li>
+      </ul></li>
+      <li>
+    store.views
+
+      <ul>
+        <li><a href="store.html#module-store.views">module</a>
+</li>
+      </ul></li>
+      <li><a href="store.html#store.apps.StoreConfig">StoreConfig (class in store.apps)</a>
+</li>
+      <li><a href="cart.html#cart.models.Cart.subtotal">subtotal (cart.models.Cart property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -352,13 +759,19 @@
 </li>
       <li><a href="checkout.html#checkout.tests.DiscountModelTest.test_discount_used_by_user">test_discount_used_by_user() (checkout.tests.DiscountModelTest method)</a>
 </li>
+      <li><a href="store.html#store.tests.HomePageViewTest.test_home_view_contains_product">test_home_view_contains_product() (store.tests.HomePageViewTest method)</a>
+</li>
+      <li><a href="store.html#store.tests.HomePageViewTest.test_home_view_status_code">test_home_view_status_code() (store.tests.HomePageViewTest method)</a>
+</li>
       <li><a href="checkout.html#checkout.tests.DiscountModelTest.test_is_valid_for_user">test_is_valid_for_user() (checkout.tests.DiscountModelTest method)</a>
+</li>
+      <li><a href="checkout.html#checkout.tests.OrderModelTest.test_order_creation">test_order_creation() (checkout.tests.OrderModelTest method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="checkout.html#checkout.tests.OrderModelTest.test_order_creation">test_order_creation() (checkout.tests.OrderModelTest method)</a>
-</li>
       <li><a href="checkout.html#checkout.tests.OrderModelTest.test_percentage_discount">test_percentage_discount() (checkout.tests.OrderModelTest method)</a>
+</li>
+      <li><a href="store.html#store.tests.ProductDetailViewTest.test_product_detail_view">test_product_detail_view() (store.tests.ProductDetailViewTest method)</a>
 </li>
       <li><a href="checkout.html#checkout.tests.DiscountModelTest.test_str_representation">test_str_representation() (checkout.tests.DiscountModelTest method)</a>
 
@@ -368,18 +781,38 @@
       </ul></li>
       <li><a href="checkout.html#checkout.models.Order.total">total (checkout.models.Order attribute)</a>
 </li>
+      <li><a href="cart.html#cart.models.Cart.total_items">total_items (cart.models.Cart property)</a>
+</li>
+      <li><a href="cart.html#cart.models.CartItem.total_price">total_price (cart.models.CartItem property)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="checkout.html#checkout.models.Order.updated_at">updated_at (checkout.models.Order attribute)</a>
+      <li><a href="cart.html#cart.models.update_cart_timestamp">update_cart_timestamp() (in module cart.models)</a>
 </li>
+      <li><a href="cart.html#cart.views.update_quantity">update_quantity() (in module cart.views)</a>
+</li>
+      <li><a href="cart.html#cart.models.Cart.updated_at">updated_at (cart.models.Cart attribute)</a>
+
+      <ul>
+        <li><a href="checkout.html#checkout.models.Order.updated_at">(checkout.models.Order attribute)</a>
+</li>
+        <li><a href="reviews.html#reviews.models.Review.updated_at">(reviews.models.Review attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="checkout.html#checkout.models.Order.user">user (checkout.models.Order attribute)</a>
+      <li><a href="cart.html#cart.models.Cart.user">user (cart.models.Cart attribute)</a>
+
+      <ul>
+        <li><a href="checkout.html#checkout.models.Order.user">(checkout.models.Order attribute)</a>
 </li>
+        <li><a href="reviews.html#reviews.models.Review.user">(reviews.models.Review attribute)</a>
+</li>
+      </ul></li>
       <li><a href="checkout.html#checkout.models.Order.user_id">user_id (checkout.models.Order attribute)</a>
 </li>
   </ul></td>
@@ -390,10 +823,34 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Discount.valid_from">valid_from (checkout.models.Discount attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="checkout.html#checkout.models.Discount.valid_to">valid_to (checkout.models.Discount attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cart.html#cart.models.Cart.validate_unique">validate_unique() (cart.models.Cart method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.CartItem.validate_unique">(cart.models.CartItem method)</a>
+</li>
+      </ul></li>
+      <li><a href="cart.html#cart.views.view_cart">view_cart() (in module cart.views)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cart.html#cart.models.Cart.DoesNotExist.with_traceback">with_traceback() (cart.models.Cart.DoesNotExist method)</a>
+
+      <ul>
+        <li><a href="cart.html#cart.models.Cart.MultipleObjectsReturned.with_traceback">(cart.models.Cart.MultipleObjectsReturned method)</a>
+</li>
+        <li><a href="cart.html#cart.models.CartItem.DoesNotExist.with_traceback">(cart.models.CartItem.DoesNotExist method)</a>
+</li>
+        <li><a href="cart.html#cart.models.CartItem.MultipleObjectsReturned.with_traceback">(cart.models.CartItem.MultipleObjectsReturned method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 

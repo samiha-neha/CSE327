@@ -6,9 +6,10 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API Documentation &mdash; HutBazaar 1.0.0 documentation</title>
+  <title>store &mdash; HutBazaar 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -16,10 +17,10 @@
       <script src="_static/documentation_options.js?v=8d563738"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Welcome to HutBazaar’s documentation!" href="index.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,79 +43,11 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#checkout.models.Order"><code class="docutils literal notranslate"><span class="pre">Order</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.user"><code class="docutils literal notranslate"><span class="pre">Order.user</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.email"><code class="docutils literal notranslate"><span class="pre">Order.email</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.created_at"><code class="docutils literal notranslate"><span class="pre">Order.created_at</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.updated_at"><code class="docutils literal notranslate"><span class="pre">Order.updated_at</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.total"><code class="docutils literal notranslate"><span class="pre">Order.total</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.is_paid"><code class="docutils literal notranslate"><span class="pre">Order.is_paid</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.payment_method"><code class="docutils literal notranslate"><span class="pre">Order.payment_method</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.payment_status"><code class="docutils literal notranslate"><span class="pre">Order.payment_status</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.shipping_address"><code class="docutils literal notranslate"><span class="pre">Order.shipping_address</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.shipping_city"><code class="docutils literal notranslate"><span class="pre">Order.shipping_city</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.shipping_state"><code class="docutils literal notranslate"><span class="pre">Order.shipping_state</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.shipping_zip"><code class="docutils literal notranslate"><span class="pre">Order.shipping_zip</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.discount_coupon_used"><code class="docutils literal notranslate"><span class="pre">Order.discount_coupon_used</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.discount_amount"><code class="docutils literal notranslate"><span class="pre">Order.discount_amount</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.final_total"><code class="docutils literal notranslate"><span class="pre">Order.final_total</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Order.DoesNotExist</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Order.MultipleObjectsReturned</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.confirmation"><code class="docutils literal notranslate"><span class="pre">Order.confirmation</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.discount_coupon_used_id"><code class="docutils literal notranslate"><span class="pre">Order.discount_coupon_used_id</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">Order.get_next_by_created_at()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Order.get_next_by_updated_at()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">Order.get_previous_by_created_at()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">Order.get_previous_by_updated_at()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.id"><code class="docutils literal notranslate"><span class="pre">Order.id</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.objects"><code class="docutils literal notranslate"><span class="pre">Order.objects</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Order.user_id"><code class="docutils literal notranslate"><span class="pre">Order.user_id</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#checkout.models.Discount"><code class="docutils literal notranslate"><span class="pre">Discount</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.code"><code class="docutils literal notranslate"><span class="pre">Discount.code</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.discount_type"><code class="docutils literal notranslate"><span class="pre">Discount.discount_type</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.amount"><code class="docutils literal notranslate"><span class="pre">Discount.amount</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.max_amount"><code class="docutils literal notranslate"><span class="pre">Discount.max_amount</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.valid_from"><code class="docutils literal notranslate"><span class="pre">Discount.valid_from</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.valid_to"><code class="docutils literal notranslate"><span class="pre">Discount.valid_to</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.active"><code class="docutils literal notranslate"><span class="pre">Discount.active</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.is_used_by_user"><code class="docutils literal notranslate"><span class="pre">Discount.is_used_by_user()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.is_valid_for_user"><code class="docutils literal notranslate"><span class="pre">Discount.is_valid_for_user()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Discount.DoesNotExist</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Discount.MultipleObjectsReturned</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.get_discount_type_display"><code class="docutils literal notranslate"><span class="pre">Discount.get_discount_type_display()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.get_next_by_valid_from"><code class="docutils literal notranslate"><span class="pre">Discount.get_next_by_valid_from()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.get_next_by_valid_to"><code class="docutils literal notranslate"><span class="pre">Discount.get_next_by_valid_to()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.get_previous_by_valid_from"><code class="docutils literal notranslate"><span class="pre">Discount.get_previous_by_valid_from()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.get_previous_by_valid_to"><code class="docutils literal notranslate"><span class="pre">Discount.get_previous_by_valid_to()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.id"><code class="docutils literal notranslate"><span class="pre">Discount.id</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.objects"><code class="docutils literal notranslate"><span class="pre">Discount.objects</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#checkout.models.Discount.order_set"><code class="docutils literal notranslate"><span class="pre">Discount.order_set</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#checkout.views.checkout_view"><code class="docutils literal notranslate"><span class="pre">checkout_view()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.order"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.order</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.email_sent"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.email_sent</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.sent_at"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.sent_at</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.email_content"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.email_content</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.DoesNotExist</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.MultipleObjectsReturned</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.get_next_by_sent_at"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.get_next_by_sent_at()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.get_previous_by_sent_at"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.get_previous_by_sent_at()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.id"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.id</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.objects"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.objects</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#order_confirmation.models.OrderConfirmation.order_id"><code class="docutils literal notranslate"><span class="pre">OrderConfirmation.order_id</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#order_confirmation.views.order_confirmation"><code class="docutils literal notranslate"><span class="pre">order_confirmation()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#order_confirmation.views.send_confirmation_email"><code class="docutils literal notranslate"><span class="pre">send_confirmation_email()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#order_confirmation.views.download_receipt"><code class="docutils literal notranslate"><span class="pre">download_receipt()</span></code></a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="checkout.html">Order Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="order_confirmation.html">Order Confirmation Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cart.html">Shopping Cart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reviews.html">Product Reviews</a></li>
 </ul>
 
         </div>
@@ -131,7 +64,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">API Documentation</li>
+      <li class="breadcrumb-item active">store</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -141,528 +74,77 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-checkout.models">
-<span id="api-documentation"></span><h1>API Documentation<a class="headerlink" href="#module-checkout.models" title="Link to this heading"></a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="checkout.models.Order">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">checkout.models.</span></span><span class="sig-name descname"><span class="pre">Order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/models.html#Order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.models.Order" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
-<p>Represents a customer order in the system.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.user">
-<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#checkout.models.Order.user" title="Link to this definition"></a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.email">
-<span class="sig-name descname"><span class="pre">email</span></span><a class="headerlink" href="#checkout.models.Order.email" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.created_at">
-<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#checkout.models.Order.created_at" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.updated_at">
-<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#checkout.models.Order.updated_at" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.total">
-<span class="sig-name descname"><span class="pre">total</span></span><a class="headerlink" href="#checkout.models.Order.total" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.is_paid">
-<span class="sig-name descname"><span class="pre">is_paid</span></span><a class="headerlink" href="#checkout.models.Order.is_paid" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.payment_method">
-<span class="sig-name descname"><span class="pre">payment_method</span></span><a class="headerlink" href="#checkout.models.Order.payment_method" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.payment_status">
-<span class="sig-name descname"><span class="pre">payment_status</span></span><a class="headerlink" href="#checkout.models.Order.payment_status" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.shipping_address">
-<span class="sig-name descname"><span class="pre">shipping_address</span></span><a class="headerlink" href="#checkout.models.Order.shipping_address" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.shipping_city">
-<span class="sig-name descname"><span class="pre">shipping_city</span></span><a class="headerlink" href="#checkout.models.Order.shipping_city" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.shipping_state">
-<span class="sig-name descname"><span class="pre">shipping_state</span></span><a class="headerlink" href="#checkout.models.Order.shipping_state" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.shipping_zip">
-<span class="sig-name descname"><span class="pre">shipping_zip</span></span><a class="headerlink" href="#checkout.models.Order.shipping_zip" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.discount_coupon_used">
-<span class="sig-name descname"><span class="pre">discount_coupon_used</span></span><a class="headerlink" href="#checkout.models.Order.discount_coupon_used" title="Link to this definition"></a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="checkout.models.Order.discount_amount">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">discount_amount</span></span><a class="headerlink" href="#checkout.models.Order.discount_amount" title="Link to this definition"></a></dt>
-<dd><p>Calculates the discount amount to be applied without saving anything in database</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>self</strong> – the model in database</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>the calculated discount considering:</dt><dd><ul class="simple">
-<li><p>Percentage discounts (capped at max_amount)</p></li>
-<li><p>Fixed amount discounts (capped at max_amount)</p></li>
-<li><p>Returns 0 if no discount applies</p></li>
+  <section id="store">
+<h1>store<a class="headerlink" href="#store" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="store.html">store package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="store.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="store.migrations.html">store.migrations package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="store.migrations.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.migrations.html#module-store.migrations.0001_initial">store.migrations.0001_initial module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.migrations.html#module-store.migrations.0002_category">store.migrations.0002_category module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.migrations.html#module-store.migrations.0003_product_category">store.migrations.0003_product_category module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.migrations.html#module-store.migrations">Module contents</a></li>
 </ul>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Decimal</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>If percentage discount higher than max amount, then max amount is returned
-If exact amount is set but higher than max amount, then max amount is returned</p>
-<p class="rubric">Example</p>
-<p>For a 10% discount on $100 order with $8 max:
-&gt;&gt;&gt; order.total = 100
-&gt;&gt;&gt; order.discount_coupon_used.amount = 10
-&gt;&gt;&gt; order.discount_coupon_used.max_amount = 8
-&gt;&gt;&gt; order.discount_amount will be = 8
-so returns 8</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="checkout.models.Order.final_total">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">final_total</span></span><a class="headerlink" href="#checkout.models.Order.final_total" title="Link to this definition"></a></dt>
-<dd><p>Calculates the final total after applying discounts.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The order total minus any applicable discounts</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Decimal</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="checkout.models.Order.DoesNotExist">
-<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#checkout.models.Order.DoesNotExist" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="checkout.models.Order.MultipleObjectsReturned">
-<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#checkout.models.Order.MultipleObjectsReturned" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.confirmation">
-<span class="sig-name descname"><span class="pre">confirmation</span></span><a class="headerlink" href="#checkout.models.Order.confirmation" title="Link to this definition"></a></dt>
-<dd><p>Accessor to the related object on the reverse side of a one-to-one
-relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Place.restaurant</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseOneToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.discount_coupon_used_id">
-<span class="sig-name descname"><span class="pre">discount_coupon_used_id</span></span><a class="headerlink" href="#checkout.models.Order.discount_coupon_used_id" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Order.get_next_by_created_at">
-<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#checkout.models.Order.get_next_by_created_at" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Order.get_next_by_updated_at">
-<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#checkout.models.Order.get_next_by_updated_at" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Order.get_previous_by_created_at">
-<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#checkout.models.Order.get_previous_by_created_at" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Order.get_previous_by_updated_at">
-<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#checkout.models.Order.get_previous_by_updated_at" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#checkout.models.Order.id" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#checkout.models.Order.objects" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Order.user_id">
-<span class="sig-name descname"><span class="pre">user_id</span></span><a class="headerlink" href="#checkout.models.Order.user_id" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="checkout.models.Discount">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">checkout.models.</span></span><span class="sig-name descname"><span class="pre">Discount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/models.html#Discount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.models.Discount" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
-<p>Represents a discount coupon that can be applied to orders.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Discount.code">
-<span class="sig-name descname"><span class="pre">code</span></span><a class="headerlink" href="#checkout.models.Discount.code" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Discount.discount_type">
-<span class="sig-name descname"><span class="pre">discount_type</span></span><a class="headerlink" href="#checkout.models.Discount.discount_type" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Discount.amount">
-<span class="sig-name descname"><span class="pre">amount</span></span><a class="headerlink" href="#checkout.models.Discount.amount" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Discount.max_amount">
-<span class="sig-name descname"><span class="pre">max_amount</span></span><a class="headerlink" href="#checkout.models.Discount.max_amount" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Discount.valid_from">
-<span class="sig-name descname"><span class="pre">valid_from</span></span><a class="headerlink" href="#checkout.models.Discount.valid_from" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Discount.valid_to">
-<span class="sig-name descname"><span class="pre">valid_to</span></span><a class="headerlink" href="#checkout.models.Discount.valid_to" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Discount.active">
-<span class="sig-name descname"><span class="pre">active</span></span><a class="headerlink" href="#checkout.models.Discount.active" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Discount.is_used_by_user">
-<span class="sig-name descname"><span class="pre">is_used_by_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/models.html#Discount.is_used_by_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.models.Discount.is_used_by_user" title="Link to this definition"></a></dt>
-<dd><p>Checks if this discount has been used by a specific user.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>user</strong> (<em>User</em>) – The user to check</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if user has already used this discount, False otherwise</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Discount.is_valid_for_user">
-<span class="sig-name descname"><span class="pre">is_valid_for_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/models.html#Discount.is_valid_for_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.models.Discount.is_valid_for_user" title="Link to this definition"></a></dt>
-<dd><p>Checks if this discount is valid for a specific user.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>user</strong> (<em>User</em>) – The user to validate against</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>True if discount is active, within validity dates,</dt><dd><p>and not already used by this user</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>bool</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="checkout.models.Discount.DoesNotExist">
-<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#checkout.models.Discount.DoesNotExist" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="checkout.models.Discount.MultipleObjectsReturned">
-<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#checkout.models.Discount.MultipleObjectsReturned" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Discount.get_discount_type_display">
-<span class="sig-name descname"><span class="pre">get_discount_type_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">discount_type&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#checkout.models.Discount.get_discount_type_display" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Discount.get_next_by_valid_from">
-<span class="sig-name descname"><span class="pre">get_next_by_valid_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">valid_from&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#checkout.models.Discount.get_next_by_valid_from" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Discount.get_next_by_valid_to">
-<span class="sig-name descname"><span class="pre">get_next_by_valid_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">valid_to&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#checkout.models.Discount.get_next_by_valid_to" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Discount.get_previous_by_valid_from">
-<span class="sig-name descname"><span class="pre">get_previous_by_valid_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">valid_from&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#checkout.models.Discount.get_previous_by_valid_from" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="checkout.models.Discount.get_previous_by_valid_to">
-<span class="sig-name descname"><span class="pre">get_previous_by_valid_to</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">valid_to&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#checkout.models.Discount.get_previous_by_valid_to" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Discount.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#checkout.models.Discount.id" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Discount.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#checkout.models.Discount.objects" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="checkout.models.Discount.order_set">
-<span class="sig-name descname"><span class="pre">order_set</span></span><a class="headerlink" href="#checkout.models.Discount.order_set" title="Link to this definition"></a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function" id="module-checkout.views">
-<dt class="sig sig-object py" id="checkout.views.checkout_view">
-<span class="sig-prename descclassname"><span class="pre">checkout.views.</span></span><span class="sig-name descname"><span class="pre">checkout_view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/checkout/views.html#checkout_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#checkout.views.checkout_view" title="Link to this definition"></a></dt>
-<dd><p>Handle the checkout process and create an order.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>request</strong> – The HTTP request object.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Renders the checkout page or redirects after order creation.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>HttpResponse</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>Uses a temporary mock cart until the real cart is integrated.
-Stores cart items in the session for receipt generation.</p>
-</dd></dl>
-
-<dl class="py class" id="module-order_confirmation.models">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">order_confirmation.models.</span></span><span class="sig-name descname"><span class="pre">OrderConfirmation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_sent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sent_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email_content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/order_confirmation/models.html#OrderConfirmation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#order_confirmation.models.OrderConfirmation" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.order">
-<span class="sig-name descname"><span class="pre">order</span></span><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.order" title="Link to this definition"></a></dt>
-<dd><p>Accessor to the related object on the forward side of a one-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Restaurant</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">place</span> <span class="o">=</span> <span class="n">OneToOneField</span><span class="p">(</span><span class="n">Place</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;restaurant&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Restaurant.place</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardOneToOneDescriptor</span></code> instance.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.email_sent">
-<span class="sig-name descname"><span class="pre">email_sent</span></span><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.email_sent" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.sent_at">
-<span class="sig-name descname"><span class="pre">sent_at</span></span><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.sent_at" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.email_content">
-<span class="sig-name descname"><span class="pre">email_content</span></span><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.email_content" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.DoesNotExist">
-<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.DoesNotExist" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.MultipleObjectsReturned">
-<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.MultipleObjectsReturned" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.get_next_by_sent_at">
-<span class="sig-name descname"><span class="pre">get_next_by_sent_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">sent_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.get_next_by_sent_at" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.get_previous_by_sent_at">
-<span class="sig-name descname"><span class="pre">get_previous_by_sent_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">sent_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.get_previous_by_sent_at" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.id" title="Link to this definition"></a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.objects" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="order_confirmation.models.OrderConfirmation.order_id">
-<span class="sig-name descname"><span class="pre">order_id</span></span><a class="headerlink" href="#order_confirmation.models.OrderConfirmation.order_id" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function" id="module-order_confirmation.views">
-<dt class="sig sig-object py" id="order_confirmation.views.order_confirmation">
-<span class="sig-prename descclassname"><span class="pre">order_confirmation.views.</span></span><span class="sig-name descname"><span class="pre">order_confirmation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/order_confirmation/views.html#order_confirmation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#order_confirmation.views.order_confirmation" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="order_confirmation.views.send_confirmation_email">
-<span class="sig-prename descclassname"><span class="pre">order_confirmation.views.</span></span><span class="sig-name descname"><span class="pre">send_confirmation_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/order_confirmation/views.html#send_confirmation_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#order_confirmation.views.send_confirmation_email" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="order_confirmation.views.download_receipt">
-<span class="sig-prename descclassname"><span class="pre">order_confirmation.views.</span></span><span class="sig-name descname"><span class="pre">download_receipt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/order_confirmation/views.html#download_receipt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#order_confirmation.views.download_receipt" title="Link to this definition"></a></dt>
-<dd><p>Generate and return a PDF receipt for an order.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> – The HTTP request object.</p></li>
-<li><p><strong>order_id</strong> (<em>int</em>) – The ID of the order to generate a receipt for.</p></li>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="store.models.html">store.models package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="store.models.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.models.html#module-store.models.category">store.models.category module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.models.html#module-store.models.product">store.models.product module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.models.html#module-store.models">Module contents</a></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A PDF file response or an error message if generation fails.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>HttpResponse</p>
-</dd>
-</dl>
-</dd></dl>
-
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="store.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="store.html#module-store.admin">store.admin module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="store.html#store.admin.AdminProduct"><code class="docutils literal notranslate"><span class="pre">AdminProduct</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="store.html#store.admin.AdminProduct.list_display"><code class="docutils literal notranslate"><span class="pre">AdminProduct.list_display</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.html#store.admin.AdminProduct.media"><code class="docutils literal notranslate"><span class="pre">AdminProduct.media</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="store.html#module-store.apps">store.apps module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="store.html#store.apps.StoreConfig"><code class="docutils literal notranslate"><span class="pre">StoreConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="store.html#store.apps.StoreConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">StoreConfig.default_auto_field</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.html#store.apps.StoreConfig.name"><code class="docutils literal notranslate"><span class="pre">StoreConfig.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="store.html#module-store.tests">store.tests module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="store.html#store.tests.HomePageViewTest"><code class="docutils literal notranslate"><span class="pre">HomePageViewTest</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="store.html#store.tests.HomePageViewTest.setUp"><code class="docutils literal notranslate"><span class="pre">HomePageViewTest.setUp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.html#store.tests.HomePageViewTest.test_home_view_status_code"><code class="docutils literal notranslate"><span class="pre">HomePageViewTest.test_home_view_status_code()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.html#store.tests.HomePageViewTest.test_home_view_contains_product"><code class="docutils literal notranslate"><span class="pre">HomePageViewTest.test_home_view_contains_product()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="store.html#store.tests.ProductDetailViewTest"><code class="docutils literal notranslate"><span class="pre">ProductDetailViewTest</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="store.html#store.tests.ProductDetailViewTest.setUp"><code class="docutils literal notranslate"><span class="pre">ProductDetailViewTest.setUp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.html#store.tests.ProductDetailViewTest.test_product_detail_view"><code class="docutils literal notranslate"><span class="pre">ProductDetailViewTest.test_product_detail_view()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="store.html#module-store.urls">store.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="store.html#module-store.views">store.views module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="store.html#store.views.home"><code class="docutils literal notranslate"><span class="pre">home()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="store.html#store.views.productdetail"><code class="docutils literal notranslate"><span class="pre">productdetail()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="store.html#module-store">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to HutBazaar’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
+          <footer>
 
   <hr/>
 

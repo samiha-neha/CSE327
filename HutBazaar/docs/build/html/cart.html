@@ -1,0 +1,641 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Cart &mdash; HutBazaar 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Product Reviews" href="reviews.html" />
+    <link rel="prev" title="Order Confirmation Module" href="order_confirmation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            HutBazaar
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="checkout.html">Order Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="order_confirmation.html">Order Confirmation Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Shopping Cart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cart.models.Cart"><code class="docutils literal notranslate"><span class="pre">Cart</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.user"><code class="docutils literal notranslate"><span class="pre">Cart.user</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.created_at"><code class="docutils literal notranslate"><span class="pre">Cart.created_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.updated_at"><code class="docutils literal notranslate"><span class="pre">Cart.updated_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.total_items"><code class="docutils literal notranslate"><span class="pre">Cart.total_items</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.subtotal"><code class="docutils literal notranslate"><span class="pre">Cart.subtotal</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Cart.DoesNotExist</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cart.models.Cart.DoesNotExist.add_note"><code class="docutils literal notranslate"><span class="pre">Cart.DoesNotExist.add_note()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cart.models.Cart.DoesNotExist.with_traceback"><code class="docutils literal notranslate"><span class="pre">Cart.DoesNotExist.with_traceback()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Cart.MultipleObjectsReturned</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cart.models.Cart.MultipleObjectsReturned.add_note"><code class="docutils literal notranslate"><span class="pre">Cart.MultipleObjectsReturned.add_note()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cart.models.Cart.MultipleObjectsReturned.with_traceback"><code class="docutils literal notranslate"><span class="pre">Cart.MultipleObjectsReturned.with_traceback()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.clean"><code class="docutils literal notranslate"><span class="pre">Cart.clean()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.clean_fields"><code class="docutils literal notranslate"><span class="pre">Cart.clean_fields()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.full_clean"><code class="docutils literal notranslate"><span class="pre">Cart.full_clean()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.get_deferred_fields"><code class="docutils literal notranslate"><span class="pre">Cart.get_deferred_fields()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.refresh_from_db"><code class="docutils literal notranslate"><span class="pre">Cart.refresh_from_db()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.save"><code class="docutils literal notranslate"><span class="pre">Cart.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.save_base"><code class="docutils literal notranslate"><span class="pre">Cart.save_base()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.serializable_value"><code class="docutils literal notranslate"><span class="pre">Cart.serializable_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.Cart.validate_unique"><code class="docutils literal notranslate"><span class="pre">Cart.validate_unique()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cart.models.CartItem"><code class="docutils literal notranslate"><span class="pre">CartItem</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.cart"><code class="docutils literal notranslate"><span class="pre">CartItem.cart</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.product"><code class="docutils literal notranslate"><span class="pre">CartItem.product</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.quantity"><code class="docutils literal notranslate"><span class="pre">CartItem.quantity</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.saved_for_later"><code class="docutils literal notranslate"><span class="pre">CartItem.saved_for_later</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.total_price"><code class="docutils literal notranslate"><span class="pre">CartItem.total_price</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.clean"><code class="docutils literal notranslate"><span class="pre">CartItem.clean()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">CartItem.DoesNotExist</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cart.models.CartItem.DoesNotExist.add_note"><code class="docutils literal notranslate"><span class="pre">CartItem.DoesNotExist.add_note()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cart.models.CartItem.DoesNotExist.with_traceback"><code class="docutils literal notranslate"><span class="pre">CartItem.DoesNotExist.with_traceback()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">CartItem.MultipleObjectsReturned</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#cart.models.CartItem.MultipleObjectsReturned.add_note"><code class="docutils literal notranslate"><span class="pre">CartItem.MultipleObjectsReturned.add_note()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cart.models.CartItem.MultipleObjectsReturned.with_traceback"><code class="docutils literal notranslate"><span class="pre">CartItem.MultipleObjectsReturned.with_traceback()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.clean_fields"><code class="docutils literal notranslate"><span class="pre">CartItem.clean_fields()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.full_clean"><code class="docutils literal notranslate"><span class="pre">CartItem.full_clean()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.get_deferred_fields"><code class="docutils literal notranslate"><span class="pre">CartItem.get_deferred_fields()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.refresh_from_db"><code class="docutils literal notranslate"><span class="pre">CartItem.refresh_from_db()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.save"><code class="docutils literal notranslate"><span class="pre">CartItem.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.save_base"><code class="docutils literal notranslate"><span class="pre">CartItem.save_base()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.serializable_value"><code class="docutils literal notranslate"><span class="pre">CartItem.serializable_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.validate_unique"><code class="docutils literal notranslate"><span class="pre">CartItem.validate_unique()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cart.models.update_cart_timestamp"><code class="docutils literal notranslate"><span class="pre">update_cart_timestamp()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cart.views.add_to_cart"><code class="docutils literal notranslate"><span class="pre">add_to_cart()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cart.views.view_cart"><code class="docutils literal notranslate"><span class="pre">view_cart()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cart.views.remove_from_cart"><code class="docutils literal notranslate"><span class="pre">remove_from_cart()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cart.views.update_quantity"><code class="docutils literal notranslate"><span class="pre">update_quantity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cart.views.cart_summary"><code class="docutils literal notranslate"><span class="pre">cart_summary()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reviews.html">Product Reviews</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HutBazaar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Shopping Cart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-cart.models">
+<span id="shopping-cart"></span><h1>Shopping Cart<a class="headerlink" href="#module-cart.models" title="Link to this heading"></a></h1>
+<p>Cart application models with automatic total calculation via signals.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="cart.models.Cart">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cart.models.</span></span><span class="sig-name descname"><span class="pre">Cart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/models.html#Cart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.models.Cart" title="Link to this definition"></a></dt>
+<dd><p>Represents a user’s shopping cart.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cart.models.Cart.user">
+<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#cart.models.Cart.user" title="Link to this definition"></a></dt>
+<dd><p>Reference to the user who owns this cart.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ForeignKey</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cart.models.Cart.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#cart.models.Cart.created_at" title="Link to this definition"></a></dt>
+<dd><p>When the cart was created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DateTime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cart.models.Cart.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#cart.models.Cart.updated_at" title="Link to this definition"></a></dt>
+<dd><p>When the cart was last modified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DateTime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cart.models.Cart.total_items">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_items</span></span><a class="headerlink" href="#cart.models.Cart.total_items" title="Link to this definition"></a></dt>
+<dd><p>Return total quantity of items in cart.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cart.models.Cart.subtotal">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">subtotal</span></span><a class="headerlink" href="#cart.models.Cart.subtotal" title="Link to this definition"></a></dt>
+<dd><p>Calculate subtotal before any discounts or taxes.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cart.models.Cart.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#cart.models.Cart.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.DoesNotExist.add_note">
+<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.DoesNotExist.add_note" title="Link to this definition"></a></dt>
+<dd><p>Exception.add_note(note) –
+add a note to the exception</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.DoesNotExist.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.DoesNotExist.with_traceback" title="Link to this definition"></a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cart.models.Cart.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#cart.models.Cart.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.MultipleObjectsReturned.add_note">
+<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.MultipleObjectsReturned.add_note" title="Link to this definition"></a></dt>
+<dd><p>Exception.add_note(note) –
+add a note to the exception</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.MultipleObjectsReturned.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.MultipleObjectsReturned.with_traceback" title="Link to this definition"></a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.clean">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.clean" title="Link to this definition"></a></dt>
+<dd><p>Hook for doing any extra model-wide validation after clean() has been
+called on every field by self.clean_fields. Any ValidationError raised
+by this method will not be associated with a particular field; it will
+have a special-case association with the field defined by NON_FIELD_ERRORS.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.clean_fields">
+<span class="sig-name descname"><span class="pre">clean_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.clean_fields" title="Link to this definition"></a></dt>
+<dd><p>Clean all fields and raise a ValidationError containing a dict
+of all validation errors if any occur.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.full_clean">
+<span class="sig-name descname"><span class="pre">full_clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_unique</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_constraints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.full_clean" title="Link to this definition"></a></dt>
+<dd><p>Call clean_fields(), clean(), validate_unique(), and
+validate_constraints() on the model. Raise a ValidationError for any
+errors that occur.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.get_deferred_fields">
+<span class="sig-name descname"><span class="pre">get_deferred_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.get_deferred_fields" title="Link to this definition"></a></dt>
+<dd><p>Return a set containing names of deferred fields for this instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.refresh_from_db">
+<span class="sig-name descname"><span class="pre">refresh_from_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">using</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_queryset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.refresh_from_db" title="Link to this definition"></a></dt>
+<dd><p>Reload field values from the database.</p>
+<p>By default, the reloading happens from the database this instance was
+loaded from, or by the read router if this instance wasn’t loaded from
+any database. The using parameter will override the default.</p>
+<p>Fields can be used to specify which fields to reload. The fields
+should be an iterable of field attnames. If fields is None, then
+all non-deferred fields are reloaded.</p>
+<p>When accessing deferred fields of an instance, the deferred loading
+of the field will call this method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_insert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">using</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.save" title="Link to this definition"></a></dt>
+<dd><p>Save the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The ‘force_insert’ and ‘force_update’ parameters can be used to insist
+that the “save” must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.save_base">
+<span class="sig-name descname"><span class="pre">save_base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_insert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">using</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.save_base" title="Link to this definition"></a></dt>
+<dd><p>Handle the parts of saving which should be done only once per save,
+yet need to be done in raw saves, too. This includes some sanity
+checks and signal sending.</p>
+<p>The ‘raw’ argument is telling save_base not to save any parent
+models and not to do any changes to the values before save. This
+is used by fixture loading.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.serializable_value">
+<span class="sig-name descname"><span class="pre">serializable_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.serializable_value" title="Link to this definition"></a></dt>
+<dd><p>Return the value of the field name for this instance. If the field is
+a foreign key, return the id value instead of the object. If there’s
+no Field object with this name on the model, return the model
+attribute’s value.</p>
+<p>Used to serialize a field’s value (in the serializer, or form output,
+for example). Normally, you would just access the attribute directly
+and not use this method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.Cart.validate_unique">
+<span class="sig-name descname"><span class="pre">validate_unique</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.Cart.validate_unique" title="Link to this definition"></a></dt>
+<dd><p>Check unique constraints on the model and raise ValidationError if any
+failed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cart.models.CartItem">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cart.models.</span></span><span class="sig-name descname"><span class="pre">CartItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/models.html#CartItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.models.CartItem" title="Link to this definition"></a></dt>
+<dd><p>Represents an individual product item in a shopping cart.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cart.models.CartItem.cart">
+<span class="sig-name descname"><span class="pre">cart</span></span><a class="headerlink" href="#cart.models.CartItem.cart" title="Link to this definition"></a></dt>
+<dd><p>Reference to the parent cart.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ForeignKey</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cart.models.CartItem.product">
+<span class="sig-name descname"><span class="pre">product</span></span><a class="headerlink" href="#cart.models.CartItem.product" title="Link to this definition"></a></dt>
+<dd><p>Reference to the product being purchased.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ForeignKey</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cart.models.CartItem.quantity">
+<span class="sig-name descname"><span class="pre">quantity</span></span><a class="headerlink" href="#cart.models.CartItem.quantity" title="Link to this definition"></a></dt>
+<dd><p>Number of units in cart.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PositiveInteger</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="cart.models.CartItem.saved_for_later">
+<span class="sig-name descname"><span class="pre">saved_for_later</span></span><a class="headerlink" href="#cart.models.CartItem.saved_for_later" title="Link to this definition"></a></dt>
+<dd><p>If item is saved for later purchase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="cart.models.CartItem.total_price">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_price</span></span><a class="headerlink" href="#cart.models.CartItem.total_price" title="Link to this definition"></a></dt>
+<dd><p>Calculate total price for this line item.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.clean">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/models.html#CartItem.clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.models.CartItem.clean" title="Link to this definition"></a></dt>
+<dd><p>Validate the cart item before saving.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cart.models.CartItem.DoesNotExist">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#cart.models.CartItem.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.DoesNotExist.add_note">
+<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.DoesNotExist.add_note" title="Link to this definition"></a></dt>
+<dd><p>Exception.add_note(note) –
+add a note to the exception</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.DoesNotExist.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.DoesNotExist.with_traceback" title="Link to this definition"></a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="cart.models.CartItem.MultipleObjectsReturned">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#cart.models.CartItem.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.MultipleObjectsReturned.add_note">
+<span class="sig-name descname"><span class="pre">add_note</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.MultipleObjectsReturned.add_note" title="Link to this definition"></a></dt>
+<dd><p>Exception.add_note(note) –
+add a note to the exception</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.MultipleObjectsReturned.with_traceback">
+<span class="sig-name descname"><span class="pre">with_traceback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.MultipleObjectsReturned.with_traceback" title="Link to this definition"></a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.clean_fields">
+<span class="sig-name descname"><span class="pre">clean_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.clean_fields" title="Link to this definition"></a></dt>
+<dd><p>Clean all fields and raise a ValidationError containing a dict
+of all validation errors if any occur.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.full_clean">
+<span class="sig-name descname"><span class="pre">full_clean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_unique</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_constraints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.full_clean" title="Link to this definition"></a></dt>
+<dd><p>Call clean_fields(), clean(), validate_unique(), and
+validate_constraints() on the model. Raise a ValidationError for any
+errors that occur.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.get_deferred_fields">
+<span class="sig-name descname"><span class="pre">get_deferred_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.get_deferred_fields" title="Link to this definition"></a></dt>
+<dd><p>Return a set containing names of deferred fields for this instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.refresh_from_db">
+<span class="sig-name descname"><span class="pre">refresh_from_db</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">using</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_queryset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.refresh_from_db" title="Link to this definition"></a></dt>
+<dd><p>Reload field values from the database.</p>
+<p>By default, the reloading happens from the database this instance was
+loaded from, or by the read router if this instance wasn’t loaded from
+any database. The using parameter will override the default.</p>
+<p>Fields can be used to specify which fields to reload. The fields
+should be an iterable of field attnames. If fields is None, then
+all non-deferred fields are reloaded.</p>
+<p>When accessing deferred fields of an instance, the deferred loading
+of the field will call this method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_insert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">using</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.save" title="Link to this definition"></a></dt>
+<dd><p>Save the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The ‘force_insert’ and ‘force_update’ parameters can be used to insist
+that the “save” must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.save_base">
+<span class="sig-name descname"><span class="pre">save_base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_insert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">using</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.save_base" title="Link to this definition"></a></dt>
+<dd><p>Handle the parts of saving which should be done only once per save,
+yet need to be done in raw saves, too. This includes some sanity
+checks and signal sending.</p>
+<p>The ‘raw’ argument is telling save_base not to save any parent
+models and not to do any changes to the values before save. This
+is used by fixture loading.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.serializable_value">
+<span class="sig-name descname"><span class="pre">serializable_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.serializable_value" title="Link to this definition"></a></dt>
+<dd><p>Return the value of the field name for this instance. If the field is
+a foreign key, return the id value instead of the object. If there’s
+no Field object with this name on the model, return the model
+attribute’s value.</p>
+<p>Used to serialize a field’s value (in the serializer, or form output,
+for example). Normally, you would just access the attribute directly
+and not use this method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cart.models.CartItem.validate_unique">
+<span class="sig-name descname"><span class="pre">validate_unique</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cart.models.CartItem.validate_unique" title="Link to this definition"></a></dt>
+<dd><p>Check unique constraints on the model and raise ValidationError if any
+failed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cart.models.update_cart_timestamp">
+<span class="sig-prename descclassname"><span class="pre">cart.models.</span></span><span class="sig-name descname"><span class="pre">update_cart_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/models.html#update_cart_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.models.update_cart_timestamp" title="Link to this definition"></a></dt>
+<dd><p>Signal receiver to update cart’s timestamp when items change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sender</strong> – The model class sending the signal.</p></li>
+<li><p><strong>instance</strong> – The actual instance being saved.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-cart.views">Cart views for e-commerce application.</p>
+<p>Includes all cart-related operations such as adding items, removing items,
+updating quantities, and rendering cart summaries. Each view is secured
+with user authentication and includes validation and user feedback.</p>
+<p class="rubric">References</p>
+<p>Django messages framework: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/contrib/messages/">https://docs.djangoproject.com/en/stable/ref/contrib/messages/</a>
+Django authentication decorators: <a class="reference external" href="https://docs.djangoproject.com/en/stable/topics/auth/default/#the-login-required-decorator">https://docs.djangoproject.com/en/stable/topics/auth/default/#the-login-required-decorator</a></p>
+<dl class="py function">
+<dt class="sig sig-object py" id="cart.views.add_to_cart">
+<span class="sig-prename descclassname"><span class="pre">cart.views.</span></span><span class="sig-name descname"><span class="pre">add_to_cart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/views.html#add_to_cart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.views.add_to_cart" title="Link to this definition"></a></dt>
+<dd><p>Add a product to the user’s cart with inventory validation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p></li>
+<li><p><strong>product_id</strong> (<em>int</em>) – ID of the product to add.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Redirects to the cart view.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cart.views.view_cart">
+<span class="sig-prename descclassname"><span class="pre">cart.views.</span></span><span class="sig-name descname"><span class="pre">view_cart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/views.html#view_cart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.views.view_cart" title="Link to this definition"></a></dt>
+<dd><p>Display the contents of the user’s shopping cart.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Rendered cart page.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cart.views.remove_from_cart">
+<span class="sig-prename descclassname"><span class="pre">cart.views.</span></span><span class="sig-name descname"><span class="pre">remove_from_cart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/views.html#remove_from_cart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.views.remove_from_cart" title="Link to this definition"></a></dt>
+<dd><p>Remove an item from the shopping cart.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p></li>
+<li><p><strong>item_id</strong> (<em>int</em>) – ID of the cart item to remove.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Redirects to the cart view.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cart.views.update_quantity">
+<span class="sig-prename descclassname"><span class="pre">cart.views.</span></span><span class="sig-name descname"><span class="pre">update_quantity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/views.html#update_quantity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.views.update_quantity" title="Link to this definition"></a></dt>
+<dd><p>Update the quantity of an item in the cart.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p></li>
+<li><p><strong>item_id</strong> (<em>int</em>) – ID of the cart item to update.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Redirects to the cart view.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cart.views.cart_summary">
+<span class="sig-prename descclassname"><span class="pre">cart.views.</span></span><span class="sig-name descname"><span class="pre">cart_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/views.html#cart_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.views.cart_summary" title="Link to this definition"></a></dt>
+<dd><p>Return minimal cart data for AJAX requests (e.g., cart icon update).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Contains total item count and subtotal.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>JsonResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="order_confirmation.html" class="btn btn-neutral float-left" title="Order Confirmation Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reviews.html" class="btn btn-neutral float-right" title="Product Reviews" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jim.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

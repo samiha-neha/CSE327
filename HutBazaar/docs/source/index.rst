@@ -12,6 +12,8 @@ Welcome to HutBazaar Documentation
 
    checkout
    order_confirmation
+   cart
+   reviews
 
 Indices and tables
 ==================
