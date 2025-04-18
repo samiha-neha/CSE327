@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block title %}Products{% endblock %} {% block
+content %}
+<h1>Products</h1>
+
+{% if products %}
+<ul class="product-list">
+  {% for product in products %}
+  <li>
+    <strong>{{ product.name }}</strong> - ${{ product.price }} {# Add
+    Description etc. if desired #} {# --- Wishlist Button --- #} {% if
+    user.is_authenticated %}
+    <form
+      action="{% url 'wishlists:add_to_wishlist' product.id %}"
+      method="post"
+    >
+      {% csrf_token %}
+      <button type="submit">Add to Wishlist</button>
+    </form>
+    {% endif %} {# --- Add to Cart Button (Placeholder) --- #} {#
+    <form action="{% url 'cart:add' product.id %}" method="post">
+      #} {# {% csrf_token %} #} {# <button type="submit">Add to Cart</button> #}
+      {#
+    </form>
+    #}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No products found.</p>
+{% endif %} {% endblock %}

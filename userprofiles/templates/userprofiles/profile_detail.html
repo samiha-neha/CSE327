@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block title %}Your Profile{% endblock %} {% block
+content %}
+<h1>Your Profile</h1>
+
+<h2>Personal Details</h2>
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>Name:</strong> {{ user.get_full_name|default:"Not Set" }}</p>
+<p>
+  <strong>Phone Number:</strong> {{ user_profile.phone_number|default:"Not Set"
+  }}
+</p>
+<p>
+  <a href="{% url 'userprofiles:profile_edit' %}">Edit Profile & Password</a>
+</p>
+
+{# --- Optional: Order History ---
+<hr />
+<h2>Your Order History</h2>
+{% if user_orders %}
+<table border="1">
+  {# Basic table #}
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in user_orders %}
+    <tr>
+      <td>{{ order.id }}</td>
+      <td>{{ order.order_date|date:"Y-m-d" }}</td>
+      <td>{{ order.get_status_display }}</td>
+      <td>${{ order.total_amount }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>You haven't placed any orders yet.</p>
+{% endif %} --- End Optional --- #} {% endblock %}
