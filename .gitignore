@@ -1,2 +1,6 @@
 djangoenv
 venv
+<<<<<<< Updated upstream
+=======
+__pycache__
+>>>>>>> Stashed changes
