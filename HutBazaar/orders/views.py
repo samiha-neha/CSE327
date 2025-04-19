@@ -4,6 +4,10 @@ from django.shortcuts import render, get_object_or_404
 from .models import Order
 from .forms import OrderTrackingForm
 import uuid
+from django.http import HttpResponse 
+
+def home_view(request):
+    return render(request, 'orders/home.html') 
 
 def order_tracking_view(request):
     """Handles the order tracking page.

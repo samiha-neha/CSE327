@@ -1,152 +1,162 @@
 # orders/tests.py
 
 import datetime
-import uuid  # Keep uuid if tracking_id is used
+import uuid
 from django.test import TestCase
-from django.utils import timezone # Import timezone for date/time operations
-from .models import Order
-from decimal import Decimal # Make sure Decimal is imported
+from django.utils import timezone
+from decimal import Decimal # Import Decimal for monetary values
+from .models import Order # Import the Order model to be tested
+
+# Note: These tests assume the existence of the fields and methods
+# defined in the current orders/models.py file.
 
 class OrderModelTests(TestCase):
 
-    # --- New Tests for Defaults ---
-
     def test_order_status_defaults_to_pending(self):
         """
-        Verify that a new Order defaults to PENDING status.
+        Verify that a new Order defaults to PENDING status when not specified.
         """
-        # Arrange: Create an order providing only minimal required fields
-        # Make sure these fields are actually required by your model
+        # Arrange: Create an order providing only fields required by the model
+        # (customer_name, customer_email, shipping_address are required)
         order = Order.objects.create(
             customer_name="Default Status Test",
             customer_email="default_status@example.com",
             shipping_address="1 Default St"
-            # DO NOT specify 'status' here
+            # Status is NOT provided, should use the model default
         )
+
         # Act: Status is set automatically by the model default
-        # Assert
-        print(f"\n   Testing {self._testMethodName}: Status={order.status}, Expected='PENDING'")
+        # Assert: Check if the status matches the expected default from OrderStatus
         self.assertEqual(order.status, Order.OrderStatus.PENDING)
 
     def test_order_total_amount_defaults_to_zero(self):
         """
-        Verify that a new Order defaults to 0.00 total_amount.
+        Verify that a new Order defaults to 0.00 total_amount when not specified.
         """
-        # Arrange: Create an order providing only minimal required fields
+        # Arrange: Create an order providing only required fields
         order = Order.objects.create(
             customer_name="Default Amount Test",
             customer_email="default_amount@example.com",
             shipping_address="2 Default St"
-            # DO NOT specify 'total_amount' here
+            # total_amount is NOT provided, should use the model default
         )
-        # Act: total_amount is set automatically by the model default
-        # Assert
-        print(f"\n   Testing {self._testMethodName}: Amount={order.total_amount}, Expected=0.00")
-        self.assertEqual(order.total_amount, Decimal('0.00'))
 
-    # --- Existing Tests ---
+        # Act: total_amount is set automatically by the model default
+        # Assert: Check if the total_amount matches the Decimal('0.00') default
+        self.assertEqual(order.total_amount, Decimal('0.00'))
 
     def test_order_string_representation(self):
         """
-        Test that the string representation of an Order object is correct.
-        Assumes __str__ returns f"Order {self.id} ({self.tracking_id})".
+        Test that the __str__ method of an Order object returns the expected format.
         """
-        # Arrange: Create an instance using ACTUAL fields from your Order model
-        test_uuid = uuid.uuid4()
-        # Ensure ALL required fields (those without blank=True, null=True, or default) are provided
+        # Arrange: Create an instance providing required fields
+        # tracking_id is generated automatically, but we can use it in the assertion
         order = Order.objects.create(
-            # --- Adjust these fields based on your ACTUAL Order model ---
             customer_name="Test Customer Str",
             customer_email="test_str@example.com",
             shipping_address="123 String St",
-            tracking_id=test_uuid, # Assumes you have tracking_id
-            order_date=timezone.now(), # Provide a date/time
-            total_amount=Decimal('10.00') # Example if you have this field - ensure Decimal()
-            # --- End of fields to adjust ---
+            # order_date and total_amount are optional here since they have defaults,
+            # but providing them makes the test object more complete.
+            order_date=timezone.now(),
+            total_amount=Decimal('10.00')
         )
 
-        # Act: Get the string representation
+        # Act: Get the string representation using the model's __str__ method
         order_as_string = str(order)
 
-        # Assert: Check against the expected __str__ output format
-        expected_string = f"Order {order.id} ({test_uuid})" # Use the generated id and the uuid used
-        print(f"\n   Testing {self._testMethodName}: Got '{order_as_string}', Expected '{expected_string}'") # Debug print
+        # Assert: Check against the expected __str__ output format defined in the model
+        expected_string = f"Order {order.id} ({order.tracking_id})"
         self.assertEqual(order_as_string, expected_string)
 
     def test_was_ordered_recently_with_future_order(self):
         """
-        was_ordered_recently() should return False for orders whose order_date is in the future.
+        was_ordered_recently() should return False for orders whose order_date
+        is set in the future.
         """
-        # Arrange
+        # Arrange: Create a future date and an order with that date
         future_date = timezone.now() + datetime.timedelta(days=30)
-        # Create order using only necessary fields for the test (and required model fields)
         future_order = Order.objects.create(
-             order_date=future_date,
-             # Add other REQUIRED fields if Order model needs them for creation
+             order_date=future_date, # Set the date explicitly
+             # Provide other required fields
              customer_name="Test Customer Future",
              customer_email="test_future@example.com",
              shipping_address="123 Future St",
-             tracking_id=uuid.uuid4() # Provide if required
         )
 
-        # Act
-        result = future_order.was_ordered_recently() # Assumes this method exists on Order model
+        # Act: Call the method under test
+        result = future_order.was_ordered_recently()
 
-        # Assert
+        # Assert: The result should be False for future dates
         self.assertIs(result, False)
-        print(f"\n   Testing {self._testMethodName}: Date {future_date}, Result={result}, Expected False")
 
     def test_was_ordered_recently_with_old_order(self):
         """
-        was_ordered_recently() should return False for orders whose order_date is older than 1 day.
+        was_ordered_recently() should return False for orders whose order_date
+        is older than 1 day.
         """
-        # Arrange
-        # Define old_date WITHIN this test
-        old_date = timezone.now() - datetime.timedelta(days=1, seconds=1) # Clearly older than 1 day
-        # Create order using only necessary fields for the test (and required model fields)
+        # Arrange: Create a date older than 1 day and an order with that date
+        # Use more than 24 hours to be clearly outside the "recent" window
+        old_date = timezone.now() - datetime.timedelta(days=1, seconds=1)
         old_order = Order.objects.create(
-            order_date=old_date,
-            # Add other REQUIRED fields if Order model needs them for creation
+            order_date=old_date, # Set the date explicitly
+            # Provide other required fields
             customer_name="Test Customer Old",
             customer_email="test_old@example.com",
             shipping_address="123 Old St",
-            tracking_id=uuid.uuid4() # Provide if required
         )
 
-        # Act
-        result = old_order.was_ordered_recently() # Assumes this method exists on Order model
+        # Act: Call the method under test
+        result = old_order.was_ordered_recently()
 
-        # Assert
+        # Assert: The result should be False for old dates
         self.assertIs(result, False)
-        print(f"\n   Testing {self._testMethodName}: Date {old_date}, Result={result}, Expected False")
 
     def test_was_ordered_recently_with_recent_order(self):
         """
-        was_ordered_recently() should return True for orders whose order_date is within the last day.
+        was_ordered_recently() should return True for orders whose order_date
+        is within the last day.
         """
-        # Arrange
-        # Define recent_date WITHIN this test
-        recent_date = timezone.now() - datetime.timedelta(hours=23) # Clearly within the last day
-        # Create order using only necessary fields for the test (and required model fields)
+        # Arrange: Create a date within the last 24 hours and an order with that date
+        recent_date = timezone.now() - datetime.timedelta(hours=23, minutes=59)
         recent_order = Order.objects.create(
-            order_date=recent_date,
-            # Add other REQUIRED fields if Order model needs them for creation
+            order_date=recent_date, # Set the date explicitly
+            # Provide other required fields
             customer_name="Test Customer Recent",
             customer_email="test_recent@example.com",
             shipping_address="123 Recent St",
-            tracking_id=uuid.uuid4() # Provide if required
         )
 
-        # Act
-        result = recent_order.was_ordered_recently() # Assumes this method exists on Order model
+        # Act: Call the method under test
+        result = recent_order.was_ordered_recently()
 
-        # Assert
+        # Assert: The result should be True for recent dates
         self.assertIs(result, True)
-        print(f"\n   Testing {self._testMethodName}: Date {recent_date}, Result={result}, Expected True")
 
-# --- You would add the OrderTrackingViewTests and OrderTrackingFormTests classes below this line ---
-# class OrderTrackingViewTests(TestCase):
-#    ... tests from Step 3 ...
+# --- Placeholder for Future Tests ---
 
-# class OrderTrackingFormTests(TestCase):
-#    ... tests from Step 4 (if needed) ...
+# You would add tests for your views here, simulating requests
+# class OrderViewTests(TestCase):
+#    def test_order_list_view_status_code(self):
+#        # Example: response = self.client.get(reverse('orders:order_list'))
+#        #          self.assertEqual(response.status_code, 200)
+#        pass # Replace with actual view tests
+#
+#    def test_order_detail_view_content(self):
+#        # Example: order = Order.objects.create(...)
+#        #          response = self.client.get(reverse('orders:order_detail', args=[order.pk]))
+#        #          self.assertContains(response, order.customer_name)
+#        pass # Replace with actual view tests
+
+# You would add tests for your forms here, checking validation
+# class OrderFormTests(TestCase):
+#    def test_valid_form(self):
+#        # Example: form_data = {'field1': 'value1', ...}
+#        #          form = YourOrderForm(data=form_data)
+#        #          self.assertTrue(form.is_valid())
+#        pass # Replace with actual form tests
+#
+#    def test_invalid_form(self):
+#        # Example: form_data = {'field1': '', ...} # Invalid data
+#        #          form = YourOrderForm(data=form_data)
+#        #          self.assertFalse(form.is_valid())
+#        pass # Replace with actual form tests

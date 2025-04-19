@@ -4,9 +4,9 @@ import datetime # Import datetime
 from django.db import models
 from django.utils import timezone # Import timezone
 from django.utils.translation import gettext_lazy as _
-from django.utils.safestring import mark_safe # Needed for Product.image_preview
+from django.utils.safestring import mark_safe # Import mark_safe for image_preview
 
-# --- Product Model (Seems okay, but added mark_safe import) ---
+# --- Product Model ---
 class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
@@ -21,16 +21,16 @@ class Product(models.Model):
         return self.name
 
     def image_preview(self):
+        """Provides an HTML preview of the image for the admin interface."""
         if self.image:
-            # Ensure mark_safe is imported: from django.utils.safestring import mark_safe
             return mark_safe(f'<img src="{self.image.url}" width="100" height="auto" />')
         return "(No image)"
     image_preview.short_description = 'Image Preview'
 
 
-# ---  Order Model (Corrected Indentation) ---
+# --- Order Model ---
 class Order(models.Model):
-    # --- Inner Class: OrderStatus (Correctly Indented) ---
+    # Inner Class for Order Status Choices
     class OrderStatus(models.TextChoices):
         PENDING = 'PENDING', _('Pending')
         PROCESSING = 'PROCESSING', _('Processing')
@@ -38,33 +38,33 @@ class Order(models.Model):
         DELIVERED = 'DELIVERED', _('Delivered')
         CANCELLED = 'CANCELLED', _('Cancelled')
 
-    # --- Fields (Correctly Indented) ---
-    tracking_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, db_index=True)
+    # Fields
+    tracking_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, db_index=True, help_text="Unique identifier for tracking the order.")
     customer_name = models.CharField(max_length=150)
     customer_email = models.EmailField()
     shipping_address = models.TextField()
-    # Changed default=timezone.now TO auto_now_add=True based on original user code structure
-    # auto_now_add=True means it's set only on creation. If you need to modify it later, remove auto_now_add.
-    # If you need the field to be modifiable in tests like you were doing, USE default=timezone.now instead.
-    # Let's revert to default=timezone.now to support the tests where you set the date explicitly.
-    # order_date = models.DateTimeField(auto_now_add=True)
-    order_date = models.DateTimeField(default=timezone.now) # Use default to allow setting in tests
+    # Use default=timezone.now to allow setting specific dates in tests and admin
+    order_date = models.DateTimeField(default=timezone.now)
     status = models.CharField(
         max_length=20,
         choices=OrderStatus.choices,
         default=OrderStatus.PENDING,
     )
+    # Default makes sense for an order total before items are added
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True) # Automatically updated on save
     estimated_delivery_date = models.DateField(blank=True, null=True, help_text="Estimated date the order will be delivered.")
     delivery_notes = models.TextField(blank=True, null=True, help_text="Notes regarding delivery, like tracking links or delay reasons.")
-    # --- End Fields ---
 
-    # --- Method: __str__ (Correctly Indented) ---
+    # Meta Class for ordering
+    class Meta:
+        ordering = ['-order_date'] # Show newest orders first by default
+
+    # Methods
     def __str__(self):
+        """String representation of the Order model."""
         return f"Order {self.id} ({self.tracking_id})"
 
-    # --- Method: was_ordered_recently (Correctly Indented) ---
     def was_ordered_recently(self):
         """
         Returns True if the order was placed within the last day.
@@ -75,23 +75,32 @@ class Order(models.Model):
              return False
         # Check if the order_date is within the range: (now - 1 day) <= order_date <= now
         return now - datetime.timedelta(days=1) <= self.order_date <= now
-    # --- End Method ---
-
-    # --- Inner Class: Meta (Correctly Indented) ---
-    class Meta:
-        ordering = ['-order_date']
-# --- End Order Model ---
+    # Attributes for better display in Django Admin
+    was_ordered_recently.admin_order_field = 'order_date'
+    was_ordered_recently.boolean = True
+    was_ordered_recently.short_description = 'Ordered recently?'
 
 
-# --- OrderItem Model (Seems okay) ---
+# --- OrderItem Model ---
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, related_name='order_items', on_delete=models.PROTECT) # PROTECT prevents deleting a Product if it's in an order
+    # Use PROTECT to prevent deleting a Product if it's part of an existing order
+    product = models.ForeignKey(Product, related_name='order_items', on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(default=1)
-    price = models.DecimalField(max_digits=10, decimal_places=2) # Price at the time of order
+    price = models.DecimalField(max_digits=10, decimal_places=2, help_text="Price of the product at the time the order was placed.") # Price at the time of order
 
     def __str__(self):
-        return f"{self.quantity} x {self.product.name} in Order {self.order.id}"
+        """String representation of the OrderItem model."""
+        # Use self.product.name if product relationship is guaranteed (which it should be)
+        product_name = self.product.name if self.product else "Unknown Product"
+        return f"{self.quantity} x {product_name} in Order {self.order.id}"
 
     def get_cost(self):
+        """Calculates the total cost for this line item."""
         return self.price * self.quantity
+
+    class Meta:
+        # Optional: Ensure a product isn't added twice to the same order,
+        # though often you might allow this and sum quantities later.
+        # unique_together = ('order', 'product')
+        pass
