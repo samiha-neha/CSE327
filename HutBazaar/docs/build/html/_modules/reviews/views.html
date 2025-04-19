@@ -74,108 +74,48 @@
            <div itemprop="articleBody">
              
   <h1>Source code for reviews.views</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">redirect</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">get_object_or_404</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">django.views.decorators.http</span><span class="w"> </span><span class="kn">import</span> <span class="n">require_GET</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Review</span>
-
-<span class="c1"># from cart.models import Product, OrderItem</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReviewForm</span>
-
-
-<div class="viewcode-block" id="product_reviews">
-<a class="viewcode-back" href="../../reviews.html#reviews.views.product_reviews">[docs]</a>
-<span class="nd">@require_GET</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">product_reviews</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Display product reviews.</span>
-
-<span class="sd">    :param request: HttpRequest object.</span>
-<span class="sd">    :param product_id: ID of the product.</span>
-<span class="sd">    :return: Rendered HTML page with product reviews.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
-    <span class="n">reviews</span> <span class="o">=</span> <span class="n">Review</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s2">&quot;user&quot;</span><span class="p">)</span>
-    <span class="n">verified_buyer</span> <span class="o">=</span> <span class="kc">False</span>
-
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
-        <span class="n">verified_buyer</span> <span class="o">=</span> <span class="n">OrderItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-            <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span> <span class="n">order__user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span>
-        <span class="n">request</span><span class="p">,</span>
-        <span class="s2">&quot;review/product_reviews.html&quot;</span><span class="p">,</span>
-        <span class="p">{</span><span class="s2">&quot;product&quot;</span><span class="p">:</span> <span class="n">product</span><span class="p">,</span> <span class="s2">&quot;reviews&quot;</span><span class="p">:</span> <span class="n">reviews</span><span class="p">,</span> <span class="s2">&quot;verified_buyer&quot;</span><span class="p">:</span> <span class="n">verified_buyer</span><span class="p">},</span>
-    <span class="p">)</span></div>
-
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">store.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Product</span>
 
 <div class="viewcode-block" id="add_review">
 <a class="viewcode-back" href="../../reviews.html#reviews.views.add_review">[docs]</a>
 <span class="nd">@login_required</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_review</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Add a review for a product.</span>
+<span class="sd">    Handle adding a new review for a product.</span>
 
-<span class="sd">    :param request: HttpRequest object.</span>
-<span class="sd">    :param product_id: ID of the product to review.</span>
-<span class="sd">    :return: Redirect or rendered HTML page to add review.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The request object.</span>
+<span class="sd">        product_id (int): ID of the product being reviewed.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponseRedirect: Redirects to product detail page.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
-    <span class="n">has_purchased</span> <span class="o">=</span> <span class="n">OrderItem</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-        <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span> <span class="n">order__user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">has_purchased</span><span class="p">:</span>
-        <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;You can only review products you have purchased.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;review:product_reviews&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="o">=</span><span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">rating</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;rating&#39;</span><span class="p">)</span>
+        <span class="n">comment</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;comment&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
-        <span class="n">form</span> <span class="o">=</span> <span class="n">ReviewForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
-            <span class="n">Review</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">update_or_create</span><span class="p">(</span>
-                <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
-                <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span>
-                <span class="n">defaults</span><span class="o">=</span><span class="p">{</span>
-                    <span class="s2">&quot;rating&quot;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;rating&quot;</span><span class="p">],</span>
-                    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;comment&quot;</span><span class="p">],</span>
-                <span class="p">},</span>
-            <span class="p">)</span>
-            <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Your review has been submitted.&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;review:product_reviews&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="o">=</span><span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">form</span> <span class="o">=</span> <span class="n">ReviewForm</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">rating</span><span class="p">:</span>
+            <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Please select a rating&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;store:product-detail&#39;</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span> 
 
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;review/add_review.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;form&quot;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">:</span> <span class="n">product</span><span class="p">})</span></div>
+        <span class="n">Review</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">update_or_create</span><span class="p">(</span>
+            <span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">,</span>
+            <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+            <span class="n">defaults</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;rating&#39;</span><span class="p">:</span> <span class="n">rating</span><span class="p">,</span>
+                <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="n">comment</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Your review has been saved&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;store:product-detail&#39;</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span> 
 
-
-
-<div class="viewcode-block" id="edit_review">
-<a class="viewcode-back" href="../../reviews.html#reviews.views.edit_review">[docs]</a>
-<span class="nd">@login_required</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">edit_review</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">review_id</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Edit an existing review.</span>
-
-<span class="sd">    :param request: HttpRequest object.</span>
-<span class="sd">    :param review_id: ID of the review to edit.</span>
-<span class="sd">    :return: Redirect or rendered HTML page to edit review.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">review</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Review</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">review_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
-        <span class="n">form</span> <span class="o">=</span> <span class="n">ReviewForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">review</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
-            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-            <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Review updated.&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;review:product_reviews&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="o">=</span><span class="n">review</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">form</span> <span class="o">=</span> <span class="n">ReviewForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">review</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;review/edit_review.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;form&quot;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s2">&quot;review&quot;</span><span class="p">:</span> <span class="n">review</span><span class="p">})</span></div>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;store:product-detail&#39;</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span> </div>
 
 
 
@@ -184,21 +124,42 @@
 <span class="nd">@login_required</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">delete_review</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">review_id</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Delete an existing review.</span>
-
-<span class="sd">    :param request: HttpRequest object.</span>
-<span class="sd">    :param review_id: ID of the review to delete.</span>
-<span class="sd">    :return: Redirect or rendered confirmation page.</span>
+<span class="sd">    Handle deleting a review.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The request object</span>
+<span class="sd">        review_id (int): ID of the review to delete</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponseRedirect: Redirects to product detail page</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">review</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Review</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">review_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">review</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Review</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">review_id</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">product_id</span> <span class="o">=</span> <span class="n">review</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">review</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Your review has been deleted&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;store:product-detail&#39;</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span> </div>
 
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
-        <span class="n">product_id</span> <span class="o">=</span> <span class="n">review</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">id</span>
-        <span class="n">review</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
-        <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Review deleted.&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;review:product_reviews&quot;</span><span class="p">,</span> <span class="n">product_id</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;review/confirm_delete.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;review&quot;</span><span class="p">:</span> <span class="n">review</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="product_reviews">
+<a class="viewcode-back" href="../../reviews.html#reviews.views.product_reviews">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">product_reviews</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display all reviews for a specific product.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        request (HttpRequest): The request object.</span>
+<span class="sd">        product_id (int): ID of the product.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HttpResponse: Rendered reviews page.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
+    <span class="n">reviews</span> <span class="o">=</span> <span class="n">Review</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">product</span><span class="o">=</span><span class="n">product</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-created_at&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;reviews/product_reviews.html&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s1">&#39;product&#39;</span><span class="p">:</span> <span class="n">product</span><span class="p">,</span>
+        <span class="s1">&#39;reviews&#39;</span><span class="p">:</span> <span class="n">reviews</span>
+    <span class="p">})</span></div>
 
 </pre></div>
 

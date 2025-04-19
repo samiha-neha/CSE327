@@ -1,15 +1,3 @@
-"""
-Cart views for e-commerce application.
-
-Includes all cart-related operations such as adding items, removing items,
-updating quantities, and rendering cart summaries. Each view is secured 
-with user authentication and includes validation and user feedback.
-
-References:
-    Django messages framework: https://docs.djangoproject.com/en/stable/ref/contrib/messages/
-    Django authentication decorators: https://docs.djangoproject.com/en/stable/topics/auth/default/#the-login-required-decorator
-"""
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -23,14 +11,11 @@ from store.models import Product
 @login_required
 def add_to_cart(request, product_id):
     """
-    Add a product to the user's cart with inventory validation.
+    Add a product to the user's cart or update quantity if it already exists.
 
-    Args:
-        request (HttpRequest): The request object.
-        product_id (int): ID of the product to add.
-
-    Returns:
-        HttpResponseRedirect: Redirects to the cart view.
+    :param request: The HTTP request object.
+    :param product_id: ID of the product to be added.
+    :return: Redirects to the previous page or store home.
     """
     product = get_object_or_404(Product, pk=product_id)
     cart, _ = Cart.objects.get_or_create(user=request.user)
@@ -49,7 +34,7 @@ def add_to_cart(request, product_id):
     except ValidationError as e:
         messages.error(request, str(e))
 
-    return redirect('cart:view_cart')
+    return redirect(request.META.get('HTTP_REFERER', 'store:home'))
 
 
 @login_required
@@ -57,15 +42,11 @@ def view_cart(request):
     """
     Display the contents of the user's shopping cart.
 
-    Args:
-        request (HttpRequest): The request object.
-
-    Returns:
-        HttpResponse: Rendered cart page.
+    :param request: The HTTP request object.
+    :return: Rendered cart page with cart items.
     """
     cart = get_object_or_404(Cart, user=request.user)
-    context = {'cart': cart}
-    return render(request, 'cart/view_cart.html', context)
+    return render(request, 'cart/cart.html', {'cart': cart})
 
 
 @login_required
@@ -73,12 +54,9 @@ def remove_from_cart(request, item_id):
     """
     Remove an item from the shopping cart.
 
-    Args:
-        request (HttpRequest): The request object.
-        item_id (int): ID of the cart item to remove.
-
-    Returns:
-        HttpResponseRedirect: Redirects to the cart view.
+    :param request: The HTTP request object.
+    :param item_id: ID of the cart item to be removed.
+    :return: Redirects to the cart view.
     """
     item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
     product_name = item.product.name
@@ -92,12 +70,9 @@ def update_quantity(request, item_id):
     """
     Update the quantity of an item in the cart.
 
-    Args:
-        request (HttpRequest): The request object.
-        item_id (int): ID of the cart item to update.
-
-    Returns:
-        HttpResponseRedirect: Redirects to the cart view.
+    :param request: The HTTP request object.
+    :param item_id: ID of the cart item to update.
+    :return: Redirects to the cart view.
     """
     item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
 
@@ -116,26 +91,20 @@ def update_quantity(request, item_id):
     return redirect('cart:view_cart')
 
 
-@login_required
+from django.core.cache import cache
+
 def cart_summary(request):
     """
-    Return minimal cart data for AJAX requests (e.g., cart icon update).
+    Get cart summary data for display in templates.
 
-    Args:
-        request (HttpRequest): The request object.
-
-    Returns:
-        JsonResponse: Contains total item count and subtotal.
+    :param request: The HTTP request object.
+    :return: A dictionary with item count and subtotal.
     """
-    cart = get_object_or_404(Cart, user=request.user)
-    return JsonResponse({
-        'item_count': cart.total_items,
-        'subtotal': cart.subtotal
-    })
-
-
-
-
-
-
-    
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user).first()
+        if cart:
+            return {
+                'item_count': cart.total_items,
+                'subtotal': cart.subtotal
+            }
+    return {'item_count': 0, 'subtotal': 0}

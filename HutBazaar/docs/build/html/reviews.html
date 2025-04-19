@@ -50,20 +50,20 @@
 <li class="toctree-l1"><a class="reference internal" href="cart.html">Shopping Cart</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Product Reviews</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#reviews.models.Review"><code class="docutils literal notranslate"><span class="pre">Review</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#reviews.models.Review.user"><code class="docutils literal notranslate"><span class="pre">Review.user</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reviews.models.Review.product"><code class="docutils literal notranslate"><span class="pre">Review.product</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reviews.models.Review.user"><code class="docutils literal notranslate"><span class="pre">Review.user</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reviews.models.Review.rating"><code class="docutils literal notranslate"><span class="pre">Review.rating</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reviews.models.Review.comment"><code class="docutils literal notranslate"><span class="pre">Review.comment</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reviews.models.Review.created_at"><code class="docutils literal notranslate"><span class="pre">Review.created_at</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reviews.models.Review.updated_at"><code class="docutils literal notranslate"><span class="pre">Review.updated_at</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reviews.models.Review.stars"><code class="docutils literal notranslate"><span class="pre">Review.stars</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reviews.models.Review.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Review.DoesNotExist</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reviews.models.Review.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">Review.MultipleObjectsReturned</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#reviews.views.product_reviews"><code class="docutils literal notranslate"><span class="pre">product_reviews()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#reviews.views.add_review"><code class="docutils literal notranslate"><span class="pre">add_review()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#reviews.views.edit_review"><code class="docutils literal notranslate"><span class="pre">edit_review()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#reviews.views.delete_review"><code class="docutils literal notranslate"><span class="pre">delete_review()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reviews.views.product_reviews"><code class="docutils literal notranslate"><span class="pre">product_reviews()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -97,25 +97,25 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="reviews.models.Review">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">reviews.models.</span></span><span class="sig-name descname"><span class="pre">Review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reviews/models.html#Review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reviews.models.Review" title="Link to this definition"></a></dt>
-<dd><p>Model representing a product review submitted by a user.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="reviews.models.Review.user">
-<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#reviews.models.Review.user" title="Link to this definition"></a></dt>
-<dd><p>The user who submitted the review.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>User</p>
-</dd>
-</dl>
-</dd></dl>
-
+<dd><p>Model representing a product review.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reviews.models.Review.product">
 <span class="sig-name descname"><span class="pre">product</span></span><a class="headerlink" href="#reviews.models.Review.product" title="Link to this definition"></a></dt>
 <dd><p>The product being reviewed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="store.models.html#store.models.product.Product" title="store.models.product.Product">Product</a></p>
+<dd class="field-odd"><p>ForeignKey</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="reviews.models.Review.user">
+<span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#reviews.models.Review.user" title="Link to this definition"></a></dt>
+<dd><p>The user who created the review.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ForeignKey</p>
 </dd>
 </dl>
 </dd></dl>
@@ -123,10 +123,10 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reviews.models.Review.rating">
 <span class="sig-name descname"><span class="pre">rating</span></span><a class="headerlink" href="#reviews.models.Review.rating" title="Link to this definition"></a></dt>
-<dd><p>Star rating given by the user (typically 1 to 5).</p>
+<dd><p>Rating from 1 to 5.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int</p>
+<dd class="field-odd"><p>PositiveIntegerField</p>
 </dd>
 </dl>
 </dd></dl>
@@ -134,10 +134,10 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reviews.models.Review.comment">
 <span class="sig-name descname"><span class="pre">comment</span></span><a class="headerlink" href="#reviews.models.Review.comment" title="Link to this definition"></a></dt>
-<dd><p>Textual content of the review.</p>
+<dd><p>The review text content.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-odd"><p>TextField</p>
 </dd>
 </dl>
 </dd></dl>
@@ -145,10 +145,10 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reviews.models.Review.created_at">
 <span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#reviews.models.Review.created_at" title="Link to this definition"></a></dt>
-<dd><p>Timestamp when the review was created.</p>
+<dd><p>When the review was created.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>datetime</p>
+<dd class="field-odd"><p>DateTimeField</p>
 </dd>
 </dl>
 </dd></dl>
@@ -156,12 +156,18 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="reviews.models.Review.updated_at">
 <span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#reviews.models.Review.updated_at" title="Link to this definition"></a></dt>
-<dd><p>Timestamp when the review was last updated.</p>
+<dd><p>When the review was last updated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>datetime</p>
+<dd class="field-odd"><p>DateTimeField</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="reviews.models.Review.stars">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stars</span></span><a class="headerlink" href="#reviews.models.Review.stars" title="Link to this definition"></a></dt>
+<dd><p>Return rating as a string of stars.</p>
 </dd></dl>
 
 <dl class="py exception">
@@ -177,52 +183,21 @@
 </dd></dl>
 
 <dl class="py function" id="module-reviews.views">
-<dt class="sig sig-object py" id="reviews.views.product_reviews">
-<span class="sig-prename descclassname"><span class="pre">reviews.views.</span></span><span class="sig-name descname"><span class="pre">product_reviews</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reviews/views.html#product_reviews"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reviews.views.product_reviews" title="Link to this definition"></a></dt>
-<dd><p>Display product reviews.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> – HttpRequest object.</p></li>
-<li><p><strong>product_id</strong> – ID of the product.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Rendered HTML page with product reviews.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="reviews.views.add_review">
 <span class="sig-prename descclassname"><span class="pre">reviews.views.</span></span><span class="sig-name descname"><span class="pre">add_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reviews/views.html#add_review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reviews.views.add_review" title="Link to this definition"></a></dt>
-<dd><p>Add a review for a product.</p>
+<dd><p>Handle adding a new review for a product.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> – HttpRequest object.</p></li>
-<li><p><strong>product_id</strong> – ID of the product to review.</p></li>
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p></li>
+<li><p><strong>product_id</strong> (<em>int</em>) – ID of the product being reviewed.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Redirect or rendered HTML page to add review.</p>
+<dd class="field-even"><p>Redirects to product detail page.</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="reviews.views.edit_review">
-<span class="sig-prename descclassname"><span class="pre">reviews.views.</span></span><span class="sig-name descname"><span class="pre">edit_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">review_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reviews/views.html#edit_review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reviews.views.edit_review" title="Link to this definition"></a></dt>
-<dd><p>Edit an existing review.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> – HttpRequest object.</p></li>
-<li><p><strong>review_id</strong> – ID of the review to edit.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Redirect or rendered HTML page to edit review.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
 </dd>
 </dl>
 </dd></dl>
@@ -230,16 +205,39 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="reviews.views.delete_review">
 <span class="sig-prename descclassname"><span class="pre">reviews.views.</span></span><span class="sig-name descname"><span class="pre">delete_review</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">review_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reviews/views.html#delete_review"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reviews.views.delete_review" title="Link to this definition"></a></dt>
-<dd><p>Delete an existing review.</p>
+<dd><p>Handle deleting a review.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> – HttpRequest object.</p></li>
-<li><p><strong>review_id</strong> – ID of the review to delete.</p></li>
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The request object</p></li>
+<li><p><strong>review_id</strong> (<em>int</em>) – ID of the review to delete</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Redirect or rendered confirmation page.</p>
+<dd class="field-even"><p>Redirects to product detail page</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponseRedirect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="reviews.views.product_reviews">
+<span class="sig-prename descclassname"><span class="pre">reviews.views.</span></span><span class="sig-name descname"><span class="pre">product_reviews</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/reviews/views.html#product_reviews"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#reviews.views.product_reviews" title="Link to this definition"></a></dt>
+<dd><p>Display all reviews for a specific product.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p></li>
+<li><p><strong>product_id</strong> (<em>int</em>) – ID of the product.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Rendered reviews page.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HttpResponse</p>
 </dd>
 </dl>
 </dd></dl>

@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "order_confirmation",
     "users",
     "store",
-    "cart",
+    "cart",  # Make sure cart app is included
     "reviews",
 ]
 
@@ -63,6 +63,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # Add your cart context processor here
+                "cart.context_processors.cart_context",
             ],
         },
     },

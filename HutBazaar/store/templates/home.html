@@ -20,7 +20,7 @@
                 {% for product in product %}
 
                 <div class="card mx-auto mb-3">
-                    <a href="{% url 'product-detail' product.id %}" class="btn"
+                    <a href="{% url 'store:product-detail' product.id %}" class="btn">
                         ><div class="item">
                             <img
                                 class="card-img-top"
@@ -41,3 +41,5 @@
 </div>
 
 {% endblock %}
+
+

@@ -20,6 +20,5 @@ urlpatterns = [
     path("checkout/", include("checkout.urls")),
     path("order-confirm/", include("order_confirmation.urls")),
     path("users/", include("users.urls")),
-    path("users/logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path("", include("store.urls")),
+    path("users/logout/", auth_views.LogoutView.as_view(), name="logout")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

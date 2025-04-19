@@ -82,11 +82,10 @@
                         </div>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#"
-                            >Cart
-                            <span class="badge bg-danger">4</span>
-                            <span class="sr-only">(current)</span></a
-                        >
+                        <a class="nav-link" href="{% url 'cart:view_cart' %}">
+                            Cart <span class="badge bg-danger">{{ cart_summary.item_count }}</span>
+                            <span class="sr-only">(current)</span>
+                        </a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Login<span class="sr-only"></span></a>

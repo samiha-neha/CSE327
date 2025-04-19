@@ -1,22 +1,17 @@
-"""
-Cart application models with automatic total calculation via signals.
-"""
-
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
-from store.models import Product
+from store.models.product import Product
 
 
 class Cart(models.Model):
-    """
-    Represents a user's shopping cart.
+    """Model representing a user's shopping cart.
 
     Attributes:
-        user (ForeignKey): Reference to the user who owns this cart.
-        created_at (DateTime): When the cart was created.
-        updated_at (DateTime): When the cart was last modified.
+        user (User): The user who owns the cart.
+        created_at (datetime): Timestamp of when the cart was created.
+        updated_at (datetime): Timestamp of the last update.
     """
 
     user = models.OneToOneField(
@@ -32,29 +27,36 @@ class Cart(models.Model):
         verbose_name_plural = "Shopping Carts"
 
     def __str__(self):
-        """String representation of the cart."""
+        """Return string representation of the cart."""
         return f"Cart #{self.id} for {self.user.username}"
 
     @property
     def total_items(self):
-        """Return total quantity of items in cart."""
+        """Return total quantity of items in cart.
+
+        :return: Sum of quantities of all cart items.
+        :rtype: int
+        """
         return sum(item.quantity for item in self.items.all())
 
     @property
     def subtotal(self):
-        """Calculate subtotal before any discounts or taxes."""
+        """Calculate subtotal before any discounts or taxes.
+
+        :return: Subtotal cost of all items.
+        :rtype: float
+        """
         return sum(item.total_price for item in self.items.all())
 
 
 class CartItem(models.Model):
-    """
-    Represents an individual product item in a shopping cart.
+    """Model representing an item in a shopping cart.
 
     Attributes:
-        cart (ForeignKey): Reference to the parent cart.
-        product (ForeignKey): Reference to the product being purchased.
-        quantity (PositiveInteger): Number of units in cart.
-        saved_for_later (Boolean): If item is saved for later purchase.
+        cart (Cart): The cart that contains this item.
+        product (Product): The product added to the cart.
+        quantity (int): The quantity of the product.
+        added_at (datetime): When the item was added to the cart.
     """
 
     cart = models.ForeignKey(
@@ -62,13 +64,13 @@ class CartItem(models.Model):
         related_name='items',
         on_delete=models.CASCADE
     )
+
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
         related_name='cart_items'
     )
     quantity = models.PositiveIntegerField(default=1)
-    saved_for_later = models.BooleanField(default=False)
     added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -77,21 +79,25 @@ class CartItem(models.Model):
         unique_together = ('cart', 'product')
 
     def __str__(self):
-        """String representation of cart item."""
+        """Return string representation of the cart item."""
         return f"{self.quantity}x {self.product.name} in cart #{self.cart.id}"
 
     @property
     def total_price(self):
-        """Calculate total price for this line item."""
+        """Calculate total price for this line item.
+
+        :return: Price * quantity.
+        :rtype: float
+        """
         return self.product.price * self.quantity
 
     def clean(self):
-        """Validate the cart item before saving."""
-        from django.core.exceptions import ValidationError
-        
+        """Validate the cart item before saving.
+
+        :raises ValidationError: If quantity is less than 1 or exceeds stock.
+        """
         if self.quantity < 1:
             raise ValidationError("Quantity must be at least 1")
-        
         if hasattr(self.product, 'inventory'):
             if self.quantity > self.product.inventory.stock:
                 raise ValidationError(
@@ -102,12 +108,9 @@ class CartItem(models.Model):
 @receiver(post_save, sender=CartItem)
 @receiver(post_delete, sender=CartItem)
 def update_cart_timestamp(sender, instance, **kwargs):
-    """
-    Signal receiver to update cart's timestamp when items change.
+    """Update cart's timestamp when items change.
 
-    Args:
-        sender: The model class sending the signal.
-        instance: The actual instance being saved.
-        **kwargs: Additional keyword arguments.
+    :param sender: The model class.
+    :param instance: The instance of CartItem being saved or deleted.
     """
     instance.cart.save()

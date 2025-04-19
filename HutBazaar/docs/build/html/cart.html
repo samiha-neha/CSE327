@@ -80,7 +80,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.cart"><code class="docutils literal notranslate"><span class="pre">CartItem.cart</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.product"><code class="docutils literal notranslate"><span class="pre">CartItem.product</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.quantity"><code class="docutils literal notranslate"><span class="pre">CartItem.quantity</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.saved_for_later"><code class="docutils literal notranslate"><span class="pre">CartItem.saved_for_later</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.added_at"><code class="docutils literal notranslate"><span class="pre">CartItem.added_at</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.total_price"><code class="docutils literal notranslate"><span class="pre">CartItem.total_price</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.clean"><code class="docutils literal notranslate"><span class="pre">CartItem.clean()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cart.models.CartItem.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">CartItem.DoesNotExist</span></code></a><ul>
@@ -140,18 +140,17 @@
              
   <section id="module-cart.models">
 <span id="shopping-cart"></span><h1>Shopping Cart<a class="headerlink" href="#module-cart.models" title="Link to this heading"></a></h1>
-<p>Cart application models with automatic total calculation via signals.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="cart.models.Cart">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cart.models.</span></span><span class="sig-name descname"><span class="pre">Cart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/models.html#Cart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.models.Cart" title="Link to this definition"></a></dt>
-<dd><p>Represents a user’s shopping cart.</p>
+<dd><p>Model representing a user’s shopping cart.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cart.models.Cart.user">
 <span class="sig-name descname"><span class="pre">user</span></span><a class="headerlink" href="#cart.models.Cart.user" title="Link to this definition"></a></dt>
-<dd><p>Reference to the user who owns this cart.</p>
+<dd><p>The user who owns the cart.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ForeignKey</p>
+<dd class="field-odd"><p>User</p>
 </dd>
 </dl>
 </dd></dl>
@@ -159,10 +158,10 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cart.models.Cart.created_at">
 <span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#cart.models.Cart.created_at" title="Link to this definition"></a></dt>
-<dd><p>When the cart was created.</p>
+<dd><p>Timestamp of when the cart was created.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DateTime</p>
+<dd class="field-odd"><p>datetime</p>
 </dd>
 </dl>
 </dd></dl>
@@ -170,10 +169,10 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cart.models.Cart.updated_at">
 <span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#cart.models.Cart.updated_at" title="Link to this definition"></a></dt>
-<dd><p>When the cart was last modified.</p>
+<dd><p>Timestamp of the last update.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DateTime</p>
+<dd class="field-odd"><p>datetime</p>
 </dd>
 </dl>
 </dd></dl>
@@ -182,12 +181,28 @@
 <dt class="sig sig-object py" id="cart.models.Cart.total_items">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_items</span></span><a class="headerlink" href="#cart.models.Cart.total_items" title="Link to this definition"></a></dt>
 <dd><p>Return total quantity of items in cart.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sum of quantities of all cart items.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="cart.models.Cart.subtotal">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">subtotal</span></span><a class="headerlink" href="#cart.models.Cart.subtotal" title="Link to this definition"></a></dt>
 <dd><p>Calculate subtotal before any discounts or taxes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Subtotal cost of all items.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -317,14 +332,14 @@ failed.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="cart.models.CartItem">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cart.models.</span></span><span class="sig-name descname"><span class="pre">CartItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/models.html#CartItem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.models.CartItem" title="Link to this definition"></a></dt>
-<dd><p>Represents an individual product item in a shopping cart.</p>
+<dd><p>Model representing an item in a shopping cart.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cart.models.CartItem.cart">
 <span class="sig-name descname"><span class="pre">cart</span></span><a class="headerlink" href="#cart.models.CartItem.cart" title="Link to this definition"></a></dt>
-<dd><p>Reference to the parent cart.</p>
+<dd><p>The cart that contains this item.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ForeignKey</p>
+<dd class="field-odd"><p><a class="reference internal" href="#cart.models.Cart" title="cart.models.Cart">Cart</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -332,10 +347,10 @@ failed.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cart.models.CartItem.product">
 <span class="sig-name descname"><span class="pre">product</span></span><a class="headerlink" href="#cart.models.CartItem.product" title="Link to this definition"></a></dt>
-<dd><p>Reference to the product being purchased.</p>
+<dd><p>The product added to the cart.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>ForeignKey</p>
+<dd class="field-odd"><p><a class="reference internal" href="store.models.html#store.models.product.Product" title="store.models.product.Product">Product</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -343,21 +358,21 @@ failed.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cart.models.CartItem.quantity">
 <span class="sig-name descname"><span class="pre">quantity</span></span><a class="headerlink" href="#cart.models.CartItem.quantity" title="Link to this definition"></a></dt>
-<dd><p>Number of units in cart.</p>
+<dd><p>The quantity of the product.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>PositiveInteger</p>
+<dd class="field-odd"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="cart.models.CartItem.saved_for_later">
-<span class="sig-name descname"><span class="pre">saved_for_later</span></span><a class="headerlink" href="#cart.models.CartItem.saved_for_later" title="Link to this definition"></a></dt>
-<dd><p>If item is saved for later purchase.</p>
+<dt class="sig sig-object py" id="cart.models.CartItem.added_at">
+<span class="sig-name descname"><span class="pre">added_at</span></span><a class="headerlink" href="#cart.models.CartItem.added_at" title="Link to this definition"></a></dt>
+<dd><p>When the item was added to the cart.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Boolean</p>
+<dd class="field-odd"><p>datetime</p>
 </dd>
 </dl>
 </dd></dl>
@@ -366,12 +381,25 @@ failed.</p>
 <dt class="sig sig-object py" id="cart.models.CartItem.total_price">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_price</span></span><a class="headerlink" href="#cart.models.CartItem.total_price" title="Link to this definition"></a></dt>
 <dd><p>Calculate total price for this line item.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Price * quantity.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cart.models.CartItem.clean">
 <span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/models.html#CartItem.clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.models.CartItem.clean" title="Link to this definition"></a></dt>
 <dd><p>Validate the cart item before saving.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValidationError</strong> – If quantity is less than 1 or exceeds stock.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py exception">
@@ -492,41 +520,30 @@ failed.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="cart.models.update_cart_timestamp">
 <span class="sig-prename descclassname"><span class="pre">cart.models.</span></span><span class="sig-name descname"><span class="pre">update_cart_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sender</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/models.html#update_cart_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.models.update_cart_timestamp" title="Link to this definition"></a></dt>
-<dd><p>Signal receiver to update cart’s timestamp when items change.</p>
+<dd><p>Update cart’s timestamp when items change.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sender</strong> – The model class sending the signal.</p></li>
-<li><p><strong>instance</strong> – The actual instance being saved.</p></li>
-<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
+<li><p><strong>sender</strong> – The model class.</p></li>
+<li><p><strong>instance</strong> – The instance of CartItem being saved or deleted.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<p id="module-cart.views">Cart views for e-commerce application.</p>
-<p>Includes all cart-related operations such as adding items, removing items,
-updating quantities, and rendering cart summaries. Each view is secured
-with user authentication and includes validation and user feedback.</p>
-<p class="rubric">References</p>
-<p>Django messages framework: <a class="reference external" href="https://docs.djangoproject.com/en/stable/ref/contrib/messages/">https://docs.djangoproject.com/en/stable/ref/contrib/messages/</a>
-Django authentication decorators: <a class="reference external" href="https://docs.djangoproject.com/en/stable/topics/auth/default/#the-login-required-decorator">https://docs.djangoproject.com/en/stable/topics/auth/default/#the-login-required-decorator</a></p>
-<dl class="py function">
+<dl class="py function" id="module-cart.views">
 <dt class="sig sig-object py" id="cart.views.add_to_cart">
 <span class="sig-prename descclassname"><span class="pre">cart.views.</span></span><span class="sig-name descname"><span class="pre">add_to_cart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">product_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/views.html#add_to_cart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.views.add_to_cart" title="Link to this definition"></a></dt>
-<dd><p>Add a product to the user’s cart with inventory validation.</p>
+<dd><p>Add a product to the user’s cart or update quantity if it already exists.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p></li>
-<li><p><strong>product_id</strong> (<em>int</em>) – ID of the product to add.</p></li>
+<li><p><strong>request</strong> – The HTTP request object.</p></li>
+<li><p><strong>product_id</strong> – ID of the product to be added.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Redirects to the cart view.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>HttpResponseRedirect</p>
+<dd class="field-even"><p>Redirects to the previous page or store home.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -537,13 +554,10 @@ Django authentication decorators: <a class="reference external" href="https://do
 <dd><p>Display the contents of the user’s shopping cart.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p>
+<dd class="field-odd"><p><strong>request</strong> – The HTTP request object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Rendered cart page.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>HttpResponse</p>
+<dd class="field-even"><p>Rendered cart page with cart items.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -555,15 +569,12 @@ Django authentication decorators: <a class="reference external" href="https://do
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p></li>
-<li><p><strong>item_id</strong> (<em>int</em>) – ID of the cart item to remove.</p></li>
+<li><p><strong>request</strong> – The HTTP request object.</p></li>
+<li><p><strong>item_id</strong> – ID of the cart item to be removed.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Redirects to the cart view.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>HttpResponseRedirect</p>
 </dd>
 </dl>
 </dd></dl>
@@ -575,15 +586,12 @@ Django authentication decorators: <a class="reference external" href="https://do
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p></li>
-<li><p><strong>item_id</strong> (<em>int</em>) – ID of the cart item to update.</p></li>
+<li><p><strong>request</strong> – The HTTP request object.</p></li>
+<li><p><strong>item_id</strong> – ID of the cart item to update.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Redirects to the cart view.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>HttpResponseRedirect</p>
 </dd>
 </dl>
 </dd></dl>
@@ -591,16 +599,13 @@ Django authentication decorators: <a class="reference external" href="https://do
 <dl class="py function">
 <dt class="sig sig-object py" id="cart.views.cart_summary">
 <span class="sig-prename descclassname"><span class="pre">cart.views.</span></span><span class="sig-name descname"><span class="pre">cart_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cart/views.html#cart_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cart.views.cart_summary" title="Link to this definition"></a></dt>
-<dd><p>Return minimal cart data for AJAX requests (e.g., cart icon update).</p>
+<dd><p>Get cart summary data for display in templates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>request</strong> (<em>HttpRequest</em>) – The request object.</p>
+<dd class="field-odd"><p><strong>request</strong> – The HTTP request object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Contains total item count and subtotal.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>JsonResponse</p>
+<dd class="field-even"><p>A dictionary with item count and subtotal.</p>
 </dd>
 </dl>
 </dd></dl>

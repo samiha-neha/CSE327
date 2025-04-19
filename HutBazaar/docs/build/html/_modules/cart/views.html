@@ -74,19 +74,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for cart.views</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Cart views for e-commerce application.</span>
-
-<span class="sd">Includes all cart-related operations such as adding items, removing items,</span>
-<span class="sd">updating quantities, and rendering cart summaries. Each view is secured </span>
-<span class="sd">with user authentication and includes validation and user feedback.</span>
-
-<span class="sd">References:</span>
-<span class="sd">    Django messages framework: https://docs.djangoproject.com/en/stable/ref/contrib/messages/</span>
-<span class="sd">    Django authentication decorators: https://docs.djangoproject.com/en/stable/topics/auth/default/#the-login-required-decorator</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">get_object_or_404</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">get_object_or_404</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.decorators</span><span class="w"> </span><span class="kn">import</span> <span class="n">login_required</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.core.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
@@ -101,14 +89,11 @@
 <span class="nd">@login_required</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_to_cart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">product_id</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Add a product to the user&#39;s cart with inventory validation.</span>
+<span class="sd">    Add a product to the user&#39;s cart or update quantity if it already exists.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        request (HttpRequest): The request object.</span>
-<span class="sd">        product_id (int): ID of the product to add.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        HttpResponseRedirect: Redirects to the cart view.</span>
+<span class="sd">    :param request: The HTTP request object.</span>
+<span class="sd">    :param product_id: ID of the product to be added.</span>
+<span class="sd">    :return: Redirects to the previous page or store home.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">product</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Product</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">product_id</span><span class="p">)</span>
     <span class="n">cart</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Cart</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
@@ -127,7 +112,7 @@
     <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;cart:view_cart&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;HTTP_REFERER&#39;</span><span class="p">,</span> <span class="s1">&#39;store:home&#39;</span><span class="p">))</span></div>
 
 
 
@@ -138,15 +123,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Display the contents of the user&#39;s shopping cart.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        request (HttpRequest): The request object.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        HttpResponse: Rendered cart page.</span>
+<span class="sd">    :param request: The HTTP request object.</span>
+<span class="sd">    :return: Rendered cart page with cart items.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cart</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Cart</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
-    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cart&#39;</span><span class="p">:</span> <span class="n">cart</span><span class="p">}</span>
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;cart/view_cart.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;cart/cart.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;cart&#39;</span><span class="p">:</span> <span class="n">cart</span><span class="p">})</span></div>
 
 
 
@@ -157,12 +138,9 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Remove an item from the shopping cart.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        request (HttpRequest): The request object.</span>
-<span class="sd">        item_id (int): ID of the cart item to remove.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        HttpResponseRedirect: Redirects to the cart view.</span>
+<span class="sd">    :param request: The HTTP request object.</span>
+<span class="sd">    :param item_id: ID of the cart item to be removed.</span>
+<span class="sd">    :return: Redirects to the cart view.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CartItem</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">cart__user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
     <span class="n">product_name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">name</span>
@@ -179,12 +157,9 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Update the quantity of an item in the cart.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        request (HttpRequest): The request object.</span>
-<span class="sd">        item_id (int): ID of the cart item to update.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        HttpResponseRedirect: Redirects to the cart view.</span>
+<span class="sd">    :param request: The HTTP request object.</span>
+<span class="sd">    :param item_id: ID of the cart item to update.</span>
+<span class="sd">    :return: Redirects to the cart view.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">item</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">CartItem</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">item_id</span><span class="p">,</span> <span class="n">cart__user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
 
@@ -204,32 +179,26 @@
 
 
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.core.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache</span>
+
 <div class="viewcode-block" id="cart_summary">
 <a class="viewcode-back" href="../../cart.html#cart.views.cart_summary">[docs]</a>
-<span class="nd">@login_required</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">cart_summary</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return minimal cart data for AJAX requests (e.g., cart icon update).</span>
+<span class="sd">    Get cart summary data for display in templates.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        request (HttpRequest): The request object.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        JsonResponse: Contains total item count and subtotal.</span>
+<span class="sd">    :param request: The HTTP request object.</span>
+<span class="sd">    :return: A dictionary with item count and subtotal.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cart</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Cart</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
-        <span class="s1">&#39;item_count&#39;</span><span class="p">:</span> <span class="n">cart</span><span class="o">.</span><span class="n">total_items</span><span class="p">,</span>
-        <span class="s1">&#39;subtotal&#39;</span><span class="p">:</span> <span class="n">cart</span><span class="o">.</span><span class="n">subtotal</span>
-    <span class="p">})</span></div>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+        <span class="n">cart</span> <span class="o">=</span> <span class="n">Cart</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cart</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s1">&#39;item_count&#39;</span><span class="p">:</span> <span class="n">cart</span><span class="o">.</span><span class="n">total_items</span><span class="p">,</span>
+                <span class="s1">&#39;subtotal&#39;</span><span class="p">:</span> <span class="n">cart</span><span class="o">.</span><span class="n">subtotal</span>
+            <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;item_count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;subtotal&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span></div>
 
-
-
-
-
-
-
-    
 </pre></div>
 
            </div>

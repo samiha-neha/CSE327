@@ -17,20 +17,37 @@
             <p>Description: {{ product.description }}</p>
             <h4>Price: Tk. {{ product.price }}</h4>
 
-            <form action="" class="btn-block">
+            <form action="{% url 'cart:add_to_cart' product.id %}" method="post" class="btn-block">
                 {% csrf_token %}
-                <input
-                    type="hidden"
-                    name="product_id"
-                    value="{{ product.id }}"
-                    id="product_id"
-                />
                 <button type="submit" class="btn-info shadow px-5 py-2 ms-4">
                     Add to Cart
                 </button>
             </form>
         </div>
     </div>
+</div>
+
+<div class="mt-5">
+    <h3>Customer Reviews</h3>
+    {% with review_count=product.reviews.count %}
+        <p>{{ review_count }} review{{ review_count|pluralize }}</p>
+    {% endwith %}
+    <a href="{% url 'reviews:product_reviews' product.id %}" class="btn btn-outline-primary">
+        See All Reviews
+    </a>
+    
+    {% for review in product.reviews.all|slice:":3" %}
+    <div class="card my-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h5>{{ review.user.username }}</h5>
+                <div class="text-warning">{{ review.stars }}</div>
+            </div>
+            <p>{{ review.comment }}</p>
+            <small class="text-muted">{{ review.created_at|date:"F j, Y" }}</small>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
