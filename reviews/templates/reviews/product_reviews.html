@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}Reviews for {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h2>Reviews for {{ product.name }}</h2>
+            <a href="{% url 'store:product-detail' product.id %}" class="btn btn-secondary mb-4">
+                Back to Product
+            </a>
+
+            {% if request.user.is_authenticated %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5>Add Your Review</h5>
+                    <form method="post" action="{% url 'reviews:add_review' product.id %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="rating">Rating</label>
+                            <select class="form-control" id="rating" name="rating" required>
+                                <option value="">Select rating</option>
+                                <option value="1">1 Star</option>
+                                <option value="2">2 Stars</option>
+                                <option value="3">3 Stars</option>
+                                <option value="4">4 Stars</option>
+                                <option value="5">5 Stars</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Review</label>
+                            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="reviews-list">
+                {% for review in reviews %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5>{{ review.user.username }}</h5>
+                            <div class="text-warning">{{ review.stars }}</div>
+                        </div>
+                        <p class="text-muted">
+                            <small>{{ review.created_at|date:"F j, Y" }}</small>
+                        </p>
+                        <p>{{ review.comment }}</p>
+                        {% if request.user == review.user %}
+                        <form method="post" action="{% url 'reviews:delete_review' review.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="alert alert-info">
+                    No reviews yet. Be the first to review!
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
