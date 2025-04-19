@@ -51,7 +51,7 @@ def checkout_view(request):
         return redirect("store:home")
 
     # Check if cart has items
-    if not cart.items.exists():  # Using exists() is more efficient than count()
+    if not cart.items.exists():
         messages.warning(request, "Your cart is empty")
         return redirect("store:home")
 
@@ -79,7 +79,7 @@ def checkout_view(request):
             order = Order.objects.create(
                 user=request.user,
                 email=form.cleaned_data["email"],
-                total=cart.subtotal,  # Using cart's total property
+                total=cart.subtotal,
                 payment_method=form.cleaned_data["payment_method"],
                 shipping_address=form.cleaned_data["shipping_address"],
                 shipping_city=form.cleaned_data["shipping_city"],

@@ -50,7 +50,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "HutBazaar.urls"
+ROOT_URLCONF = "hut_bazaar.urls"
 
 TEMPLATES = [
     {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "HutBazaar.wsgi.application"
+WSGI_APPLICATION = "hut_bazaar.wsgi.application"
 
 
 # Database
