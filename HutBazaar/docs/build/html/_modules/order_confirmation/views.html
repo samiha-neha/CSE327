@@ -116,7 +116,7 @@
     <span class="c1"># Create or get confirmation record</span>
     <span class="n">confirmation</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">OrderConfirmation</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
 
-    <span class="c1"># Send email after confirmation</span>
+    <span class="c1"># Send email after confirmation not everytime the page loads</span>
     <span class="k">if</span> <span class="n">created</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">confirmation</span><span class="o">.</span><span class="n">email_sent</span><span class="p">:</span>
         <span class="n">send_confirmation_email</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
         <span class="n">confirmation</span><span class="o">.</span><span class="n">email_sent</span> <span class="o">=</span> <span class="kc">True</span>

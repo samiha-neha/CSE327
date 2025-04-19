@@ -45,6 +45,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../checkout.html">Order Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../order_confirmation.html">Order Confirmation Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cart.html">Shopping Cart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reviews.html">Product Reviews</a></li>
 </ul>
 
         </div>
@@ -76,9 +78,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib</span><span class="w"> </span><span class="kn">import</span> <span class="n">messages</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">django.core.mail</span><span class="w"> </span><span class="kn">import</span> <span class="n">send_mail</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Order</span>  <span class="c1"># Assuming you have an Order model</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">CheckoutForm</span>  <span class="c1"># Assuming you have this</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Order</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">CheckoutForm</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Discount</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cart.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cart</span><span class="p">,</span> <span class="n">CartItem</span>
 
 
 <div class="viewcode-block" id="checkout_view">
@@ -95,33 +98,48 @@
 
 <span class="sd">    Notes:</span>
 <span class="sd">        Checks for Voucher verification</span>
-<span class="sd">        Uses a temporary mock cart until the real cart is integrated.</span>
+<span class="sd">        Now uses the real cart from the cart app instead of mock data.</span>
 <span class="sd">        Stores cart items in the session for receipt in the confirmation app.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Temporary cart mock - replace with real cart when available</span>
-    <span class="k">class</span><span class="w"> </span><span class="nc">Cart</span><span class="p">:</span>
-        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sample Product 1&quot;</span><span class="p">,</span> <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mf">19.99</span><span class="p">,</span> <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Sample Product 2&quot;</span><span class="p">,</span> <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="mf">29.99</span><span class="p">,</span> <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-            <span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;price&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;quantity&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+    <span class="c1"># class Cart:</span>
+    <span class="c1">#     def __init__(self):</span>
+    <span class="c1">#         self.items = [</span>
+    <span class="c1">#             {&quot;name&quot;: &quot;Sample Product 1&quot;, &quot;price&quot;: 19.99, &quot;quantity&quot;: 2},</span>
+    <span class="c1">#             {&quot;name&quot;: &quot;Sample Product 2&quot;, &quot;price&quot;: 29.99, &quot;quantity&quot;: 1},</span>
+    <span class="c1">#         ]</span>
+    <span class="c1">#         self.total = sum(item[&quot;price&quot;] * item[&quot;quantity&quot;] for item in self.items)</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="c1">#     def is_empty(self):</span>
+    <span class="c1">#         return len(self.items) == 0</span>
 
-    <span class="n">cart</span> <span class="o">=</span> <span class="n">Cart</span><span class="p">()</span>
+    <span class="c1"># cart = Cart()</span>
 
-    <span class="k">if</span> <span class="n">cart</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+    <span class="c1"># Login check</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Please login to proceed to checkout&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;users:login&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get the user cart from database</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cart</span> <span class="o">=</span> <span class="n">Cart</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">Cart</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
         <span class="n">messages</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Your cart is empty&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;checkout:checkout&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;store:home&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check if cart has items</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cart</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>  <span class="c1"># Using exists() is more efficient than count()</span>
+        <span class="n">messages</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Your cart is empty&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;store:home&quot;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
         <span class="n">form</span> <span class="o">=</span> <span class="n">CheckoutForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
             <span class="n">coupon_code</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coupon_code&quot;</span><span class="p">)</span>
             <span class="n">discount</span> <span class="o">=</span> <span class="kc">None</span>
 
+            <span class="c1"># Voucher verification</span>
             <span class="k">if</span> <span class="n">coupon_code</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">discount</span> <span class="o">=</span> <span class="n">Discount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">coupon_code</span><span class="p">)</span>
@@ -134,11 +152,12 @@
                 <span class="k">except</span> <span class="n">Discount</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
                     <span class="n">messages</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;Invalid voucher code&quot;</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;checkout:checkout&quot;</span><span class="p">)</span>
-            <span class="c1"># Process the order</span>
+
+            <span class="c1"># Process the order creation</span>
             <span class="n">order</span> <span class="o">=</span> <span class="n">Order</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-                <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
                 <span class="n">email</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">],</span>
-                <span class="n">total</span><span class="o">=</span><span class="n">cart</span><span class="o">.</span><span class="n">total</span><span class="p">,</span>
+                <span class="n">total</span><span class="o">=</span><span class="n">cart</span><span class="o">.</span><span class="n">subtotal</span><span class="p">,</span>  <span class="c1"># Using cart&#39;s total property</span>
                 <span class="n">payment_method</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;payment_method&quot;</span><span class="p">],</span>
                 <span class="n">shipping_address</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;shipping_address&quot;</span><span class="p">],</span>
                 <span class="n">shipping_city</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;shipping_city&quot;</span><span class="p">],</span>
@@ -150,16 +169,42 @@
             <span class="p">)</span>
 
             <span class="c1"># Store cart items in session for receipt</span>
-            <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;order_</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_items&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cart</span><span class="o">.</span><span class="n">items</span>
+            <span class="c1"># Convert CartItems to a serializable format for session storage</span>
+            <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;order_</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">_items&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">price</span><span class="p">),</span>
+                    <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
+                    <span class="s2">&quot;total_price&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">total_price</span><span class="p">),</span>
+                <span class="p">}</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="p">]</span>
+
+            <span class="c1"># Clear the cart after successful order</span>
+            <span class="n">cart</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
 
             <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;order_confirmation:confirmation&quot;</span><span class="p">,</span> <span class="n">order_id</span><span class="o">=</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">initial</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
-            <span class="n">initial</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span>
+        <span class="c1"># Pre-populate form with user&#39;s email if authenticated</span>
+        <span class="n">initial</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">}</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="k">else</span> <span class="p">{}</span>
         <span class="n">form</span> <span class="o">=</span> <span class="n">CheckoutForm</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="n">initial</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;checkout.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;form&quot;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s2">&quot;cart&quot;</span><span class="p">:</span> <span class="n">cart</span><span class="p">})</span></div>
+    <span class="c1"># Prepare cart items data for template</span>
+    <span class="n">cart_items_for_template</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">price</span><span class="p">,</span>
+            <span class="s2">&quot;quantity&quot;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span>
+            <span class="s2">&quot;total_price&quot;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">total_price</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cart</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="p">]</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;form&quot;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s2">&quot;cart&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;items&quot;</span><span class="p">:</span> <span class="n">cart_items_for_template</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="n">cart</span><span class="o">.</span><span class="n">subtotal</span><span class="p">},</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;checkout/checkout.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
 
 </pre></div>
 

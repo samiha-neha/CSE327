@@ -38,7 +38,7 @@ def order_confirmation(request, order_id):
     # Create or get confirmation record
     confirmation, created = OrderConfirmation.objects.get_or_create(order=order)
 
-    # Send email after confirmation
+    # Send email after confirmation not everytime the page loads
     if created or not confirmation.email_sent:
         send_confirmation_email(order)
         confirmation.email_sent = True

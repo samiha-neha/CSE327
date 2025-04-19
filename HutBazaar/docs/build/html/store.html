@@ -20,7 +20,9 @@
       <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="store.migrations package" href="store.migrations.html" />
+    <link rel="prev" title="store" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,11 +45,89 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="checkout.html">Order Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="order_confirmation.html">Order Confirmation Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cart.html">Shopping Cart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reviews.html">Product Reviews</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">store</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">store package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="store.migrations.html">store.migrations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="store.models.html">store.models package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-store.admin">store.admin module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#store.admin.AdminProduct"><code class="docutils literal notranslate"><span class="pre">AdminProduct</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-store.apps">store.apps module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#store.apps.StoreConfig"><code class="docutils literal notranslate"><span class="pre">StoreConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-store.tests">store.tests module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#store.tests.HomePageViewTest"><code class="docutils literal notranslate"><span class="pre">HomePageViewTest</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#store.tests.ProductDetailViewTest"><code class="docutils literal notranslate"><span class="pre">ProductDetailViewTest</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-store.urls">store.urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-store.views">store.views module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#store.views.home"><code class="docutils literal notranslate"><span class="pre">home()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#store.views.productdetail"><code class="docutils literal notranslate"><span class="pre">productdetail()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-store">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">store package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="store.migrations.html">store.migrations package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="store.models.html">store.models package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-store.admin">store.admin module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#store.admin.AdminProduct"><code class="docutils literal notranslate"><span class="pre">AdminProduct</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#store.admin.AdminProduct.list_display"><code class="docutils literal notranslate"><span class="pre">AdminProduct.list_display</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#store.admin.AdminProduct.media"><code class="docutils literal notranslate"><span class="pre">AdminProduct.media</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-store.apps">store.apps module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#store.apps.StoreConfig"><code class="docutils literal notranslate"><span class="pre">StoreConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#store.apps.StoreConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">StoreConfig.default_auto_field</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#store.apps.StoreConfig.name"><code class="docutils literal notranslate"><span class="pre">StoreConfig.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-store.tests">store.tests module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#store.tests.HomePageViewTest"><code class="docutils literal notranslate"><span class="pre">HomePageViewTest</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#store.tests.HomePageViewTest.setUp"><code class="docutils literal notranslate"><span class="pre">HomePageViewTest.setUp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#store.tests.HomePageViewTest.test_home_view_status_code"><code class="docutils literal notranslate"><span class="pre">HomePageViewTest.test_home_view_status_code()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#store.tests.HomePageViewTest.test_home_view_contains_product"><code class="docutils literal notranslate"><span class="pre">HomePageViewTest.test_home_view_contains_product()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#store.tests.ProductDetailViewTest"><code class="docutils literal notranslate"><span class="pre">ProductDetailViewTest</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#store.tests.ProductDetailViewTest.setUp"><code class="docutils literal notranslate"><span class="pre">ProductDetailViewTest.setUp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#store.tests.ProductDetailViewTest.test_product_detail_view"><code class="docutils literal notranslate"><span class="pre">ProductDetailViewTest.test_product_detail_view()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-store.urls">store.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-store.views">store.views module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#store.views.home"><code class="docutils literal notranslate"><span class="pre">home()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#store.views.productdetail"><code class="docutils literal notranslate"><span class="pre">productdetail()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-store">Module contents</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -64,6 +144,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">store</a></li>
       <li class="breadcrumb-item active">store package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/store.rst.txt" rel="nofollow"> View page source</a>
@@ -278,7 +359,10 @@ not have a method with the specified name.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="store" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="store.migrations.html" class="btn btn-neutral float-right" title="store.migrations package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

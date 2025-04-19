@@ -14,6 +14,8 @@ Welcome to HutBazaar Documentation
    order_confirmation
    cart
    reviews
+   modules
+   store
 
 Indices and tables
 ==================

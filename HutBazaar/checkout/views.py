@@ -2,9 +2,10 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.conf import settings
 from django.core.mail import send_mail
-from .models import Order  # Assuming you have an Order model
-from .forms import CheckoutForm  # Assuming you have this
+from .models import Order
+from .forms import CheckoutForm
 from .models import Discount
+from cart.models import Cart, CartItem
 
 
 def checkout_view(request):
@@ -19,33 +20,48 @@ def checkout_view(request):
 
     Notes:
         Checks for Voucher verification
-        Uses a temporary mock cart until the real cart is integrated.
+        Now uses the real cart from the cart app instead of mock data.
         Stores cart items in the session for receipt in the confirmation app.
     """
 
     # Temporary cart mock - replace with real cart when available
-    class Cart:
-        def __init__(self):
-            self.items = [
-                {"name": "Sample Product 1", "price": 19.99, "quantity": 2},
-                {"name": "Sample Product 2", "price": 29.99, "quantity": 1},
-            ]
-            self.total = sum(item["price"] * item["quantity"] for item in self.items)
+    # class Cart:
+    #     def __init__(self):
+    #         self.items = [
+    #             {"name": "Sample Product 1", "price": 19.99, "quantity": 2},
+    #             {"name": "Sample Product 2", "price": 29.99, "quantity": 1},
+    #         ]
+    #         self.total = sum(item["price"] * item["quantity"] for item in self.items)
 
-        def is_empty(self):
-            return len(self.items) == 0
+    #     def is_empty(self):
+    #         return len(self.items) == 0
 
-    cart = Cart()
+    # cart = Cart()
 
-    if cart.is_empty():
+    # Login check
+    if not request.user.is_authenticated:
+        messages.warning(request, "Please login to proceed to checkout")
+        return redirect("users:login")
+
+    # Get the user cart from database
+    try:
+        cart = Cart.objects.get(user=request.user)
+    except Cart.DoesNotExist:
         messages.warning(request, "Your cart is empty")
-        return redirect("checkout:checkout")
+        return redirect("store:home")
+
+    # Check if cart has items
+    if not cart.items.exists():  # Using exists() is more efficient than count()
+        messages.warning(request, "Your cart is empty")
+        return redirect("store:home")
+
     if request.method == "POST":
         form = CheckoutForm(request.POST)
         if form.is_valid():
             coupon_code = form.cleaned_data.get("coupon_code")
             discount = None
 
+            # Voucher verification
             if coupon_code:
                 try:
                     discount = Discount.objects.get(code=coupon_code)
@@ -58,11 +74,12 @@ def checkout_view(request):
                 except Discount.DoesNotExist:
                     messages.error(request, "Invalid voucher code")
                     return redirect("checkout:checkout")
-            # Process the order
+
+            # Process the order creation
             order = Order.objects.create(
-                user=request.user if request.user.is_authenticated else None,
+                user=request.user,
                 email=form.cleaned_data["email"],
-                total=cart.total,
+                total=cart.subtotal,  # Using cart's total property
                 payment_method=form.cleaned_data["payment_method"],
                 shipping_address=form.cleaned_data["shipping_address"],
                 shipping_city=form.cleaned_data["shipping_city"],
@@ -74,13 +91,39 @@ def checkout_view(request):
             )
 
             # Store cart items in session for receipt
-            request.session[f"order_{order.id}_items"] = cart.items
+            # Convert CartItems to a serializable format for session storage
+            request.session[f"order_{order.id}_items"] = [
+                {
+                    "name": item.product.name,
+                    "price": float(item.product.price),
+                    "quantity": item.quantity,
+                    "total_price": float(item.total_price),
+                }
+                for item in cart.items.all()
+            ]
+
+            # Clear the cart after successful order
+            cart.items.all().delete()
 
             return redirect("order_confirmation:confirmation", order_id=order.id)
     else:
-        initial = {}
-        if request.user.is_authenticated:
-            initial["email"] = request.user.email
+        # Pre-populate form with user's email if authenticated
+        initial = {"email": request.user.email} if request.user.is_authenticated else {}
         form = CheckoutForm(initial=initial)
 
-    return render(request, "checkout.html", {"form": form, "cart": cart})
+    # Prepare cart items data for template
+    cart_items_for_template = [
+        {
+            "name": item.product.name,
+            "price": item.product.price,
+            "quantity": item.quantity,
+            "total_price": item.total_price,
+        }
+        for item in cart.items.all()
+    ]
+
+    context = {
+        "form": form,
+        "cart": {"items": cart_items_for_template, "total": cart.subtotal},
+    }
+    return render(request, "checkout/checkout.html", context)
