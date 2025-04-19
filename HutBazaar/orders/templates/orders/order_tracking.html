@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>HutBazaar</title>
+</head>
+<body>
+    <h1>Welcome to HutBazaar!</h1>
+    <p>Your one-stop shop.</p>
+    <p><a href="{% url 'admin:index' %}">Admin Area</a></p>
+    {# Add links to your order list, etc. later #}
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order</title>
+    <style>
+        /* Styles remain the same as previous guide */
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: auto; }
+        .container { border: 1px solid #ddd; padding: 25px; border-radius: 8px; background-color: #f9f9f9; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold;}
+        input[type="text"] { width: 95%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; }
+        button:hover { background-color: #0056b3; }
+        .error { color: #dc3545; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 4px; margin-top: 15px; }
+        .order-details { margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px; }
+        .order-details h3 { margin-top: 0; color: #333; }
+        .order-details p { margin-bottom: 8px; }
+        .order-details ul { list-style: none; padding-left: 0; }
+        .order-details li { background-color: #fff; border: 1px solid #eee; padding: 8px; margin-bottom: 5px; border-radius: 3px; }
+        .support-contact { margin-top: 20px; font-size: 0.9em; color: #555;}
+        .status { font-weight: bold; padding: 3px 6px; border-radius: 3px; color: white; }
+        .status-PENDING { background-color: #ffc107; color: #333;}
+        .status-PROCESSING { background-color: #17a2b8; }
+        .status-SHIPPED { background-color: #6f42c1; }
+        .status-DELIVERED { background-color: #28a745; }
+        .status-CANCELLED { background-color: #6c757d; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Track Your Order</h2>
+        <p>Enter the tracking ID provided in your confirmation email.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.tracking_id.label_tag }}
+                {{ form.tracking_id }}
+                {% if form.tracking_id.errors %}
+                    <div style="color: red; font-size: 0.9em; margin-top: 5px;">{{ form.tracking_id.errors|striptags }}</div>
+                {% endif %}
+            </div>
+            <button type="submit">Track Order</button>
+        </form>
+
+        {% if error_message %}
+            {# Fulfills: Users see an error message if their order details cannot be retrieved. #}
+            <p class="error">{{ error_message }}</p>
+        {% endif %}
+
+        {% if order %}
+            <div class="order-details">
+                <h3>Order Details</h3>
+                <p><strong>Tracking ID:</strong> {{ order.tracking_id }}</p>
+                <p><strong>Order Date:</strong> {{ order.order_date|date:"F j, Y, g:i A" }}</p>
+
+                {# Fulfills: Users can track the status of their orders #}
+                <p><strong>Status:</strong>
+                   <span class="status status-{{ order.status }}">{{ order.get_status_display }}</span>
+                </p>
+
+                {# Fulfills: Users can view estimated delivery times and any delays. #}
+                {% if order.estimated_delivery_date %}
+                    <p><strong>Estimated Delivery:</strong> {{ order.estimated_delivery_date|date:"F j, Y" }}</p>
+                {% endif %}
+                {% if order.delivery_notes %}
+                    <p><strong>Delivery Updates:</strong><br>{{ order.delivery_notes|linebreaksbr }}</p>
+                {% endif %}
+
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+                <p><strong>Customer:</strong> {{ order.customer_name }}</p>
+                <p><strong>Shipping To:</strong><br>{{ order.shipping_address|linebreaksbr }}</p>
+
+                <h4>Items in this Order:</h4>
+                <ul>
+                    {% for item in order.items.all %}
+                        <li>{{ item.quantity }} x {{ item.product.name }} (@ ${{ item.price }} each)</li>
+                    {% empty %}
+                        <li>No items found for this order record.</li>
+                    {% endfor %}
+                </ul>
+                 <p><strong>Order Total:</strong> ${{ order.total_amount }}</p>
+
+                 {# Fulfills: Users can contact customer support if they face issues #}
+                 <div class="support-contact">
+                    <p>Having trouble with your order? Please contact <a href="mailto:support@example.com">support@example.com</a> or call us at 1-800-123-4567.</p> {# Replace with actual contact info #}
+                 </div>
+            </div>
+
+            {# Regarding: Users receive notifications when their order status changes. #}
+            {# This requirement is more complex and typically involves: #}
+            {# 1. Setting up email sending (e.g., using Django's email backend with services like SendGrid or AWS SES). #}
+            {# 2. Triggering an email when the order status is updated (often using Django Signals or background tasks like Celery). #}
+            {# This is beyond the scope of this basic setup but is a common next step. #}
+
+        {% endif %}
+
+    </div> <!-- /container -->
+
+</body>
+</html>
